@@ -1,0 +1,62 @@
+.fdetails{
+    margin: 2rem;
+    background-image: url('../components/images/details.svg');
+    background-repeat: no-repeat; 
+    background-position:right ;
+    background-size: 20em;
+   /* border-radius: 10px;
+    box-shadow: 0 0 10px rgb(95, 158, 160); */
+}
+.fdetails h2{
+  color: #5f9ea0;
+  font-size: 3rem;
+  font-family:fantasy;
+}
+
+.chat-btn {
+    background-color: #fff;
+    border: 1px solid #5f9ea0;
+    padding: 5px;
+    position: relative;
+    width: 6.2em;
+    height: 2em;
+    transition: 0.5s;
+    font-size: 17px;
+    border-radius: 0.4em;
+  }
+  
+  .chat-btn  {
+    position: absolute;
+    bottom: 0.4em;
+    left: 1.15em;
+    margin: 0;
+    padding: 0;
+    transition: .5s;
+    color: #000;
+  }
+  
+  .chat-btn svg {
+    position: absolute;
+    top: 0.45em;
+    right: 0.5em;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: 0.5s;
+    height: 1em;
+    fill: #fff
+  }
+  
+  .chat-btn:hover  {
+    left: 0.5em;
+    color: #fff
+  }
+  
+  .chat-btn:hover svg {
+    opacity: 1;
+  }
+  
+  .chat-btn:hover {
+    background-color: #5f9ea0;
+  }
+  

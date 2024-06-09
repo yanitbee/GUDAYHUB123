@@ -1,0 +1,313 @@
+
+.postblock{
+ 
+    margin-top: 10rem;
+    margin-right: 8.5rem;
+    margin-left: 8.5rem;
+    margin-bottom: -4rem;
+   height: 15rem;
+   overflow: hidden;
+   border-radius: .2rem;
+   box-shadow:rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  
+}
+.nojob{
+  margin: 7.5rem;
+  z-index: -2;
+
+}
+.sidebar{
+  margin-top: -1rem;
+  position: fixed;
+    width: 25%;
+    height: 650px;
+    border: solid;
+    background-color: rgba(186, 216, 213, 0.892);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display:none;
+}
+
+.sidebaractive{
+  margin-top: -3.5rem;
+  position: fixed;
+    width: 25%;
+    height: 650px;
+    border: solid;
+    background-color: rgba(186, 216, 213, 0.892);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.employer{
+    float: right;
+    width: 4rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+.postblock:hover{
+    -moz-box-shadow: 3px 2px 24px -4px rgba(0,0,0,0.75);
+    box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px,  rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  
+}
+.text{
+    color: #5f9ea0;
+    margin-left: 1rem;
+}
+.title{
+    margin-left: 2rem;
+}
+
+.btn-job {
+    position:absolute;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    padding-block: 0.5rem;
+    padding-inline: 1.25rem;
+    background-color: cadetblue;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffff;
+    gap: 10px;
+    font-weight: bold;
+    border: 3px solid #ffffff4d;
+    outline: none;
+    overflow: hidden;
+    font-size: 15px;
+    z-index: -1;
+  }
+  
+
+  
+  .btn-job:hover {
+    transform: scale(1.05);
+    border-color: #fff9;
+  }
+
+  
+  .btn-job:hover::before {
+    animation: shine 1.5s ease-out infinite;
+  }
+  
+  .btn-job::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    background-image: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0) 70%
+    );
+    top: 0;
+    left: -100px;
+    opacity: 0.6;
+  }
+  
+.type{
+  border-top: solid;
+  margin-top: 1rem;
+
+}
+
+.search{
+  position: fixed; 
+  z-index: 3;
+  margin-top: -2.1rem;
+  margin-right:1.3rem ;
+}
+.searchactive{
+  position: fixed;
+  margin-right:2rem ;
+  margin-top: -2.1rem;
+  z-index: 3;
+  animation: rotate .5s ease-out ;
+}
+
+.another{
+  display: block;
+  position: fixed;
+   margin-top:-45px ;
+   margin-right:1rem ;
+  border: 2px solid transparent;
+  width: 8em;
+  height: 2.5em;
+  padding-left: 0.8em;
+  outline: none;
+  overflow: hidden;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+  z-index: 1;
+}
+.anotheractive{
+  display: block;
+  position: fixed;
+  margin-top:-45px ;
+  margin-right: 1.5rem;
+  border: 2px solid transparent;
+  width: 17rem;
+  height: 2.5em;
+  padding-left: 0.8em;
+  outline: none;
+  overflow: hidden;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+  z-index: 1;
+}
+
+.sidebaractive{
+  animation: side .3s ease-out ;
+  }
+  @media (max-width:1300px) {
+    .sidebaractive{
+   
+        width: 32%;
+      }
+  }
+@media (max-width:1000px) {
+  .sidebar{
+    display:none;
+    margin-top: -3.5rem;
+      width: 40%;
+    }
+    .sidebaractive{
+      animation: side .3s ease-out ;
+      margin-top: -3.5rem;
+        width: 42%;
+      }
+    .another{
+      display: block;
+      position: fixed;
+      margin-top:-50px ;
+      margin-right: 1.5rem;
+      border: 2px solid transparent;
+      width: 8em;
+      height: 2.5em;
+      padding-left: 0.8em;
+      outline: none;
+      overflow: hidden;
+      background-color: #F3F3F3;
+      border-radius: 10px;
+      transition: all 0.5s;
+      z-index: 1;
+    }
+    .anotheractive{
+      display: block;
+      position: fixed;
+      margin-top:-50px ;
+      margin-right: 1.5rem;
+      border: 2px solid transparent;
+      width: 17em;
+      height: 2.5em;
+      padding-left: 0.8em;
+      outline: none;
+      overflow: hidden;
+      background-color: #F3F3F3;
+      border-radius: 10px;
+      transition: all 0.5s;
+      z-index: 1;
+    }
+    .search{
+      position: fixed;
+      margin-top: -2.5rem;
+      margin-right:2rem ;  
+      z-index: 3;
+    }
+    .searchactive{
+      position: fixed;
+      margin-top: -2.5rem;
+      margin-right:2rem ; 
+      z-index: 3;
+      animation: rotate .5s ease-out ;
+    }
+    .arrow{
+      display: block;
+      margin-top: 1rem;
+      
+    }
+    .inside{
+      display: none;
+    }
+    .postblock{
+
+      margin-right: 0.5rem;
+      margin-left: 0.5rem;
+
+  }
+}
+@media (max-width:750px) {
+
+.anotheractive{
+  width: 18em;
+
+}
+.sidebaractive{
+    width: 52%;
+  }
+}
+@media (max-width:600px) {
+
+  .anotheractive{
+    width: 12em;
+  
+  }
+  .sidebaractive{
+      width: 62%;
+    }
+  }
+  
+@keyframes rotate {
+  0% {
+    left: 97%;
+  }
+  10%{
+    rotate:-15deg ;
+    
+  }
+  20%{
+    rotate:45deg ;
+  }
+  40%{
+    rotate:-90deg ;
+   
+   
+  }
+  60%{
+    rotate:-45deg ;
+  }
+  
+  80%{
+    rotate:90deg ;
+  }
+
+  100% {
+    left: 63%;
+  }
+
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+@keyframes side {
+  0% {
+    transform: translateX(80%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
