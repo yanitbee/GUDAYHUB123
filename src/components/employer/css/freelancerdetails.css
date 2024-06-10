@@ -34,6 +34,12 @@
     transition: .5s;
     color: #000;
   }
+  .interview{
+    margin-left: 9rem;
+  }
+  .hire{
+    margin-left: 18rem;
+  }
   
   .chat-btn svg {
     position: absolute;
@@ -59,4 +65,42 @@
   .chat-btn:hover {
     background-color: #5f9ea0;
   }
+
+
+  .popupi {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-contenti {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popup-contenti form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-contenti label {
+    margin-bottom: 10px;
+  }
+  
+  .popup-contenti input {
+    margin-bottom: 20px;
+  }
+  
+  .popup-contenti button {
+    margin-right: 10px;
+  }
+  
   

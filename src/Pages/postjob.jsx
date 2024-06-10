@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "./post.css";
+import "./css/post.css";
 import useAuth from "../Hooks/UseAuth";
 
 export default function Write() {
