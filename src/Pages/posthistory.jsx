@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
+import "./css/taskmanager.css";
 
-
-export default function Posthistory({prop}){
+export default function Posthistory(){
     const { getUserData, getUserToken } = useAuth();
 
     const userData = getUserData();
@@ -12,7 +12,8 @@ export default function Posthistory({prop}){
 
 
     const [readData, setreadData] = useState([]);
-    const [postid,setpostid] =useState("")
+    const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
+    const [DataLen, setDataLen] = useState("")
 
 
     useEffect(() => {
@@ -22,7 +23,6 @@ export default function Posthistory({prop}){
           params: { employerid: userData.userID }
         })
             .then((Post) => setreadData(Post.data));
-            console.log(userData.userID)
             
         } catch (error) {
           console.error("error", error);
@@ -40,11 +40,29 @@ export default function Posthistory({prop}){
         navigate("/employerpage/Applicantsdetails/more", { state: {postid: postid}});
     }
 
+    const isEmpty = (arr) => {
+      const isEmptyArray = arr.length === 0;
+      if (!isEmptyArray) {
+        setDataLen(arr.length);
+      }
+      return isEmptyArray;
+    };
+  
+    useEffect(() => {
+      const emptyCheck = isEmpty(readData);
+      setArrayIsEmpty(emptyCheck);
+    }, [readData]);
+
     return(
         <>
-     <div className="container">
+         {arrayIsEmpty  ? (
+        <div className="taskblock">You have not posted any job or task yet</div>
+      ) : (
+     <div>
+      <div className="taskblock">You have {DataLen} active job </div>
         {readData.map((data) => (
-         <div onClick={() => handleclick(data._id)} className="freelist" >
+          <>
+         <div className="applylist" >
              <div>
              <h3 className="textf">Job title </h3>
           <p className="titlef">{data.Jobtitle}</p>
@@ -53,9 +71,14 @@ export default function Posthistory({prop}){
           <p className="titlef">{data.Jobtype}</p>
           <h3 className="textf">Description </h3>
           <p className="titlef">{data.Description}</p>
-           </div>
+            </div>
+            <button className="btn-job1 more">
+            Post details</button>
+          <button className="btn-job1 more1" onClick={() => handleclick(data._id)}>See applicant</button>
+          </>
          ))}
           </div>
+            )}
         </>
      )
     }

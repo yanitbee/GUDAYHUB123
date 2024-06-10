@@ -9,6 +9,8 @@ import Freelancerdetails from "../components/employer/Freelancerdetails";
 import Write from "../Pages/postjob";
 import Posthistory from "../Pages/posthistory";
 import Applicantsdetails from "../Pages/Applicantsdetails";
+import Hire from "../Pages/Hire";
+import PrivateRoute from "./PrivateRoute";
 
 export default function RouthPath() {
   return (
@@ -16,25 +18,46 @@ export default function RouthPath() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/freelancerpage" element={<Freelancerpage />} />
-          <Route path="/freelancerpage/Apply" element={<Apply />} />
-          <Route path="/freelancerpage/Taskmanager" element={<Taskmanager />} />
-          <Route path="/employerpage" element={<Employerpage />} />
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/freelancerpage"
+            element={<PrivateRoute element={<Freelancerpage />} />}
+          />
+          <Route
+            path="/employerpage"
+            element={<PrivateRoute element={<Employerpage />} />}
+          />
+          <Route
+            path="/freelancerpage/Apply"
+            element={<PrivateRoute element={<Apply />} />}
+          />
+          <Route
+            path="/freelancerpage/Taskmanager"
+            element={<PrivateRoute element={<Taskmanager />} />}
+          />
           <Route
             path="/employerpage/Freelancerdetails"
-            element={<Freelancerdetails />}
+            element={<PrivateRoute element={<Freelancerdetails />} />}
           />
-        <Route path="/employerpage/Post" element={<Write />} />
-        <Route
+          <Route
+            path="/employerpage/Post"
+            element={<PrivateRoute element={<Write />} />}
+          />
+          <Route
             path="/employerpage/Applicantsdetails"
-            element={<Posthistory />}
+            element={<PrivateRoute element={<Posthistory />} />}
           />
-              <Route
+          <Route
             path="/employerpage/Applicantsdetails/more"
-            element={<Applicantsdetails />}
+            element={<PrivateRoute element={<Applicantsdetails />} />}
+          />
+             <Route
+            path="/employerpage/Applicantsdetails/more/Hire"
+            element={<PrivateRoute element={<Hire />} />}
           />
         </Route>
       </Routes>
     </BrowserRouter>
   );
 }
+

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../Hooks/UseAuth";
 import { useLocation } from "react-router-dom";
-import "./apply.css";
+import "./css/apply.css";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();

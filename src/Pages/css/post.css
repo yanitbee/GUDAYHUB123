@@ -1,0 +1,198 @@
+.postimg{
+    background-image: url('../components/images/post.svg');
+    background-repeat: no-repeat; 
+    background-position:right ;
+    background-size: 18em;
+}
+.post{
+    margin-right: 100px;
+    text-align: center;
+   
+    --input-hovered-color: #6b63ff9d;
+    position: relative;
+    
+}
+
+.post-input {
+    color: #050505;
+    font-size:1rem;
+    /*background-color: rgba(37, 35, 35, 0.39); */
+    width: 50%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    margin-bottom: 10px;
+    border-radius: 20px;
+   }
+   
+   .post-input:hover {
+    background: var(--input-hovered-color);
+   }
+   
+   .post-input:focus {
+    outline: none;
+   }
+
+.post-h1{
+  margin-top: 5rem;
+    color:#6C63FF;
+}
+
+.btn-save {
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+  }
+  .btn-save:hover {
+    letter-spacing: 3px;
+    background-color: #6C63FF;
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(34, 15, 68) 0px 7px 29px 0px;
+  }
+  
+  .btn-save:active {
+    letter-spacing: 3px;
+    background-color: #6C63FF;
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(34, 15, 68) 0px 7px 29px 0px;
+    transform: translateY(10px);
+    transition: 100ms;
+  }
+
+
+.post-div{
+  display: none;
+}
+.post-div.active{
+  display: block;
+}
+
+
+
+  button {
+    border: none;
+  }
+  
+  .c-button {
+    background: linear-gradient(140deg, rgba(75, 118, 200, 1) 0%, rgba(31, 70, 145, 1) 100%);
+    border-radius: 45px;
+    font-size: 25px;
+    text-align: left;
+    padding: 11px 0px 11px 0px;
+   
+    border-style: outset;
+    box-shadow: -6px -5px 18px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }
+  
+  .c-button .c-main {
+    border-radius: 45px;
+    color: rgba(255, 255, 255, 1);
+    padding: 11px 25px 11px 2px;
+    box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0);
+    transition: all 0.5s ease-in-out;
+   
+  }
+  
+  .c-ico .c-blur {
+    background: linear-gradient(318deg, rgba(75, 118, 200, 1) 0%, rgba(31, 70, 145, 1) 100%);
+    border-radius: 100%;
+    margin-left: 0;
+    padding: 8px 23px;
+    filter: blur(1px);
+    text-align: center;
+  }
+  
+  .c-ico {
+    position: relative;
+    margin-right: 20px;
+  }
+  
+  .c-ico .ico-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Hovering */
+  
+  .c-button .c-main:hover {
+    box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0.6);
+    border: 1px solid rgba(26, 26, 26,0.5);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+
+  .radiocontainer {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,50%);
+    display: flex;
+    margin-top: 5rem;
+  }
+  
+  .radiobox {
+    width: 200px;
+    height: 100px;
+    border: 1px solid #ccc;
+    display: flex;
+  }
+  
+  .radioleft-side, .radioright-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .radioleft-side {
+    background-color: #f0f0f0; /* Background color for the left side */
+  }
+  
+  .radioright-side {
+    background-color: #fff; /* Background color for the right side */
+  }
+  
+  .image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  
+  /*
+  .btn-save:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .btn-save-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .btn-save::before {
+    content: "Posted";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    width: 100%;
+    height: inherit;
+    border-radius: inherit;
+    background: linear-gradient(
+      82.3deg,
+      rgba(150, 93, 233, 1) 10.8%,
+      rgba(99, 88, 238, 1) 94.3%
+    );
+    transition: all 0.175s;
+  }
+*/
