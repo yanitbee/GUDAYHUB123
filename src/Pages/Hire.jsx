@@ -64,6 +64,18 @@ export default function Hire() {
       console.error('Error setting interview date:', error);
     }
   };
+
+  const changestatus = async ( status) => {
+    try {
+      await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
+        params: { status: status, applicantid: applicaionid }
+      });
+      alert("applicant hired");
+      confirm("do you wish to close this job opening?");
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
    
   
     // Toggle the popup visibility
@@ -111,15 +123,17 @@ export default function Hire() {
               Text Me
             </button>
             <button className="chat-btn interview" onClick={togglePopup}>
-              {}
+
               Set interview 
             </button>
-            <button className="chat-btn hire" >
+            <button className="chat-btn hire" onClick={() => changestatus("hired")}>
               Hire
             </button>
           </div>
         )}
       </div>
+
+
       {isPopupOpen && (
         <div className="popupi">
           <div className="popup-contenti">

@@ -2,24 +2,29 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
+import { useWindowSize } from "@uidotdev/usehooks";
+import Confetti from 'react-confetti';
 
 export default function Taskmanager() {
   const { getUserData, getUserToken } = useAuth();
 
   const userData = getUserData();
   const token = getUserToken();
-  const [readData, setreadData] = useState([]);
-  const [DataLen, setDataLen] = useState("")
+  const [readData, setReadData] = useState([]);
+  const [dataLen, setDataLen] = useState("");
   const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
+  const { width, height } = useWindowSize();
+  const [hired, setHired] = useState(false);
+
+  const confettiDuration = 2000; 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios
-          .get("http://localhost:4000/applicant/searchappliedposts", {
-            params: { freelancerid: userData.userID },
-          })
-          .then((applicant) => setreadData(applicant.data));
+        const response = await axios.get("http://localhost:4000/applicant/searchappliedposts", {
+          params: { freelancerid: userData.userID },
+        });
+        setReadData(response.data);
       } catch (error) {
         console.error("error", error);
       }
@@ -27,7 +32,7 @@ export default function Taskmanager() {
     fetchData();
   }, []);
 
-  const [readpost, setreadpost] = useState([]);
+  const [readPost, setReadPost] = useState([]);
 
   useEffect(() => {
     const fetchData = async (postId) => {
@@ -41,21 +46,15 @@ export default function Taskmanager() {
         return null;
       }
     };
-  
-    // Use Promise.all to handle multiple asynchronous requests
+
     const fetchAllPostTitles = async () => {
       const promises = readData.map(data => fetchData(data.postid));
       const postTitles = await Promise.all(promises);
-      setreadpost(postTitles);
+      setReadPost(postTitles);
     };
-  
+
     fetchAllPostTitles();
   }, [readData]);
-
-  
-
-
-
 
   const isEmpty = (arr) => {
     const isEmptyArray = arr.length === 0;
@@ -70,33 +69,84 @@ export default function Taskmanager() {
     setArrayIsEmpty(emptyCheck);
   }, [readData]);
 
+  const changestatus = async (id, status) => {
+    try {
+      await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
+        params: { status: status, applicantid: id },
+      });
+      window.location.reload(); // Reload the page after changing the status
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+
+  useEffect(() => {
+    const hiredApplicant = readData.find((data) => data.status === "hired");
+    if (hiredApplicant) {
+      setHired(true);
+      setTimeout(() => {
+        changestatus(hiredApplicant._id, "Got the job");
+      }, confettiDuration);
+    }
+  }, [readData]);
+
   return (
     <>
-      <h1>Task Manager</h1>
-      {arrayIsEmpty  ? (
+      <Confetti
+        width={width}
+        height={height}
+        run={hired}
+        numberOfPieces={400}
+        confettiSource={{ x: 0, y: 100, w: width, h: 600 }}
+      />
+      <h1 style={{marginTop:"5rem"}}>Task Manager</h1>
+      {arrayIsEmpty ? (
         <div className="taskblock">You have not applied to any job or task yet</div>
       ) : (
         <>
-        <div className="taskblock">You have applied to {DataLen} job </div>
-       <div className="container">
-       {readData.map((data, index) => (
-  <div className="freelist" key={data.postid}>
-     {readpost[index] && (
-      <>
-        <h3 className="textf">Job title</h3>
-        <p className="titlef">{readpost[index]}</p>
-      </>
-    )}
-
-    <h3 className="textf">Cover Letter </h3>
-    <p className="titlef">{data.Coverletter}</p>
-    <h3 className="textf"> Status </h3>
-    <p className="titlef">{data.status}</p>
-  </div>
+          <div className="taskblock">You have applied to {dataLen} job</div>
+          <div className="container">
+          {readData.map((data, index) => (
+  data.status !== "Got the job" ? (
+    <div className="applylist" key={data.postid}>
+      {readPost[index] && (
+        <>
+          <h3 className="textf">Job title</h3>
+          <p className="titlef">{readPost[index]}</p>
+        </>
+      )}
+      <h3 className="textf">Cover Letter</h3>
+      <p className="titlef">{data.Coverletter}</p>
+      <h3 className="textf">Status</h3>
+      <p className="titlef">{data.status}</p>
+    </div>
+  ) : null
 ))}
-       </div>
-       </>
-       
+
+          </div>
+
+          
+          <div className="taskblock">You have gotten {dataLen} job in GudayHub</div>
+          <div className="container">
+          {readData.map((data, index) => (
+  data.status === "Got the job" ? (
+    <div className="applylist" key={data.postid}>
+      {readPost[index] && (
+        <>
+          <h3 className="textf">Job title</h3>
+          <p className="titlef">{readPost[index]}</p>
+        </>
+      )}
+      <h3 className="textf">Cover Letter</h3>
+      <p className="titlef">{data.Coverletter}</p>
+      <h3 className="textf">Status</h3>
+      <p className="titlef">{data.status}</p>
+    </div>
+  ) : null
+))}
+
+          </div>
+        </>
       )}
     </>
   );
