@@ -1,51 +1,13 @@
-import ChatOnline from '../ChatOnline'
-import Conversation from '../Conversation'
-import Message from '../Message'
-import '../messenger.css'
+import './message.css'
 
-export default function messenger() {
+export default function Message({own}) {
   return (
-    <>
-    <div className='messenger'>
-      <div className="chatMenu">
-        <div className="chatMenuWrapper">
-          <input  placeholder='search' className='chatMenuInput'/>
-          <Conversation />
-          <Conversation />
-          <Conversation />
+    <div className={own ? "message own" : "message"}>
+        <div className="messageTop">
+            <img className='messageImg' src="https://static.scientificamerican.com/sciam/cache/file/32665E6F-8D90-4567-9769D59E11DB7F26_source.jpg?w=900" alt="" />
+            <p className='messageText'>hello yanit</p>
         </div>
-      </div>
-      <div className="chatBox">
-        <div className="chatBoxWrapper">
-          <div className="chatBoxTop">
-            <Message />
-            <Message own={true}/>
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-            <Message />
-          </div>
-          <div className="chatBoxBottom">
-            <textarea className='chatMessageInput' placeholder='write something'></textarea>
-            <button className='chatSubmitButton'>Send</button>
-          </div>
-        </div>
-      </div>
-      <div className="chatOnline">
-        <div className="chatOnlineWrapper">
-          <ChatOnline />
-        </div>
-      </div>
-      
+        <div className="messageBottom">1 hour ago</div>
     </div>
-    </>
   )
 }

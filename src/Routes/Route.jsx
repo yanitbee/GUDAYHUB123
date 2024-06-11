@@ -11,6 +11,7 @@ import Posthistory from "../Pages/posthistory";
 import Applicantsdetails from "../Pages/Applicantsdetails";
 import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
+import Messenger from "../Pages/messenger/Messenger"
 
 export default function RouthPath() {
   return (
@@ -34,6 +35,10 @@ export default function RouthPath() {
           <Route
             path="/freelancerpage/Taskmanager"
             element={<PrivateRoute element={<Taskmanager />} />}
+          />
+           <Route
+            path="/freelancerpage/Messenger"
+            element={<PrivateRoute element={<Messenger />} />}
           />
           <Route
             path="/employerpage/Freelancerdetails"
