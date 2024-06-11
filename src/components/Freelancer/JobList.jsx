@@ -45,17 +45,19 @@ const [serach,setsearch] = useState("")
     useEffect(() => {
       const fetchData = async () => {
         try {
-         await axios.get("http://localhost:4000/post/readpost" ,{
+          const response = await axios.get("http://localhost:4000/post/readpost" ,{
           params: {search:jobtype , serachtitle:serach}})
-            .then((Post) => setreadData(Post.data));
-            
+                   
+              const sortedData = response.data.sort((a, b) => new Date(b.PostedDate) - new Date(a.PostedDate));
+              setreadData(sortedData);
+                 
         } catch (error) {
           console.error("error", error);
         }
       };
       fetchData();
     }, [jobtype,serach]);
-
+ 
 
     let navigate = useNavigate();
 

@@ -30,10 +30,67 @@ const Home = () => {
     portfolio: { link: null, title: null },
   });
 
-  let [username, setusername] = useState("");
-  let [password, setpassword] = useState("");
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const [code,setcode]= useState("")
+  const [codenum,setcodenum] = useState("")
 
+
+
+  const togglePopupcode=()=>{
+    setcode("")
+  }
+
+  const sendcode = async () => {
+    try {
+      await axios.post("http://localhost:4000/user/sendcode", {
+        email: inputValue.Email,
+      });
+      console.log("code sent");
+    } catch (error) {
+      console.log("errorr", error);
+    }
+  };
   const saveData = async () => {
+  
+      try {
+        await axios.post("http://localhost:4000/user/registerUser", {
+          Usertype: inputValue.Usertype,
+          Fullname: inputValue.Fullname,
+          username: inputValue.username,
+          Phonenumber: inputValue.Phonenumber,
+          Email: inputValue.Email,
+          Password: inputValue.Password,
+          Gender: inputValue.Gender,
+          title: "",
+          profilepic: "",
+          code:codenum,
+          nullvalue,
+
+        });
+        console.log("data: ", nullvalue);
+        setPopup(!popup);
+      } catch (error) {
+        if (error.response.status === 400) {
+          if (error.response.data === "User already registered") {
+            alert("User already registered");
+          } else if (error.response.data === "Invalid code") {
+            alert("Invalid code");
+          } else if (error.response.data === "Code has expired") {
+            alert("Code has expired");
+          } else {
+            alert(error.response.data);  // Display other messages as an alert
+          }
+        } else if (error.response.data === "user already registered") {
+            alert("user already registered"); 
+            return
+        }
+        console.log("errorr", error);
+      
+    }
+  };
+
+  const togglecode =()=>{
     const isEmpty = (value) => {
       return (
         value === null ||
@@ -49,33 +106,12 @@ const Home = () => {
     if (hasEmptyProperties) {
       alert("please fillout all of the fileds");
     } else {
-      try {
-        await axios.post("http://localhost:4000/user/registerUser", {
-          Usertype: inputValue.Usertype,
-          Fullname: inputValue.Fullname,
-          username: inputValue.username,
-          Phonenumber: inputValue.Phonenumber,
-          Email: inputValue.Email,
-          Password: inputValue.Password,
-          Gender: inputValue.Gender,
-          title: "",
-          profilepic: "",
-          nullvalue,
-        });
-        console.log("data: ", nullvalue);
-        setPopup(!popup);
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-            alert(error.response.data.message);
-         
-        if (error.response.data === "user already registered") {
-            alert("user already registered"); 
-            return
-        }}
-        console.log("errorr", error);
-      }
+      sendcode()
+    setcode("active")
+    setPopup(!popup);
+
     }
-  };
+  }
 
   const navigate = useNavigate();
   const { logIn } = useAuth();
@@ -141,6 +177,37 @@ const Home = () => {
               <h2>
                 <span>By Zagol</span>
               </h2>
+
+
+              <div className={`code${code}`} >
+                <p>we have sent a code to your email
+                  enter the code to register
+                </p>
+              <input
+                            className="input"
+                            type="text"
+                            placeholder=""
+                            onChange={(e) => setcodenum(e.target.value)}
+                          /> <br/>
+                            <button className="popup-btn" onClick={saveData}>
+                            Submit
+                          </button>
+                        
+                          <button
+                            className="popup-btn"
+                            id="x"
+                            onClick={togglePopupcode}
+                          >
+                            X
+                          </button>
+                          
+                          <a href="#" onClick={togglecode}>
+                          Resend code
+                          </a>
+                      
+              </div>
+
+
 
               <div className="header-btns">
                 <button className="header-btn" onClick={togglePopup}>
@@ -293,7 +360,7 @@ const Home = () => {
                         />{" "}
                         Female
                         <br /> <br />
-                        <button className="popup-btn" onClick={saveData}>
+                        <button className="popup-btn" onClick={togglecode}>
                           Submit
                         </button>
                         <p>
