@@ -44,6 +44,7 @@ const Navbar = () => {
       case "/freelancerpage":
       case "/freelancerpage/Taskmanager":
       case "/freelancerpage/Apply":
+        case "/freelancerpage/Messenger":
         return (
           <>
             <li>
@@ -55,11 +56,9 @@ const Navbar = () => {
               </RouterLink>
             </li>
             <li>
-              <RouterLink to="/message">Message</RouterLink>
+              <RouterLink to="/freelancerpage/Messenger">Message</RouterLink>
             </li>
-            <li onClick={logOut}>
-              <RouterLink to="/">LogOut</RouterLink>
-            </li>
+            <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
           </>
         );
       case "/employerpage":
@@ -80,9 +79,7 @@ const Navbar = () => {
                 Applicants
               </RouterLink>
             </li>
-            <li onClick={logOut}>
-              <RouterLink to="/">LogOut</RouterLink>
-            </li>
+            <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
           </>
         );
       case "/":

@@ -213,8 +213,8 @@ font-weight: 500;
 
 .input:hover,
 .input:focus {
-  border: 2px solid #FF1414;
-  box-shadow: 0px 0px 0px 7px rgba(198, 64, 64, 0.411);
+  border: 2px solid #5f9ea0;
+  box-shadow: 0px 0px 0px 7px rgb(43, 69, 70);
   background-color: white;
 }
 
@@ -261,23 +261,24 @@ z-index: 1;
   box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.157);
 }
 nav.active{
-box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.157);
+box-shadow: 5px 10px 30px rgb(95, 158, 160);
 background-color: #ffffff;
 color: #000000;
 }
 nav ul{
 display: flex;
+cursor: pointer;
 }
 .active{
-  background-color: #FF1414;
-  color:#ffffff;
-box-shadow: 5px 10px 30px rgba(198, 64, 64, 0.411);
+  background-color: #5f9ea0;
+  color:#fff;
+box-shadow: 5px 10px 30px rgb(95, 158, 160);
 transition: all ease 0.2s;
 }
 
 .active:hover{
-  color:#ffffff;
-box-shadow: 5px 10px 30px rgba(198, 64, 64, 0.411);
+  color:#000;
+box-shadow: 5px 10px 30px rgb(95, 158, 160);
 transition: all ease 0.2s;
 } 
 nav ul li a{
@@ -290,15 +291,15 @@ display: flex;
 font-size: 0.9rem;
 text-transform: uppercase;
 font-weight: 500;
-color:#f70000;
+color:#5f9ea0;
   letter-spacing: 1px;
   border-radius: 3px;
   transition: 0.2s ease-in-out;
 }
 nav ul li a:hover{
-background-color: #FF1414;
+background-color: #5f9ea0;
   color:#ffffff;
-box-shadow: 5px 10px 30px rgba(255, 2, 2, 0.336);
+box-shadow: 5px 10px 30px rgb(95, 158, 160);
 transition: all ease 0.2s;
 }
 nav .menu-btn,
@@ -314,7 +315,7 @@ position: absolute;
 transform: translate(-50%);
 }
 .header-heading span{
-  color: #FF1414;
+  color: #5f9ea0;
 }
 .header-heading .details{
   font-size: 23px;
@@ -346,16 +347,16 @@ display: flex;
 justify-content: center;
   align-items: center;
   font-size: 1.4rem;
-  background-color: #FF1414;
-  box-shadow: 5px 10px 30px rgba(255, 2, 2, 0.336);
+  background-color: #5f9ea0;
+  box-shadow: 5px 10px 30px #5f9ea0;
   border-radius: 5px;
 color:#ffffff;
 }
 .header-btn:hover{
 background-color: transparent;
   transition: all ease 0.5s;
-  color: #FF1414;
-  border: 2px solid #FF1414;
+  color: #5f9ea0;
+  border: 2px solid rgb(95, 158, 160);
 }
 
 #service{
@@ -371,7 +372,7 @@ background-color: transparent;
   
 }
 #service h1{
-  color: #000000;
+  color: #5f9ea0;
   font-size: 3rem;
 }
 .a-container{
@@ -382,7 +383,7 @@ background-color: transparent;
 
 }
 .a-box{
-  background-color: #000000;
+  background-color: #5f9ea0;
   width:250px;
   height: 400px;
   margin: 30px;
@@ -404,13 +405,13 @@ background-color: transparent;
 
 }
 .a-box:hover{
-  border: 1px solid #FF1414;
-  box-shadow: 2px 2px 12px rgba(184, 0, 0, 0.445);
+  border: 1px solid #5f9ea0;
+  box-shadow: 2px 2px 12px rgb(95, 158, 160);
 }
 .a-b-text{
   width: 100%;
   height: 40%;
-  background-color:#000000;
+  background-color:#5f9ea0;
   display:flex;
   justify-content: center;
   align-items: center;
@@ -564,7 +565,7 @@ width: 600px;
   flex-direction: column;
 }
 #contact h1{
-  color: #000;
+  color: #5f9ea0;
   font-size: 3rem;
 }
 #contact form{
@@ -583,7 +584,7 @@ width: 600px;
   padding: 10px;
   border: none;
   outline: none;
-  background-color: #ffffff8e;
+  background-color: #dad9d98e;
   color: #000;
   border-radius: 5px;
 }
@@ -734,7 +735,7 @@ width: 600px;
           top:65px;
           left:0px;
           background-color:#ffffff;
-          border-bottom:4px solid #FF1414;
+          border-bottom:4px solid #5f9ea0;
           width:100%;
           padding:0px;
           margin:0px;
@@ -759,7 +760,7 @@ width: 600px;
           user-select: none;
       }
       nav .menu-icon .nav-icon{
-          background-color:#FF1414;
+          background-color:#5f9ea0;
           display:block;
           height:2px;
           position:relative;
@@ -768,7 +769,7 @@ width: 600px;
       }
       nav .menu-icon .nav-icon:before,
       nav .menu-icon .nav-icon:after{
-          background:#FF1414;
+          background:#5f9ea0;
           content:'';
           display:block;
           height:100%;
