@@ -329,7 +329,7 @@ const Home = () => {
                     <img src= "/image/post.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>post</h2>
+                    <h2>Post</h2>
                     <p>Employers can post jobs/tasks</p>
                   </div>
                 </div>
@@ -338,8 +338,8 @@ const Home = () => {
                     <img src= "/image/details.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>apply</h2>
-                    <p>Freelancers can apply on jops of their desier</p>
+                    <h2>Apply</h2>
+                    <p>Freelancers can apply on jobs of their desier</p>
                   </div>
                 </div>
                 <div className="a-box">
@@ -347,7 +347,7 @@ const Home = () => {
                     <img src= "/image/message.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>messaging</h2>
+                    <h2>Messaging</h2>
                     <p>Direct real time messageing between freelancer and employers</p>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ const Home = () => {
                     <img src= "/image/videocall.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>messaging</h2>
+                    <h2>Video Chat</h2>
                     <p>Videochats between freelancers and employers</p>
                   </div>
                 </div>
@@ -374,7 +374,9 @@ const Home = () => {
               </div>
               <div className="about-text">
                 <h1>About Us</h1>
-                <p>wooooooooooooooooooo</p>
+                <p>GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet. 
+                The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity.
+                </p>
                 <button>Read More</button>
               </div>
             </div>
