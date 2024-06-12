@@ -7,6 +7,8 @@ export default function Applicantsdetails(){
     const [readData, setreadData] = useState([]);
     const [readapplicant, setreadapplicant] = useState([]);
     const [freelancerData, setfreelancerData] = useState([]);
+    const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
+    const [DataLen, setDataLen] = useState("")
     
     const location = useLocation();
 
@@ -58,12 +60,30 @@ export default function Applicantsdetails(){
         navigate("/employerpage/Applicantsdetails/more/Hire", { state: {userid: userid,applicaionid:id }})}
       else navigate("/employerpage/Applicantsdetails/more/Hire", { state: {userid: userid ,applicaionid:id  }})
       }
+
+      const isEmpty = (arr) => {
+        const isEmptyArray = arr.length === 0;
+        if (!isEmptyArray) {
+          setDataLen(arr.length);
+        }
+        return isEmptyArray;
+      };
+    
+      useEffect(() => {
+        const emptyCheck = isEmpty(readData);
+        setArrayIsEmpty(emptyCheck);
+      }, [readData]);
     
   
 
     return(
         <>
      <div className="container">
+     {arrayIsEmpty  ? (
+        <div className="taskblock">There is no appicant yet</div>
+      ) : (
+        <div>
+        <div className="taskblock">You have {DataLen} appicant </div>
         {readData.map((data,index) => (
          <div onClick={() => handleclick(data._id,data.Freelancerid,data.status)}  className="freelist" >
           {readapplicant[index] && (
@@ -78,6 +98,8 @@ export default function Applicantsdetails(){
           <p className="titlef">{data.Coverletter}</p>
            </div>
          ))}
+         </div>
+         )}
           </div>
         </>
      )
