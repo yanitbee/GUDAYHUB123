@@ -11,6 +11,7 @@ import Posthistory from "../Pages/posthistory";
 import Applicantsdetails from "../Pages/Applicantsdetails";
 import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
+import Postdetails from "../Pages/postdetails"; 
 import Messenger from "../Pages/messenger/Messenger"
 
 export default function RouthPath() {
@@ -42,6 +43,10 @@ export default function RouthPath() {
           />
           <Route
             path="/employerpage/Freelancerdetails"
+            element={<PrivateRoute element={<Freelancerdetails />} />}
+          />
+          <Route
+            path="/employerpage/Freelancerdetails/Messenger"
             element={<PrivateRoute element={<Freelancerdetails />} />}
           />
           <Route
