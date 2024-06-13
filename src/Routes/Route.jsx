@@ -12,7 +12,8 @@ import Applicantsdetails from "../Pages/Applicantsdetails";
 import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
 import Postdetails from "../Pages/postdetails"; 
-import Messenger from "../Pages/messenger/Messenger"
+import Messenger from "../Pages/messenger/Messenger";
+
 
 export default function RouthPath() {
   return (

@@ -141,7 +141,7 @@ export default function Frelancerprofile() {
       <div>{ShowAddProfile && <Addprofile prop={freelancerData}
                                           prop2 ={addpro} />}</div>
       <div>
-        <div className="holder end-0">
+        <div className="holder start-0">
           {freelancerData === null ? (
             <img
               onClick={togglePopup}
