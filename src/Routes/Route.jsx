@@ -11,11 +11,9 @@ import Posthistory from "../Pages/posthistory";
 import Applicantsdetails from "../Pages/Applicantsdetails";
 import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
-<<<<<<< HEAD
 import Postdetails from "../Pages/postdetails"; 
-=======
-import Messenger from "../Pages/messenger/Messenger"
->>>>>>> f50ce9ccdb4fc8e589c15d76526fa767a352934c
+import Messenger from "../Pages/messenger/Messenger";
+
 
 export default function RouthPath() {
   return (

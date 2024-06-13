@@ -17,6 +17,7 @@
 
 }
 .sidebar{
+  
   margin-top: -1rem;
   position: fixed;
     width: 25%;
@@ -29,14 +30,16 @@
 }
 
 .sidebaractive{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   margin-top: -3.5rem;
   position: fixed;
     width: 25%;
     height: 650px;
-    border: solid;
-    background-color: rgba(186, 216, 213, 0.892);
+  
+    background-color: rgb(186, 216, 213);
     overflow-x: hidden;
     overflow-y: scroll;
+    z-index: 1;
 }
 .employer{
     float: right;
@@ -58,7 +61,9 @@
 }
 
 .btn-job {
-    position:absolute;
+  margin-left: 8rem;
+  margin-top: 5rem;
+    position: absolute;
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     padding-block: 0.5rem;
@@ -75,7 +80,7 @@
     outline: none;
     overflow: hidden;
     font-size: 15px;
-    z-index: -1;
+   
   }
   
 
@@ -115,7 +120,7 @@
 .search{
   position: fixed; 
   z-index: 3;
-  margin-top: -2.1rem;
+  margin-top: -2.5rem;
   margin-right:1.3rem ;
 }
 .searchactive{
@@ -129,10 +134,10 @@
 .another{
   display: block;
   position: fixed;
-   margin-top:-45px ;
+   margin-top:-50px ;
    margin-right:1rem ;
   border: 2px solid transparent;
-  width: 8em;
+  width: 18rem;
   height: 2.5em;
   padding-left: 0.8em;
   outline: none;
@@ -156,11 +161,12 @@
   background-color: #F3F3F3;
   border-radius: 10px;
   transition: all 0.5s;
-  z-index: 1;
+  z-index: 2;
 }
 
 .sidebaractive{
   animation: side .3s ease-out ;
+  
   }
   @media (max-width:1300px) {
     .sidebaractive{
@@ -311,3 +317,40 @@
     transform: translateX(0%);
   }
 }
+
+
+
+
+.ribbon-2 {
+  width: 15%;
+  height: 2.8rem;
+  --f: 10px; /* control the folded part */
+  --r: 15px; /* control the ribbon shape */
+  --t: 10px; /* the top offset */
+
+  position: absolute;
+  inset: var(--t) calc(-1 * var(--f)) auto auto;
+  padding: 0 10px var(--f) calc(10px + var(--r));
+  clip-path: 
+    polygon(0 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, 
+            calc(100% - var(--f)) calc(100% - var(--f)), 0 calc(100% - var(--f)), 
+            var(--r) calc(50% - var(--f) / 2));
+  background: linear-gradient(135deg, #05fee9af, #116d47af);
+  box-shadow: inset 0 calc(-1 * var(--f)) 5px rgba(0, 0, 0, 0.5), /* Inner shadow */
+              0 5px 10px rgba(0, 0, 0, 0.3); /* Outer shadow */
+  border-radius: 5px;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  line-height: 2.8rem;
+  transform: rotate(-5deg);
+}
+
+
+.box {
+
+  position:relative;
+}
+
