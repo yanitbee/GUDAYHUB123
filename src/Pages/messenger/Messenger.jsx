@@ -19,25 +19,15 @@ export default function Messenger() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-<<<<<<< HEAD
-        const res = await axios.get(`/conversations/${user}`);
-        setConversations(res.data);
-        
-=======
         const res = await axios.get(
           `http://localhost:4000/conversations/${user.userID}`
         );
         setConversations(res.data);
->>>>>>> af8bf0fedd2731c5c0d6937e58ee99109fefdf97
       } catch (err) {
         console.log(err);
       }
     };
     getConversations();
-<<<<<<< HEAD
-  }, [user]);
-
-=======
   }, [user.userID]);
 
   useEffect(() => {
@@ -74,53 +64,21 @@ export default function Messenger() {
   useEffect(() =>{
     scrollRef.current?.scrollIntoView({ behavior: "smooth"})
   },[messages])
->>>>>>> af8bf0fedd2731c5c0d6937e58ee99109fefdf97
   return (
     <>
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             <input placeholder="search" className="chatMenuInput" />
-<<<<<<< HEAD
-            <Conversation />
-            <Conversation />
-            <Conversation />
-=======
             {conversations.map((convo) => (
               <div onClick={() => setcurrentChat(convo)}>
                 <Conversation Conversation={convo} currentUser={user} />
               </div>
             ))}
->>>>>>> af8bf0fedd2731c5c0d6937e58ee99109fefdf97
           </div>
         </div>
         <div className="chatBox">
           <div className="chatBoxWrapper">
-<<<<<<< HEAD
-            <div className="chatBoxTop">
-              <Message />
-              <Message own={true} />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-              <Message />
-            </div>
-            <div className="chatBoxBottom">
-              <textarea
-                className="chatMessageInput"
-                placeholder="write something"
-              ></textarea>
-              <button className="chatSubmitButton">Send</button>
-            </div>
-=======
             {currentChat ? (
               <>
                 <div className="chatBoxTop">
@@ -146,7 +104,6 @@ export default function Messenger() {
             ) : (
               <span className=" ">Open a conversation to start a chat</span>
             )}
->>>>>>> af8bf0fedd2731c5c0d6937e58ee99109fefdf97
           </div>
         </div>
         <div className="chatOnline">
