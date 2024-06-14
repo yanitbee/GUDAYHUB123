@@ -11,6 +11,30 @@
    box-shadow:rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   
 }
+
+.allfilter{
+  position: fixed;
+  z-index: 1;
+  cursor: pointer;
+  border: solid 1px;
+  margin: 1rem;
+  margin-top: -5rem;
+  margin-left: -2rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  padding-top: .3rem;
+  border-radius: 20px;
+  background-color: rgba(73, 154, 149, 0.775);
+  color: black;
+  display:inline-flex;
+}
+.two{
+  margin-left: 3rem;
+}
+
+.postblock.box.urgent {
+  box-shadow:rgba(255, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(232, 204, 204) 3px 3px 6px 0px inset, rgba(244, 114, 114, 0.5) -3px -3px 6px 1px inset;
+}
 .nojob{
   margin: 7.5rem;
   z-index: -2;
@@ -120,21 +144,14 @@
 .search{
   position: fixed; 
   z-index: 3;
-  margin-top: -2.5rem;
+  margin-top: -10.5rem;
   margin-right:1.3rem ;
-}
-.searchactive{
-  position: fixed;
-  margin-right:2rem ;
-  margin-top: -2.1rem;
-  z-index: 3;
-  animation: rotate .5s ease-out ;
 }
 
 .another{
   display: block;
   position: fixed;
-   margin-top:-50px ;
+  margin-top:-11rem ;
    margin-right:1rem ;
   border: 2px solid transparent;
   width: 18rem;
@@ -147,20 +164,11 @@
   transition: all 0.5s;
   z-index: 1;
 }
-.anotheractive{
-  display: block;
-  position: fixed;
-  margin-top:-45px ;
+.another.active{
+  margin-top:-10rem ;
   margin-right: 1.5rem;
-  border: 2px solid transparent;
   width: 17rem;
   height: 2.5em;
-  padding-left: 0.8em;
-  outline: none;
-  overflow: hidden;
-  background-color: #F3F3F3;
-  border-radius: 10px;
-  transition: all 0.5s;
   z-index: 2;
 }
 
@@ -185,26 +193,15 @@
       margin-top: -3.5rem;
         width: 42%;
       }
-    .another{
-      display: block;
-      position: fixed;
-      margin-top:-50px ;
-      margin-right: 1.5rem;
-      border: 2px solid transparent;
-      width: 8em;
-      height: 2.5em;
-      padding-left: 0.8em;
-      outline: none;
-      overflow: hidden;
-      background-color: #F3F3F3;
-      border-radius: 10px;
-      transition: all 0.5s;
-      z-index: 1;
-    }
+      .another{
+        margin-top:-7.5rem ;
+     
+      }
+
     .anotheractive{
       display: block;
       position: fixed;
-      margin-top:-50px ;
+      margin-top:-11rem ;
       margin-right: 1.5rem;
       border: 2px solid transparent;
       width: 17em;
@@ -219,17 +216,10 @@
     }
     .search{
       position: fixed;
-      margin-top: -2.5rem;
-      margin-right:2rem ;  
+      margin-top: -7rem ;
       z-index: 3;
     }
-    .searchactive{
-      position: fixed;
-      margin-top: -2.5rem;
-      margin-right:2rem ; 
-      z-index: 3;
-      animation: rotate .5s ease-out ;
-    }
+    
     .arrow{
       display: block;
       margin-top: 1rem;
@@ -318,7 +308,11 @@
   }
 }
 
-
+.date{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 
 
 .ribbon-2 {

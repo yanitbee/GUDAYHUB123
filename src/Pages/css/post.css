@@ -81,13 +81,11 @@
   }
   
   .c-button {
-    background: linear-gradient(140deg, rgba(75, 118, 200, 1) 0%, rgba(31, 70, 145, 1) 100%);
+    background: linear-gradient(140deg, rgb(75, 200, 200) 0%, rgb(27, 115, 109) 100%);
     border-radius: 45px;
     font-size: 25px;
     text-align: left;
-    padding: 11px 0px 11px 0px;
-   
-    border-style: outset;
+    padding: 8px 0px 8px 0px;
     box-shadow: -6px -5px 18px rgba(255, 255, 255, 0.1);
     cursor: pointer;
   }
@@ -102,7 +100,7 @@
   }
   
   .c-ico .c-blur {
-    background: linear-gradient(318deg, rgba(75, 118, 200, 1) 0%, rgba(31, 70, 145, 1) 100%);
+    background: linear-gradient(318deg, rgb(75, 200, 190) 0%, rgb(31, 145, 139) 100%);
     border-radius: 100%;
     margin-left: 0;
     padding: 8px 23px;
@@ -126,10 +124,12 @@
   
   .c-button .c-main:hover {
     box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0.6);
-    border: 1px solid rgba(26, 26, 26,0.5);
+    border: 1px solid rgba(255, 253, 253, 0.5);
     color: rgba(255, 255, 255, 0.5);
   }
 
+
+  
 
   .radiocontainer {
     position: absolute;
@@ -167,32 +167,131 @@
     max-height: 100%;
   }
   
+  @media (min-width:1100px) {
+
+  .toggle-div{
+  position: absolute;
+  margin-right: -6rem;
   
-  /*
-  .btn-save:hover::before {
-    transform: scaleX(1);
+}
+.both{
+  margin-top: 8rem;
+  margin-right: -9rem;
+}
+  }
+
+  .toggle-div p{
+    display: inline-block;
+  }
+
+  .toggle-button-cover {
+    display: inline;
+    position: relative;
+    width: 200px;
+    height: 140px;
+    box-sizing: border-box;
   }
   
-  .btn-save-content {
+  .button-cover {
+    height: 100px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
+    border-radius: 4px;
+  }
+  
+  .button-cover:before {
+    counter-increment: button-counter;
+    content: counter(button-counter);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #d7e3e3;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px;
+  }
+  
+  .button-cover,
+  .knobs,
+  .layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .buttont {
     position: relative;
+    top: 50%;
+    width: 74px;
+    height: 36px;
+    margin: -20px auto 0 auto;
+    overflow: hidden;
+  }
+  
+  .checkboxt {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+  }
+  
+  .knobs {
+    z-index: 2;
+  }
+  
+  .layer {
+    width: 100%;
+    background-color: #fcebeb; /* Default background color for "No" state */
+    transition: 0.3s ease all;
     z-index: 1;
   }
   
-  .btn-save::before {
-    content: "Posted";
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    width: 100%;
-    height: inherit;
-    border-radius: inherit;
-    background: linear-gradient(
-      82.3deg,
-      rgba(150, 93, 233, 1) 10.8%,
-      rgba(99, 88, 238, 1) 94.3%
-    );
-    transition: all 0.175s;
+  .buttont.r,
+  .buttont.r .layer {
+    border-radius: 100px;
   }
-*/
+  
+  #button-3 .knobs:before {
+    content: "NO"; /* Default content for "No" state */
+    position: absolute;
+    top: 4px;
+    left: 42px; /* Position for "No" state */
+    width: 30px;
+    height: 27px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #f44336; /* Background color for "No" state */
+    border-radius: 50%;
+    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+  }
+  
+  #button-3 .checkboxt:active + .knobs:before {
+    width: 46px;
+    border-radius: 100px;
+  }
+  
+  #button-3 .checkboxt:checked:active + .knobs:before {
+    margin-left: -26px;
+  }
+  
+  #button-3 .checkboxt:checked + .knobs:before {
+    content: "YES";
+    left: 4px;
+    background-color: #03a9f4;
+  }
+  
+  #button-3 .checkboxt:checked ~ .layer {
+    background-color: #ebf7fc;
+  }
+  

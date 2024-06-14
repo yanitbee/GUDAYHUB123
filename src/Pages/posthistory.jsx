@@ -19,10 +19,14 @@ export default function Posthistory(){
     useEffect(() => {
       const fetchData = async () => {
         try {
-         await axios.get("http://localhost:4000/post/reademployerpost" ,{
+       const response = await axios.get("http://localhost:4000/post/reademployerpost" ,{
           params: { employerid: userData.userID }
         })
-            .then((Post) => setreadData(Post.data));
+            
+            const sortedData = response.data.sort(
+              (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
+            );
+            setreadData(sortedData);
             
         } catch (error) {
           console.error("error", error);

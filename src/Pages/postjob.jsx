@@ -20,14 +20,20 @@ export default function Write() {
     Contact: "",
     location: "",
     urgency: "",
+    anonymous: false,
+    cv: false,
+    coverletter: false,
   });
 
+  const [readData, setreadData] = useState([]);
   const [show, setShow] = useState("");
   const [showbox, setShowbox] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState({
     date: "",
-    time: ""
+    time: "",
   });
+  const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
+  const [DataLen, setDataLen] = useState("");
 
   useEffect(() => {
     const now = new Date();
@@ -41,7 +47,7 @@ export default function Write() {
 
     setCurrentDateTime({
       date: formattedDate,
-      time: formattedTime
+      time: formattedTime,
     });
   }, []);
 
@@ -61,6 +67,21 @@ export default function Write() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios
+          .get("http://localhost:4000/PostHistory/reademployerpost", {
+            params: { employerid: userData.userID },
+          })
+          .then((Post) => setreadData(Post.data));
+      } catch (error) {
+        console.error("error", error);
+      }
+    };
+    fetchData();
+  }, [userData.userID]);
+
   const handleJobTaskChange = (value) => {
     setinputValue((prevState) => ({ ...prevState, JobTask: value }));
     setShow(value);
@@ -72,107 +93,226 @@ export default function Write() {
     setinputValue((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const isEmpty = (arr) => {
+    const isEmptyArray = arr.length === 0;
+    if (!isEmptyArray) {
+      setDataLen(arr.length);
+    }
+    return isEmptyArray;
+  };
+
+  useEffect(() => {
+    const emptyCheck = isEmpty(readData);
+    setArrayIsEmpty(emptyCheck);
+  }, [readData]);
+
+  const handleAnonymousToggle = () => {
+    setinputValue({ ...inputValue, anonymous: !inputValue.anonymous });
+  };
+  const handlecvToggle = () => {
+    setinputValue({ ...inputValue, cv: !inputValue.cv });
+  };
+  const handlecoverToggle = () => {
+    setinputValue({ ...inputValue, coverletter: !inputValue.coverletter });
+  };
+  const handleurgencyToggle = () => {
+    setinputValue({ ...inputValue, urgency: !inputValue.urgency });
+  };
+
   return (
-    <div className="postimg">
-      <div className="post">
-        <h1 className="post-h1">Post</h1>
-        <br />
-        <br />
-        <button className="c-button" onClick={() => setShowbox("post")}>
-          <span className="c-main">
-            <span className="c-ico">
-              <span className="c-blur"></span> <span className="ico-text">+</span>
+    <>
+      <div className="postimg">
+        <div className="post">
+          <h1 className="post-h1"></h1>
+          <br />
+          <br />
+          <button className="c-button" onClick={() => setShowbox("post")}>
+            <span className="c-main">
+              <span className="c-ico">
+                <span className="c-blur"></span>{" "}
+                <span className="ico-text">+</span>
+              </span>
+              Post
             </span>
-            Post
-          </span>
-        </button>
-        <div className={`post-div${showbox}`}>
-          <div className="radiocontainer">
-            <div className="radiobox">
-              <div
-                className="radioleft-side"
-                onClick={() => handleJobTaskChange("Job")}
-              >
-                <h3>Job</h3>
-              </div>
-              <div
-                className="radioright-side"
-                onClick={() => handleJobTaskChange("Task")}
-              >
-                <h3>Task</h3>
+          </button>
+          <div className={`post-div${showbox}`}>
+            <div className="radiocontainer">
+              <div className="radiobox">
+                <div
+                  className="radioleft-side"
+                  onClick={() => handleJobTaskChange("Job")}
+                >
+                  <h3>Job</h3>
+                </div>
+                <div
+                  className="radioright-side"
+                  onClick={() => handleJobTaskChange("Task")}
+                >
+                  <h3>Task</h3>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {show && (
-          <div>
-            {show === "Job" || show === "Task" ? (
-              <>
-                <JobTypeSelector setinputValue={setinputValue} />
-                <InputField
-                  name="Jobtitle"
-                  placeholder="Job Title"
-                  value={inputValue.Jobtitle}
-                  onChange={handleInputChange}
-                />
-                <InputField
-                  name="Description"
-                  placeholder="Description"
-                  value={inputValue.Description}
-                  onChange={handleInputChange}
-                />
-                <InputField
-                  name="Qualification"
-                  placeholder="Qualification"
-                  value={inputValue.Qualification}
-                  onChange={handleInputChange}
-                />
-                <DeadlineField
-                  value={inputValue.Deadline}
-                  onChange={handleInputChange}
-                />
-                      <InputField
-                  name="location"
-                  placeholder="location"
-                  value={inputValue.location}
-                  onChange={handleInputChange}
-                />
+          {show && (
+            <div>
+              {show === "Job" && (
+                <div className="toggle-div end-0">
+                  <p>Is CV required to apply?</p>
+                  <div className="toggle-button-cover ">
+                    <div id="button-3" className="buttont r">
+                      <input
+                        className="checkboxt"
+                        type="checkbox"
+                        checked={inputValue.cv}
+                        onChange={handlecvToggle}
+                      />
+                      <div className="knobs"></div>
+                      <div className="layer"></div>
+                    </div>
+                  </div>
+                  <p>Is cover letter required to apply?</p>
+                  <div className="toggle-button-cover ">
+                    <div id="button-3" className="buttont r">
+                      <input
+                        className="checkboxt"
+                        type="checkbox"
+                        checked={inputValue.coverletter}
+                        onChange={handlecoverToggle}
+                      />
+                      <div className="knobs"></div>
+                      <div className="layer"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {show === "Job" || show === "Task" ? (
+                <>
+                  <div className="toggle-div end-0 both">
+                    <p>Do you wish to be annonmous to freelancers?</p>
+                    <div className="toggle-button-cover ">
+                      <div id="button-3" className="buttont r">
+                        <input
+                          className="checkboxt"
+                          type="checkbox"
+                          checked={inputValue.anonymous}
+                          onChange={handleAnonymousToggle}
+                        />
+                        <div className="knobs"></div>
+                        <div className="layer"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="containert on "
+                    onClick="this.classList.toggle('off'); this.classList.toggle('on')"
+                  >
+                    <div class="toggle">
+                      <div class="detail"></div>
+                      <div class="detail"></div>
+                      <div class="detail"></div>
+                    </div>
+                  </div>
+
+                  <JobTypeSelector setinputValue={setinputValue} />
                   <InputField
-                  name="Contact"
-                  placeholder="Contact"
-                  value={inputValue.Contact}
-                  onChange={handleInputChange}
-                />
-                     <InputField
-                  name="Salary"
-                  placeholder="Salary"
-                  value={inputValue.Salary}
-                  onChange={handleInputChange}
-                />
-                 
-              </>
-            ) : null}
+                    name="Jobtitle"
+                    placeholder="Job Title"
+                    value={inputValue.Jobtitle}
+                    onChange={handleInputChange}
+                  />
+                  <InputField
+                    name="Description"
+                    placeholder="Description"
+                    value={inputValue.Description}
+                    onChange={handleInputChange}
+                  />
+                  <InputField
+                    name="Qualification"
+                    placeholder="Qualification"
+                    value={inputValue.Qualification}
+                    onChange={handleInputChange}
+                  />
+                  <DeadlineField
+                    value={inputValue.Deadline}
+                    onChange={handleInputChange}
+                  />
+                  <InputField
+                    name="location"
+                    placeholder="location"
+                    value={inputValue.location}
+                    onChange={handleInputChange}
+                  />
+                  <InputField
+                    name="Contact"
+                    placeholder="Contact"
+                    value={inputValue.Contact}
+                    onChange={handleInputChange}
+                  />
+                  <InputField
+                    name="Salary"
+                    placeholder="Salary"
+                    value={inputValue.Salary}
+                    onChange={handleInputChange}
+                  />
+                </>
+              ) : null}
 
-            {show === "Task" && (
-              <>
-             
-                <InputField
-                  name="urgency"
-                  placeholder="Urgency"
-                  value={inputValue.urgency}
-                  onChange={handleInputChange}
-                />
-              </>
-            )}
+              {show === "Task" && (
+                <>
+                <p>Urgency</p>
+                  <div id="button-3" className="buttont r">
+                    <input
+                      className="checkboxt"
+                      type="checkbox"
+                      checked={inputValue.urgency}
+                      onChange={handleurgencyToggle}
+                    />
+                    <div className="knobs"></div>
+                    <div className="layer"></div>
+                  </div>
+               
+                </>
+              )}
 
-            <button className="btn-save" onClick={saveData}>
-              Post
-            </button>
-          </div>
-        )}
+              <button className="btn-save" onClick={saveData}>
+                Post
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      {arrayIsEmpty ? (
+        <div className="taskblock">You have not posted any job or task yet</div>
+      ) : (
+        <div>
+          <div className="taskblock">You had posted {DataLen} job </div>
+          {readData.map((data) => (
+            <>
+              <div className="applylist">
+                <div>
+                  <h3 className="textf">Job title </h3>
+                  <p className="titlef">{data.Jobtitle}</p>
+                </div>
+                <h3 className="textf">Job type </h3>
+                <p className="titlef">{data.Jobtype}</p>
+                <h3 className="textf">Description </h3>
+                <p className="titlef">{data.Description}</p>
+              </div>
+              <button
+                className="btn-job1 more"
+                onClick={() => handlepost(data._id)}
+              >
+                Post details
+              </button>
+            </>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
@@ -183,19 +323,25 @@ function JobTypeSelector({ setinputValue }) {
       Job Type
       <div
         className="skills"
-        onClick={() => setinputValue((prevState) => ({ ...prevState, Jobtype: "onsite" }))}
+        onClick={() =>
+          setinputValue((prevState) => ({ ...prevState, Jobtype: "onsite" }))
+        }
       >
         onsite
       </div>
       <div
         className="skills"
-        onClick={() => setinputValue((prevState) => ({ ...prevState, Jobtype: "remote" }))}
+        onClick={() =>
+          setinputValue((prevState) => ({ ...prevState, Jobtype: "remote" }))
+        }
       >
         remote
       </div>
       <div
         className="skills"
-        onClick={() => setinputValue((prevState) => ({ ...prevState, Jobtype: "hybrid" }))}
+        onClick={() =>
+          setinputValue((prevState) => ({ ...prevState, Jobtype: "hybrid" }))
+        }
       >
         hybrid
       </div>
@@ -206,14 +352,14 @@ function JobTypeSelector({ setinputValue }) {
 function InputField({ name, placeholder, value, onChange }) {
   return (
     <div>
-    <input
-      className="post-input"
-      placeholder={placeholder}
-      type="string"
-      name={name}
-      value={value}
-      onChange={onChange}
-    />
+      <input
+        className="post-input"
+        placeholder={placeholder}
+        type="string"
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 }
