@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Popup from "../assets/popup";
 import "./css/apply.css";
 
 export default function Postdetails() {
@@ -27,21 +28,34 @@ export default function Postdetails() {
     fetchData();
   }, []);
 
-  const closejob =(id) =>{
-    axios.put(`http://localhost:4000/post/closejob/${id}`);
-  }
 
-  const [popup, setPopup] = useState(false);
+  const closejob = async (postId) => {
+    try {
+      await axios.post("http://localhost:4000/postHistory/closepost", { postId });
+      alert("Job post closed successfully");
+      // Optionally, refresh the list of posts or remove the closed post from the state
+    } catch (error) {
+      console.error("Error closing post:", error);
+      alert("Error closing post");
+    }
+  };
+  
 
-  const togglePopup = () => {
-    setPopup(!popup);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const handleShowPopup = () => {
+    setIsPopupVisible(true);
   };
 
-  if (popup) {
-    document.body.classList.add("active-popup");
-  } else {
-    document.body.classList.remove("active-popup");
-  }
+  const handleConfirm = (id) => {
+    // Your confirm action here
+    closejob(id);
+    setIsPopupVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsPopupVisible(false);
+  };
 
 
   return (
@@ -60,11 +74,22 @@ export default function Postdetails() {
             <p>PostedDate: {readData.PostedDate}</p>
             <p>Deadline: {readData.Deadline}</p>
 
-            <button onClick={()=>{closejob(readData._id)}}>Close opening</button>
+            <button onClick={handleShowPopup}>Close opening</button>
+
+            {isPopupVisible && (
+        <Popup
+          message="Do you really want to close this job post?"
+          onConfirm={()=>{handleConfirm(readData._id)}}
+          onCancel={handleCancel}
+        />
+      )}
+   
           </div>
+
         )}
       </div>
-   
+
+
 
     </>
   );

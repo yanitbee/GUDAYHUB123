@@ -259,6 +259,7 @@ color: #000000;
 nav ul{
 display: flex;
 cursor: pointer;
+margin-left: -30rem;
 }
 .active{
   background-color: #5f9ea0;
