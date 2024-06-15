@@ -27,8 +27,13 @@ export default function Apply() {
     console.log(file);
   };
 
-  const alreadyapplied = () => {
-    alert("You have already applied");
+  const alreadyapplied = (applied) => {
+    if(applied === "applied"){
+      alert("You have already applied");
+    }
+    if(applied === "hired")
+      {alert("You have already been hired");}
+    
   };
 
   useEffect(() => {
@@ -59,9 +64,9 @@ export default function Apply() {
         alert("cover letter is a requirment for this job")
         return
       }
-      if(readData.cv === true && freelancerData.freelancerprofile.cv === "" || freelancerData.freelancerprofile.cv === null){
-        alert("CV is a requirment for this job")
-        return
+      if (readData.cv === true && (freelancerData.freelancerprofile.cv === "" || freelancerData.freelancerprofile.cv === null)) {
+        alert("CV is a requirement for this job");
+        return;
       }
       await axios.post("http://localhost:4000/applicant/writeapplicant", {
         Freelancerid: userData.userID,
@@ -89,6 +94,9 @@ export default function Apply() {
 
           if (data.message === "have applied") {
             setapplied("applied");
+          }
+          if (data.message === "have been hired") {
+            setapplied("hired");
           }
         });
     } catch (error) {
@@ -179,8 +187,8 @@ export default function Apply() {
             <p>PostedDate: {format( readData.PostedDate)}</p>
             <p>Deadline: {readData.Deadline}</p>
 
-            {applied === "applied" ? (
-              <button className="apply-btn applied" onClick={alreadyapplied}>
+            {applied === "applied" || applied === "hired" ? (
+              <button className="apply-btn applied" onClick={() => alreadyapplied(applied)}>
                 Apply Now
               </button>
             ) : (
