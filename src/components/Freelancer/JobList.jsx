@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { format } from "timeago.js";
 import "./css/joblist.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Joblist() {
   const [readData, setreadData] = useState([]);
@@ -18,6 +19,7 @@ export default function Joblist() {
   const [serach, setsearch] = useState("");
   let defalutjobtype = ["onsite", "remote", "hybrid"];
   const [searchicon, setsearchicon] = useState("");
+  const { t } = useTranslation();
 
   const searchclicked = () => {
     setsearchicon("active");
@@ -94,7 +96,7 @@ export default function Joblist() {
           }}
         >
           <FontAwesomeIcon className="delete" icon={faPlus} />
-          Job
+          {t('Job')}
         </div>
         <div
         className=" allfilter two"
@@ -103,7 +105,7 @@ export default function Joblist() {
         }}
       >
         <FontAwesomeIcon className="delete" icon={faPlus} />
-        Task
+        {t('Task')}
       </div>
 </>
       ) : (
@@ -118,14 +120,14 @@ export default function Joblist() {
           }}
         >
           <FontAwesomeIcon className="delete" icon={faPlus} />
-          Job
+          {t('Job')}
         </div>
           <div
             className="allfilter two"
             onClick={handlejobtaskd}
           >
             <FontAwesomeIcon className="delete" icon={faMinus} />
-            Task
+            {t('Task')}
           </div>
           </>
         )}
@@ -136,7 +138,7 @@ export default function Joblist() {
             onClick={handlejobtaskd}
           >
             <FontAwesomeIcon className="delete" icon={faMinus} />
-            Job
+            {t('Job')}
           </div>
                  <div
                  className=" allfilter two"
@@ -145,7 +147,7 @@ export default function Joblist() {
                  }}
                >
                  <FontAwesomeIcon className="delete" icon={faPlus} />
-                 Task
+                 {t('Task')}
                </div>
                </>
         )}
@@ -176,7 +178,7 @@ export default function Joblist() {
           />
           <br /> <br />
           <div className="type">
-            Job Title <br />
+            {t('Job Title')} <br />
             {defalutjobtype.map((type) => (
               <>
                 <div className="skills">
@@ -188,7 +190,7 @@ export default function Joblist() {
           </div>
           <br />
           <div className="type">
-            Job Type <br />
+             {t('Job Type')}<br />
             {defalutjobtype.map((type) =>
               jobtype === type ? (
                 <>
@@ -227,15 +229,15 @@ export default function Joblist() {
                   <div className="date">{format(data.PostedDate)} </div>
 
                   <div>
-                    <h3 className="text">Job Type </h3>
+                    <h3 className="text"> {t('Job Type')}</h3>
                     <p className="title">{data.Jobtype}</p>
                   </div>
-                  <h3 className="text">Job Title </h3>
+                  <h3 className="text">{t('Job Title')} </h3>
                   <p className="title">{data.Jobtitle}</p>
-                  <h3 className="text">Location </h3>
+                  <h3 className="text"> {t('Location')}</h3>
                   <p className="title">{data.location}</p>
                 </div>
-                <button className="btn-job">More Information</button>
+                <button className="btn-job">{t('More Information')}</button>
               </>
             ))}
           </div>

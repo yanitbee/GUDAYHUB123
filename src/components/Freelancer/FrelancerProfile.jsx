@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuth from "../../Hooks/UseAuth";
 import "./css/profile.css";
 import Addprofile from "./Addprofile";
+import { useTranslation } from 'react-i18next';
 
 export default function Frelancerprofile() {
   const { getUserData, getUserToken } = useAuth();
@@ -12,6 +13,7 @@ export default function Frelancerprofile() {
 
   const [inputValue, setinputValue] = useState({ title: "" });
   const [ShowAddProfile, setShowAddProfile] = useState(false);
+  const { t } = useTranslation();
 
   const inputref = useRef(null);
   const [freelancerData, setfreelancerData] = useState({
@@ -197,7 +199,7 @@ export default function Frelancerprofile() {
                   freelancerData.freelancerprofile?.description === null ||
                   freelancerData.freelancerprofile.portfolio?.link === null ? (
                     <div className="finprofile" onClick={addpro}>
-                      <p>Finish creating your profile </p>
+                      <p>{t('Finish creating your profile')} </p>
                     </div>
                   ) : null)}
                 <input
@@ -209,7 +211,7 @@ export default function Frelancerprofile() {
                   placeholder="Address"
                 />{" "}
                 <br />
-                CV
+                {t('CV')}
                 <input type="file" /> <br />
                 <input
                   className="radio"
@@ -217,17 +219,17 @@ export default function Frelancerprofile() {
                   name="gender"
                   value="male"
                 />{" "}
-                Male
+                {t('Male')}
                 <input
                   className="radio"
                   type="radio"
                   name="gender"
                   value="female"
                 />{" "}
-                Female
+                {t('Female')}
                 <br /> <br />
                 <button className="popup-btn" onClick={editData}>
-                  Submit
+                  {t('Submit')}
                 </button>
                 <button className="popup-btn" id="x" onClick={togglePopup}>
                   X

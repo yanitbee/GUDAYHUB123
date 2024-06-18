@@ -47,6 +47,10 @@ export default function RouthPath() {
             element={<PrivateRoute element={<Freelancerdetails />} />}
           />
           <Route
+            path="/employerpage/Freelancerdetails/Messenger"
+            element={<PrivateRoute element={<Freelancerdetails />} />}
+          />
+          <Route
             path="/employerpage/Post"
             element={<PrivateRoute element={<Write />} />}
           />

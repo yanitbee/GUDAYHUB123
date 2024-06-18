@@ -5,6 +5,8 @@ import { Element } from "react-scroll";
 import fimage5 from "/image/logo.png";
 import useAuth from "../Hooks/UseAuth";
 //import zxcvbn from 'zxcvbn';
+import { useTranslation } from 'react-i18next';
+
 
 const Home = () => {
   const [inputValue, setinputValue] = useState({
@@ -17,6 +19,7 @@ const Home = () => {
     Gender: "",
   });
 
+  const { t } = useTranslation();
   const nullvalue = useState({
     profilepic: null,
     title: null,
@@ -167,22 +170,23 @@ const Home = () => {
     document.body.classList.remove("active-popup");
   }
 
+
+
+
   return (
     <div id="main">
       <Element name="main">
         <section>
           {
             <div className="header-heading">
-              <h2>Connecting Freelancers and Employers</h2>
+              <h2> {t('Connecting Freelancers and Employers')}</h2>
               <h2>
-                <span>By Zagol</span>
+                <span> {t('By Zagol')}</span>
               </h2>
 
 
               <div className={`code${code}`} >
-                <p>we have sent a code to your email
-                  enter the code to register
-                </p>
+                <p>{t('we have sent a code to your email enter the code to register')}</p>
               <input
                             className="input"
                             type="text"
@@ -190,7 +194,7 @@ const Home = () => {
                             onChange={(e) => setcodenum(e.target.value)}
                           /> <br/>
                             <button className="popup-btn" onClick={saveData}>
-                            Submit
+                            {t('Submit')}
                           </button>
                         
                           <button
@@ -202,7 +206,7 @@ const Home = () => {
                           </button>
                           
                           <a href="#" onClick={togglecode}>
-                          Resend code
+                          {t('Resend code')}
                           </a>
                       
               </div>
@@ -211,7 +215,7 @@ const Home = () => {
 
               <div className="header-btns">
                 <button className="header-btn" onClick={togglePopup}>
-                  Register Now
+                  {t('Register Now')}
                 </button>
                 <div className={`wrapper`}>
                   {popup && (
@@ -219,7 +223,7 @@ const Home = () => {
                       <div onClick={togglePopup} className="overlay"></div>
                       <div className={`popup-content${action}`}>
                         <div className="login-popup">
-                          <h3 className="h3-login">LogIn</h3>
+                          <h3 className="h3-login">{t('LogIn')}</h3>
                           <input
                             className="input"
                             type="text"
@@ -234,12 +238,12 @@ const Home = () => {
                           />{" "}
                           <br />
                           <button className="popup-btn" onClick={forLogin}>
-                            LogIn
+                            {t('LogIn')}
                           </button>
                           <p>
-                            Don't have an account.{" "}
+                            {t('Dont have an account.')}{" "}
                             <a href="#" onClick={registerLink}>
-                              Register
+                              {t('Register')}
                             </a>
                           </p>
                           <button
@@ -252,7 +256,7 @@ const Home = () => {
                         </div>
                         <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{" "}
                         <br />
-                        <h3 className="h3-register">Register</h3>
+                        <h3 className="h3-register">{t('Register')}</h3>
                         <input
                           type="radio"
                           name="user"
@@ -264,7 +268,7 @@ const Home = () => {
                             })
                           }
                         />{" "}
-                        Freelancer
+                        {t('Freelancer')}
                         <input
                           type="radio"
                           name="user"
@@ -276,7 +280,7 @@ const Home = () => {
                             })
                           }
                         />{" "}
-                        Employer <br />
+                         {t('Employer')}<br />
                         <input
                           className="input"
                           type="text"
@@ -345,7 +349,7 @@ const Home = () => {
                             })
                           }
                         />{" "}
-                        Male
+                        {t('Male')}
                         <input
                           className="radio"
                           type="radio"
@@ -358,15 +362,15 @@ const Home = () => {
                             })
                           }
                         />{" "}
-                        Female
+                        {t('Female')}
                         <br /> <br />
                         <button className="popup-btn" onClick={togglecode}>
-                          Submit
+                          {t('Submit')}
                         </button>
                         <p>
-                          Already have an account.{" "}
+                          {t('Already have an account.')}{" "}
                           <a href="#" onClick={loginLink}>
-                            LogIn
+                            {t('LogIn')}
                           </a>
                         </p>
                         <button
@@ -389,15 +393,15 @@ const Home = () => {
         <section>
           {
             <div id="service">
-              <h1>Our Services</h1>
+              <h1>{t('Our Services')}</h1>
               <div className="a-container">
                 <div className="a-box">
                   <div className="a-b-img">
                     <img src= "/image/post.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>Post</h2>
-                    <p>Employers can post jobs/tasks</p>
+                    <h2>{t('Post')}</h2>
+                    <p>{t('Employers can post jobs/tasks')}</p>
                   </div>
                 </div>
                 <div className="a-box">
@@ -405,8 +409,8 @@ const Home = () => {
                     <img src= "/image/details.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>Apply</h2>
-                    <p>Freelancers can apply on jobs of their desier</p>
+                    <h2>{t('Apply')}</h2>
+                    <p>{t('Freelancers can apply on jobs of their desier')}</p>
                   </div>
                 </div>
                 <div className="a-box">
@@ -414,8 +418,8 @@ const Home = () => {
                     <img src= "/image/message.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>Messaging</h2>
-                    <p>Direct real time messageing between freelancer and employers</p>
+                    <h2>{t('Messaging')}</h2>
+                    <p>{t('Direct real time messageing between freelancer and employers')}</p>
                   </div>
                 </div>
                 <div className="a-box">
@@ -423,8 +427,8 @@ const Home = () => {
                     <img src= "/image/videocall.svg" alt="" />
                   </div>
                   <div className="a-b-text">
-                    <h2>Video Chat</h2>
-                    <p>Videochats between freelancers and employers</p>
+                    <h2>{t('Video Chat')}</h2>
+                    <p>{t('Videochats between freelancers and employers')}</p>
                   </div>
                 </div>
               </div>
@@ -441,9 +445,7 @@ const Home = () => {
               </div>
               <div className="about-text">
                 <h1>About Us</h1>
-                <p>GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet. 
-                The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity.
-                </p>
+                <p>{t('GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet.The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity.')}  </p>
                 <button>Read More</button>
               </div>
             </div>
