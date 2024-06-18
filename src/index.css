@@ -802,7 +802,13 @@ width: 600px;
               height:400px;
           }
       }
-
+      
+      .code{
+        display: none;
+      }
+      .codeactive{
+        display: block;
+      }
 
 
       .footer {
