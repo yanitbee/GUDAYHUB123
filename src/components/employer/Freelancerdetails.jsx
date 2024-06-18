@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./css/freelancerdetails.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Freelancerdetails() {
   const location = useLocation();
 
+  const { t } = useTranslation();
   const { userid } = location.state || {};
 
   const [readData, setreadData] = useState({
@@ -64,21 +66,21 @@ export default function Freelancerdetails() {
       <div className="fdetails">
         {readData && (
           <div>
-            <h2>Freelancer: {readData.username}</h2>
-            <p>FullName: {readData.Fullname}</p>
+            <h2> {t('Freelancer')}: {readData.username}</h2>
+            <p>{t('Fullname')}: {readData.Fullname}</p>
             <p>
-              Skills:{" "}
+              {t('Skills')}: {" "}
               {readData.freelancerprofile.skills
                 ? readData.freelancerprofile.skills.map((skill) => skill)
                 : null}
             </p>
-            <p>PhoneNumber: {readData.Phonenumber}</p>
-            <p>Email: {readData.Email}</p>
-            <p>Gender: {readData.Gender}</p>
-            <p>Profession:{readData.freelancerprofile.title}</p>
-            <p>CV: {readData.cv}</p>
+            <p>{t('Phonenumber')}: {readData.Phonenumber}</p>
+            <p> {t('Email')}: {readData.Email}</p>
+            <p> {t('Gender')}: {readData.Gender}</p>
+            <p>{t('Profession')}: {readData.freelancerprofile.title}</p>
+            <p> {t('CV')}:{readData.cv}</p>
             <button className="chat-btn" onClick={togglePopup}>
-              Text Me
+              {t('Text Me')}
             </button>
           </div>
         )}

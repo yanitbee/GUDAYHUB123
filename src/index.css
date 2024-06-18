@@ -14,10 +14,6 @@ ul{
   list-style: none;
   margin-bottom: 20px;
 }
-.lng{
-  float: left;
-  cursor: pointer;
-}
 a{
   text-decoration: none;
 }
