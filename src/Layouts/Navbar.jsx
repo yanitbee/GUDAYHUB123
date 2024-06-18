@@ -54,11 +54,11 @@ const Navbar = () => {
             </li>
             <li>
               <RouterLink to="/freelancerpage/Taskmanager">
-                Task Manager
+                {t('Task Manager')}
               </RouterLink>
             </li>
             <li>
-              <RouterLink to="/freelancerpage/Messenger">Message</RouterLink>
+              <RouterLink to="/freelancerpage/Messenger">{t('Message')}</RouterLink>
             </li>
             <li><ConfirmLink to="/" message="Are you sure you want to log out?">{t('LogOut')}</ConfirmLink></li>
           </>
