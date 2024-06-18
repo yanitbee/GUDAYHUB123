@@ -44,7 +44,6 @@ const Navbar = () => {
       case "/freelancerpage":
       case "/freelancerpage/Taskmanager":
       case "/freelancerpage/Apply":
-        case "/freelancerpage/Messenger":
         return (
           <>
             <li>

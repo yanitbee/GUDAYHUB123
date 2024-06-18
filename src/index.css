@@ -807,3 +807,60 @@ width: 600px;
               height:400px;
           }
       }
+
+
+
+      .footer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000; /* Ensure it is on top of other elements */
+      }
+      
+      .round-btn {
+        background-color: #03ecba; /* Customize the button color */
+        color: white;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative; /* For the pseudo-element positioning */
+        overflow: hidden; /* To ensure the pseudo-element is clipped */
+      }
+      
+      .round-btn:hover {
+        transform: scale(0.95);
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn::before {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 30%;
+        background: linear-gradient(to right, #008728, #007c63);
+        filter: blur(10px);
+        bottom: -3px;
+        z-index: -1;
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn:hover::before {
+        bottom: -1px;
+        filter: blur(5px);
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn .svgIcon {
+        fill: white; /* Customize the icon color */
+        width: 24px;
+        height: 24px;
+      }
+
+      
+
+      

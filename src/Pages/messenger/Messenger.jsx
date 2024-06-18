@@ -145,15 +145,18 @@ export default function Messenger() {
                 </div>
               </>
             ) : (
-              <span className=" ">Open a conversation to start a chat</span>
+              <span className="noconvo ">Open a conversation to start a chat</span>
             )}
           </div>
         </div>
+        
+        {/* chatBox 
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
             <ChatOnline />
           </div>
         </div>
+        */}
       </div>
     </>
   );

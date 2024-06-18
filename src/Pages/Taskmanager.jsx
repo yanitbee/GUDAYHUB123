@@ -77,7 +77,6 @@ export default function Taskmanager() {
     setHiredIsEmpty(readHired.length === 0);
   }, [readData, readHired]);
 
-  console.log("readHired:", readHired);
 
   return (
     <>

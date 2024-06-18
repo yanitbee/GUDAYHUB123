@@ -78,7 +78,7 @@ export default function Freelancerdetails() {
             <p>Profession:{readData.freelancerprofile.title}</p>
             <p>CV: {readData.cv}</p>
             <button className="chat-btn" onClick={togglePopup}>
-              Text Me
+               offer
             </button>
           </div>
         )}

@@ -6,8 +6,8 @@ import "../components/employer/css/freelancerdetails.css";
 export default function Hire() {
   const location = useLocation();
 
-  const { userid, applicaionid } = location.state || {};
-  
+  const { userid, applicaionid, check } = location.state || {};
+
 
   const [readData, setreadData] = useState({
     Usertype: null,
@@ -34,8 +34,8 @@ export default function Hire() {
   });
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [interviewDate, setInterviewDate] = useState('');
-  const [interviewTime, setInterviewTime] = useState('');
+  const [interviewDate, setInterviewDate] = useState("");
+  const [interviewTime, setInterviewTime] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,21 +54,21 @@ export default function Hire() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/applicant/setinterviewdate', {
+      await axios.post("http://localhost:4000/applicant/setinterviewdate", {
         applicantid: applicaionid,
         interviewdate: interviewDate,
-        interviewTime: interviewTime
+        interviewTime: interviewTime,
       });
-      alert('Interview date and time set successfully');
+      alert("Interview date and time set successfully");
     } catch (error) {
-      console.error('Error setting interview date:', error);
+      console.error("Error setting interview date:", error);
     }
   };
 
-  const changestatus = async ( status) => {
+  const changestatus = async (status) => {
     try {
       await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
-        params: { status: status, applicantid: applicaionid }
+        params: { status: status, applicantid: applicaionid },
       });
       alert("applicant hired");
       confirm("do you wish to close this job opening?");
@@ -76,27 +76,40 @@ export default function Hire() {
       console.error("error", error);
     }
   };
-   
-  
-    // Toggle the popup visibility
-    const togglePopup = () => {
-      setIsPopupOpen(!isPopupOpen);
-    };
-  
-    // Handle date input change
-    const handleDateChange = (e) => {
-      setInterviewDate(e.target.value);
-    };
 
-    const handleTimeChange = (e) => {
-      setInterviewTime(e.target.value);
-    };
+  // Toggle the popup visibility
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
 
-    const openDocument = (value) => {
-      const file = `http://localhost:4000/${value}`;
-      window.open(file, "_blank");
-    } 
+  // Handle date input change
+  const handleDateChange = (e) => {
+    setInterviewDate(e.target.value);
+  };
 
+  const handleTimeChange = (e) => {
+    setInterviewTime(e.target.value);
+  };
+
+  const openDocument = (value) => {
+    const file = `http://localhost:4000/${value}`;
+    window.open(file, "_blank");
+  };
+
+  const [rating, setRating] = useState(0);
+
+  const handleRatingChange = (e) => {
+    setRating(e.target.value);
+  };
+
+  const handleratingSubmit = async () => {
+    try {
+      const response = await axios.put(`http://localhost:4000/user/addrating/${userid}`, { rating });
+      console.log('Rating submitted successfully', response.data);
+    } catch (error) {
+      console.error('Error submitting rating', error);
+    }
+  };
   return (
     <>
       <div className="fdetails">
@@ -114,25 +127,89 @@ export default function Hire() {
             <p>Email: {readData.Email}</p>
             <p>Gender: {readData.Gender}</p>
             <p>Profession:{readData.freelancerprofile.title}</p>
-            <p>CV:</p> 
-            <div className='cv1' style={{display: 'inline',borderRight:'none'}}>
-              <img src={`/image/cv.png`}
-             onClick={() => {openDocument(readData.freelancerprofile.cv)}} />
-            </div>
-            <button className="chat-btn txtme" >
-              Text Me
-            </button>
-            <button className="chat-btn interview" onClick={togglePopup}>
+            <p>CV:</p>
 
-              Set interview 
-            </button>
-            <button className="chat-btn hire" onClick={() => changestatus("hired")}>
-              Hire
-            </button>
+            <div
+              className="cv1"
+              style={{ display: "inline", borderRight: "none" }}
+            >
+              <img
+                src={`/image/cv.png`}
+                onClick={() => {
+                  openDocument(readData.freelancerprofile.cv);
+                }}
+              />
+            </div>
+          
+              <div className="ratings ">
+                <input
+                  value="5"
+                  name="rate"
+                  id="star5"
+                  type="radio"
+                  onChange={handleRatingChange}
+                />
+                <label title="text" for="star5"></label>
+                <input
+                  value="4"
+                  name="rate"
+                  id="star4"
+                  type="radio"
+                  onChange={handleRatingChange}
+                />
+                <label title="text" for="star4"></label>
+                <input
+                  value="3"
+                  name="rate"
+                  id="star3"
+                  type="radio"
+                 checked=""
+                  onChange={handleRatingChange}
+                />
+                <label title="text" for="star3"></label>
+                <input
+                  value="2"
+                  name="rate"
+                  id="star2"
+                  type="radio"
+                  onChange={handleRatingChange}
+                />
+                <label title="text" for="star2"></label>
+                <input
+                  value="1"
+                  name="rate"
+                  id="star1"
+                  type="radio"
+                  onChange={handleRatingChange}
+                />
+                <label title="text" for="star1"></label>
+              </div>
+
+              <div className="checkbox-wrapper-56" >
+                <label className="rating-container">
+                  <input checked="checked"  type="checkbox" onClick={handleratingSubmit} />
+                  <div className="checkmark"></div>
+                </label>
+              </div>
+            
+
+            <button className="chat-btn txtme">Text Me</button>
+            {check !== "hired" && (
+              <>
+                <button className="chat-btn interview" onClick={togglePopup}>
+                  Set interview
+                </button>
+                <button
+                  className="chat-btn hire"
+                  onClick={() => changestatus("hired")}
+                >
+                  Hire
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>
-
 
       {isPopupOpen && (
         <div className="popupi">
@@ -146,7 +223,7 @@ export default function Hire() {
                 value={interviewDate}
                 onChange={handleDateChange}
               />
-               <label htmlFor="interviewTime">Interview Time:</label>
+              <label htmlFor="interviewTime">Interview Time:</label>
               <input
                 type="time"
                 id="interviewTime"

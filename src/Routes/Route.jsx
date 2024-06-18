@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "../Pages/Home";
 import Layout from "../Layouts/Layout";
 import Freelancerpage from "../Pages/FreelancerPage";
@@ -13,11 +13,14 @@ import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
 import Postdetails from "../Pages/postdetails"; 
 import Messenger from "../Pages/messenger/Messenger";
+import Footer from "../Layouts/footer";
 
+const AppRoutes = () => {
+  const location = useLocation();
+  const showFooter = location.pathname !== "/";
 
-export default function RouthPath() {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -68,7 +71,17 @@ export default function RouthPath() {
           />
         </Route>
       </Routes>
+      {showFooter && <Footer />}
+    </>
+  );
+};
+
+export default function RouthPath() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
+
 

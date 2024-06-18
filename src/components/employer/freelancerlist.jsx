@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./css/freelancerlist.css"
+import "./css/freelancerlist.css";
 
-export default function Freelancerlist(){
-    const [readData, setreadData] = useState([]);
+export default function Freelancerlist() {
+  const [readData, setreadData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,48 +19,92 @@ export default function Freelancerlist(){
     fetchData();
   }, []);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleclick = (userid) => {
-        navigate("Freelancerdetails", { state: {userid: userid }});}
-
-        const filteredData = readData.filter((data) => data.Usertype === "freelancer");
-
-      
-  const getProfilePicUrl = (fileName) => {
-    return `http://localhost:4000/${fileName}`;
-    
+  const handleclick = (userid) => {
+    navigate("Freelancerdetails", { state: { userid: userid } });
   };
 
-    
+  const filteredData = readData.filter(
+    (data) => data.Usertype === "freelancer"
+  );
 
-    return(
-        <>
-     <div className="container">
-        {filteredData.map((data) => (
-         <div onClick={() => handleclick(data._id)} className="freelist" >
-             <div>
-            
-            <img
-            className="ppf" 
-              src={
-                data.freelancerprofile.profilepic === "" ||
-                data.freelancerprofile.profilepic === null
-                  ? `/image/profile.jpg`
-                  : getProfilePicUrl(data.freelancerprofile.profilepic)
-              }
-              alt="Profile"
-            />
-             <h3 className="textf">Name </h3>
-          <p className="titlef">{data.Fullname}</p>
-          </div>
-             <h3 className="textf">Username </h3>
-          <p className="titlef">{data.username}</p>
-          <h3 className="textf">Email </h3>
-          <p className="titlef">{data.Email}</p>
-           </div>
-         ))}
-          </div>
-        </>
-     )
+  const getProfilePicUrl = (fileName) => {
+    return `http://localhost:4000/${fileName}`;
+  };
+
+  // Function to generate stars HTML
+  const generateStars = (rating) => {
+    const roundedRating = Math.round(rating * 2) / 2;
+    const stars = [];
+
+    for (let i = 5; i >= 1; i--) {
+      if (roundedRating >= i) {
+        stars.push(
+          <label key={i} className={`${i} full-stars`}>
+            &#9733;
+          </label>
+        );
+      } else if (roundedRating + 0.5 === i) {
+        stars.push(
+          <label key={i} className={`${i} half-stars`}>
+            &#9733;
+          </label>
+        );
+      } else {
+        stars.push(
+          <label key={i} className={`${i} no-stars`}>
+            &#9734;
+          </label>
+        );
+      }
     }
+    return stars;
+  };
+
+  return (
+    <>
+      <div className="freelist-container">
+        {filteredData.map((data) => (
+          <div onClick={() => handleclick(data._id)} className="free-list">
+            <div>
+              <img
+                className="ppf"
+                src={
+                  data.freelancerprofile.profilepic === "" ||
+                  data.freelancerprofile.profilepic === null
+                    ? `/image/profile.jpg`
+                    : getProfilePicUrl(data.freelancerprofile.profilepic)
+                }
+                alt="Profile"
+              />
+              <p className="titles">{data.freelancerprofile.title}</p>
+            </div>
+
+            <div className="rating">
+              {generateStars(data.freelancerprofile.rating)}
+            </div>
+
+            <br />
+            <br />
+
+            <p className="namef">{data.Fullname}</p>
+            <p>
+              {" "}
+              {data.freelancerprofile.gudayhistory.jobs
+                ? data.freelancerprofile.gudayhistory.jobs
+                : 0}{" "}
+              jobs in GudayHub
+            </p>
+
+            {data.freelancerprofile.skills.map((skill) => (
+              <div className="skills freelist-skill">
+                <p>{skill}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
