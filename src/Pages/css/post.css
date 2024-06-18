@@ -157,11 +157,19 @@
   .radioleft-side {
     background-color: #f0f0f0; /* Background color for the left side */
   }
+
+  .radioleft-side:hover {
+    background-color: #5f9ea0;
+    cursor: pointer;
+  }
   
   .radioright-side {
     background-color: #fff; /* Background color for the right side */
   }
-  
+  .radioright-side:hover {
+    background-color: #5f9ea0;
+    cursor: pointer;
+  }
   .image {
     max-width: 100%;
     max-height: 100%;
