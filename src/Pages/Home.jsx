@@ -227,13 +227,13 @@ const Home = () => {
                           <input
                             className="input"
                             type="text"
-                            placeholder="Username"
+                            placeholder={t('Username')}
                             onChange={(e) => setusername(e.target.value)}
                           />
                           <input
                             className="input"
                             type="password"
-                            placeholder="Password"
+                            placeholder={t('Password')}
                             onChange={(e) => setpassword(e.target.value)}
                           />{" "}
                           <br />
@@ -284,7 +284,7 @@ const Home = () => {
                         <input
                           className="input"
                           type="text"
-                          placeholder="Fullname"
+                          placeholder={t('Fullname')}
                           onChange={(e) =>
                             setinputValue({
                               ...inputValue,
@@ -295,7 +295,7 @@ const Home = () => {
                         <input
                           className="input"
                           type="text"
-                          placeholder="Username"
+                          placeholder={t('Username')}
                           onChange={(e) =>
                             setinputValue({
                               ...inputValue,
@@ -306,7 +306,7 @@ const Home = () => {
                         <input
                           className="input"
                           type="text"
-                          placeholder="Phonenumber"
+                          placeholder={t('Phonenumber')}
                           onChange={(e) =>
                             setinputValue({
                               ...inputValue,
@@ -317,7 +317,7 @@ const Home = () => {
                         <input
                           className="input"
                           type="email"
-                          placeholder="Email"
+                          placeholder={t('Email')}
                           onChange={(e) =>
                             setinputValue({
                               ...inputValue,
@@ -328,7 +328,7 @@ const Home = () => {
                         <input
                           className="input"
                           type="password"
-                          placeholder="Password"
+                          placeholder={t('Password')}
                           onChange={(e) =>
                             setinputValue({
                               ...inputValue,
@@ -444,9 +444,9 @@ const Home = () => {
                 <img src={fimage5} alt="" />
               </div>
               <div className="about-text">
-                <h1>About Us</h1>
+                <h1>{t('About Us')}</h1>
                 <p>{t('GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet.The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity.')}  </p>
-                <button>Read More</button>
+                <button>{t('Read More')}</button>
               </div>
             </div>
           }
@@ -456,12 +456,12 @@ const Home = () => {
         <section>
           {
             <div id="contact">
-              <h1>Contact Us</h1>
+              <h1>{t('Contact Us')}</h1>
               <form>
-                <input type="text" placeholder="Fullname" required />
-                <input type="email" placeholder="Email" required />
-                <textarea placeholder="Write here" name="message"></textarea>
-                <input type="submit" value="Send" />
+                <input type="text" placeholder={t('Fullname')} required />
+                <input type="email" placeholder={t('Email')} required />
+                <textarea placeholder={t('Write here')} name="message"></textarea>
+                <input type="submit" value={t('Send')} />
               </form>
             </div>
           }
@@ -473,7 +473,7 @@ const Home = () => {
             <div>
               <ul class="wrappersocial">
                 <a href="www.facebook.com" class="icon facebook">
-                  <span class="tooltip">Facebook</span>
+                  <span class="tooltip">{t('Facebook')}</span>
                   <svg
                     viewBox="0 0 320 512"
                     height="1.2em"
@@ -484,7 +484,7 @@ const Home = () => {
                   </svg>
                 </a>
                 <a href="www.twitter.com" class="icon twitter">
-                  <span class="tooltip">Twitter</span>
+                  <span class="tooltip">{t('Twitter')}</span>
                   <svg
                     height="1.8em"
                     fill="currentColor"
@@ -496,7 +496,7 @@ const Home = () => {
                   </svg>
                 </a>
                 <a href="www.instagram.com" class="icon instagram">
-                  <span class="tooltip">Instagram</span>
+                  <span class="tooltip">{t('Instagram')}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="1.2em"
