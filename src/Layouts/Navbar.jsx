@@ -3,6 +3,7 @@ import { useLocation, Link as RouterLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import useAuth from "../Hooks/UseAuth";
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -35,6 +36,7 @@ const Navbar = () => {
     };
 
     return (
+
       <RouterLink to={to} onClick={handleClick}>
         {children}
       </RouterLink>
@@ -112,6 +114,7 @@ const Navbar = () => {
                 {t('Register')}
               </Link>
             </li>
+            <LanguageSwitcher />
           </>
         );
       default:
