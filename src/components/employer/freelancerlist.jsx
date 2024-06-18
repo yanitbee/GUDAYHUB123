@@ -1,19 +1,20 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./css/freelancerlist.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './css/freelancerlist.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Freelancerlist() {
   const [readData, setreadData] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios
-          .get("http://localhost:4000/employer/readfromserver")
-          .then((User) => setreadData(User.data));
+        const response = await axios.get('http://localhost:4000/employer/readfromserver');
+        setreadData(response.data);
       } catch (error) {
-        console.error("error", error);
+        console.error('Error fetching data:', error);
       }
     };
     fetchData();

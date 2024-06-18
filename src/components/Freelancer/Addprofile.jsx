@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faFileCircleCheck,faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import './css/addprofile.css'
-
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -19,7 +19,7 @@ export default function Addprofile(prop){
       educations: [],
       certifications: []
     } )
-
+    const { t } = useTranslation();
   
     const inputref = useRef(null)
     const inputrefedu = useRef(null)
@@ -249,13 +249,13 @@ return(
                     <div className="addp-content">
                       <div className={`firstpage${showpages}`}>
                    <div>
-                    title 
+                     {t('title')}
             <input className="input" type="text" placeholder={prop.prop.freelancerprofile.title ? prop.prop.freelancerprofile.title : "insert your Title"}
              value={inputValue.title}
             onChange={(e) => {setinputValue({...inputValue,title:e.target.value})}}/>
             </div>
             <div className='parent-skill'>
-            Your Skills
+            {t('Your Skills')}
             <div style={{borderBottom:"solid",margin:"1rem",}}>
             {prop.prop.freelancerprofile.skills.map((skill) => 
         
@@ -309,12 +309,12 @@ return(
                
                </>
             ) } <br/>
-            <button className='popup-btn' onClick={shownextpage} >Next</button> 
+            <button className='popup-btn' onClick={shownextpage} >{t('Next')}</button> 
              </div>
              </div>
              <div className={`secondpage${showpages}`}>
               <div>
-            overview
+            {t('overview')}
             <textarea style={{height:"100px", width:"650px"}} className="input" type="text"
              placeholder= {prop.prop.freelancerprofile.description ? prop.prop.freelancerprofile.description : "insert your overview"}
             value={inputValue.description}
@@ -322,7 +322,7 @@ return(
            <div className='workparent'>
            <div className='workchild1' >
 
-          Work Experience <br/>
+           {t('Work Experience')}<br/>
 
             {prop.prop.freelancerprofile.workhistory.map((workhistory) => 
                 !workdelete.includes(workhistory) ? (
@@ -349,7 +349,7 @@ return(
             )}
 </div>
 <div className='workchild2' >
-              Add Work Experience <br/>
+               {t('Add Work Experience')}<br/>
             <div>
             <textarea className="textarea" type="text"  
             placeholder={"insert your work Experience"}
@@ -359,14 +359,14 @@ return(
             </div>
               </div>
            </div><br/>
-              <button className='popup-btn' onClick={showprepage} >Back</button>
-           <button className='popup-btn' onClick={showthirdpage} >Next</button> 
+              <button className='popup-btn' onClick={showprepage} >{t('Back')}</button>
+           <button className='popup-btn' onClick={showthirdpage} >{t('Next')}</button> 
 </div>
             </div>
            
             <div className={`thirdpage${showpages}`}>
               <div className='cvparent'>
-            Your CV 
+             {t('Your CV')}
             {prop.prop.freelancerprofile.cv  ?
             <div className='cv1'>
               <img src={`/image/cv.png`}
@@ -374,7 +374,7 @@ return(
             </div>
              :null  
             }
-            Change CV
+             {t('Change CV')}
           <div  className='cv2'  onClick={handlecv}>
             +
             <img src={`/image/cvup.png`}
@@ -385,9 +385,9 @@ return(
             
             </div> <br/> <br/> 
             
-            additional document<br/>
-           <div style={{marginLeft:"-10rem",display:"inline"}}> Certifications</div> 
-           <div style={{marginLeft:"-20rem",display:"inline"}}> Educations</div>  <br/>
+            {t('additional document')}<br/>
+           <div style={{marginLeft:"-10rem",display:"inline"}}> {t('Certifications')}</div> 
+           <div style={{marginLeft:"-20rem",display:"inline"}}> {t('Educations')}</div>  <br/>
             <div className='fileparent'>
               
             <div className='eduparent'>
@@ -439,8 +439,8 @@ return(
             <div>
            <br/> <br/> 
             </div> 
-            <button className='popup-btn' onClick={shownextpage} >Back</button>
-            <button className='popup-btn' onClick={()=>{onsubmit()}} >Submit</button>
+            <button className='popup-btn' onClick={shownextpage} >{t('Back')}</button>
+            <button className='popup-btn' onClick={()=>{onsubmit()}} >{t('Submit')}</button>
             <button className='popup-btn' id='x'  onClick={remove}>X</button>
             </div>
           </div>

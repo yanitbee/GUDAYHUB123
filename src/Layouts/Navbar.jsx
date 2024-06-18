@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Link as RouterLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import useAuth from "../Hooks/UseAuth";
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { logOut } = useAuth();
+  const { t } = useTranslation();
 
   const changeBackground = () => {
     if (window.scrollY >= 50) {
@@ -47,17 +49,17 @@ const Navbar = () => {
         return (
           <>
             <li>
-              <RouterLink to="/freelancerpage">Home</RouterLink>
+              <RouterLink to="/freelancerpage">{t('Home')}</RouterLink>
             </li>
             <li>
               <RouterLink to="/freelancerpage/Taskmanager">
-                Task Manager
+                {t('Task Manager')}
               </RouterLink>
             </li>
             <li>
-              <RouterLink to="/freelancerpage/Messenger">Message</RouterLink>
+              <RouterLink to="/freelancerpage/Messenger">{t('Message')}</RouterLink>
             </li>
-            <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
+            <li><ConfirmLink to="/" message="Are you sure you want to log out?">{t('LogOut')}</ConfirmLink></li>
           </>
         );
       case "/employerpage":
@@ -68,17 +70,17 @@ const Navbar = () => {
         return (
           <>
             <li>
-              <RouterLink to="/employerpage">Home</RouterLink>
+              <RouterLink to="/employerpage">{t('Home')}</RouterLink>
             </li>
             <li>
-              <RouterLink to="/employerpage/Post">Post</RouterLink>
+              <RouterLink to="/employerpage/Post">{t('Post')}</RouterLink>
             </li>
             <li>
               <RouterLink to="/employerpage/Applicantsdetails">
-                Applicants
+                {t('Applicants')}
               </RouterLink>
             </li>
-            <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
+            <li><ConfirmLink to="/" message="Are you sure you want to log out?">{t('LogOut')}</ConfirmLink></li>
           </>
         );
       case "/":
@@ -86,27 +88,27 @@ const Navbar = () => {
           <>
             <li>
               <Link to="main" smooth={true} duration={500}>
-                Home
+              {t('Home')}
               </Link>
             </li>
             <li>
               <Link to="service" smooth={true} duration={500}>
-                Service
+                {t('Service')}
               </Link>
             </li>
             <li>
               <Link to="about" smooth={true} duration={500}>
-                About
+                {t('About')}
               </Link>
             </li>
             <li>
               <Link to="contact" smooth={true} duration={500}>
-                Contact
+                {t('Contact')}
               </Link>
             </li>
             <li>
               <Link to="register" smooth={true} duration={500}>
-                Register
+                {t('Register')}
               </Link>
             </li>
           </>
@@ -127,6 +129,7 @@ const Navbar = () => {
       </label>
       <ul className="menu">{renderNavLinks()}</ul>
     </nav>
+    
   );
 };
 
