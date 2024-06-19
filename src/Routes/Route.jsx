@@ -14,6 +14,7 @@ import PrivateRoute from "./PrivateRoute";
 import Postdetails from "../Pages/postdetails"; 
 import Messenger from "../Pages/messenger/Messenger";
 import Footer from "../Layouts/footer";
+import Complaint from "../assets/complaint";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -72,6 +73,10 @@ const AppRoutes = () => {
              <Route
             path="/employerpage/Applicantsdetails/postdetails"
             element={<PrivateRoute element={<Postdetails />} />}
+          />
+            <Route
+            path="/complaint"
+            element={<PrivateRoute element={<Complaint />} />}
           />
         </Route>
       </Routes>

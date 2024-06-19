@@ -1,20 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './css/freelancerlist.css';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./css/freelancerlist.css";
+import { useTranslation } from "react-i18next";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faPlus,
+  faMinus,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+
 
 export default function Freelancerlist() {
   const [readData, setreadData] = useState([]);
   const { t } = useTranslation();
+  const [searchicon, setsearchicon] = useState("");
+
+
+  const searchclicked = () => {
+    setsearchicon("active");
+  };
+  const searchclickednot = () => {
+    setsearchicon("");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/employer/readfromserver');
+        const response = await axios.get(
+          "http://localhost:4000/employer/readfromserver"
+        );
         setreadData(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -65,46 +86,73 @@ export default function Freelancerlist() {
 
   return (
     <>
-      <div className="freelist-container">
-        {filteredData.map((data) => (
-          <div onClick={() => handleclick(data._id)} className="free-list">
-            <div>
-              <img
-                className="ppf"
-                src={
-                  data.freelancerprofile.profilepic === "" ||
-                  data.freelancerprofile.profilepic === null
-                    ? `/image/profile.jpg`
-                    : getProfilePicUrl(data.freelancerprofile.profilepic)
-                }
-                alt="Profile"
-              />
-              <p className="titles">{data.freelancerprofile.title}</p>
-            </div>
+      <div className="jobparent">
+      <div className={`serachparent`}>
+          <FontAwesomeIcon
+            className={`search s${searchicon} end-0 morecssserch`}
+            icon={faSearch}
+          />
+          <input
+            className={`another  end-0 morecss`}
+            type="text"
+            placeholder="Search specialtys"
+           
+            onClick={searchclicked}
+          />
+        </div>
+        <div class={`sidebar${searchicon} end-0 morecssside`}>
+        <FontAwesomeIcon
+            className={`arrow start-0`}
+            icon={faArrowRight}
+            onClick={searchclickednot}
+          />
+        
+  
+        </div>
 
-            <div className="rating">
-              {generateStars(data.freelancerprofile.rating)}
-            </div>
 
-            <br />
-            <br />
 
-            <p className="namef">{data.Fullname}</p>
-            <p>
-              {" "}
-              {data.freelancerprofile.gudayhistory.jobs
-                ? data.freelancerprofile.gudayhistory.jobs
-                : 0}{" "}
-              jobs in GudayHub
-            </p>
-
-            {data.freelancerprofile.skills.map((skill) => (
-              <div className="skills freelist-skill">
-                <p>{skill}</p>
+        <div className="freelist-container">
+          {filteredData.map((data) => (
+            <div onClick={() => handleclick(data._id)} className="free-list">
+              <div>
+                <img
+                  className="ppf"
+                  src={
+                    data.freelancerprofile.profilepic === "" ||
+                    data.freelancerprofile.profilepic === null
+                      ? `/image/profile.jpg`
+                      : getProfilePicUrl(data.freelancerprofile.profilepic)
+                  }
+                  alt="Profile"
+                />
+                <p className="titles">{data.freelancerprofile.title}</p>
               </div>
-            ))}
-          </div>
-        ))}
+
+              <div className="rating">
+                {generateStars(data.freelancerprofile.rating)}
+              </div>
+
+              <br />
+              <br />
+
+              <p className="namef">{data.Fullname}</p>
+              <p>
+                {" "}
+                {data.freelancerprofile.gudayhistory.jobs
+                  ? data.freelancerprofile.gudayhistory.jobs
+                  : 0}{" "}
+                jobs in GudayHub
+              </p>
+
+              {data.freelancerprofile.skills.map((skill) => (
+                <div className="skills freelist-skill">
+                  <p>{skill}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
