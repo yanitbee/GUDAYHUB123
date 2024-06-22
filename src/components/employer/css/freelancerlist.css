@@ -74,11 +74,9 @@
 .rating {
   font-size: 30px;
   color: #666;
-  margin-right: 2.5rem;
 }
 
 .rating label {
-  float: right;
 
   cursor: pointer;
 }
@@ -103,7 +101,7 @@
 
 
 .morecss{
-  margin-top: -0.5rem ;
+  margin-top: 1rem ;
 }
 
 .morecssserch{
@@ -112,6 +110,6 @@
 
 
 .morecssside{
-  margin-top: 4rem ;
+  margin-top: 5rem ;
 }
 

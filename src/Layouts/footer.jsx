@@ -6,7 +6,7 @@ export default function Footer() {
 const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate("/freelancerpage/Messenger");
+        navigate("/Messenger");
     };
 
   return (

@@ -81,6 +81,7 @@ export default function Freelancerlist() {
         );
       }
     }
+    stars.reverse()
     return stars;
   };
 
@@ -133,8 +134,7 @@ export default function Freelancerlist() {
                 {generateStars(data.freelancerprofile.rating)}
               </div>
 
-              <br />
-              <br />
+              
 
               <p className="namef">{data.Fullname}</p>
               <p>
@@ -145,10 +145,12 @@ export default function Freelancerlist() {
                 jobs in GudayHub
               </p>
 
-              {data.freelancerprofile.skills.map((skill) => (
+              {data.freelancerprofile.skills.map((skill, key) => (
+                key <= 1 ?(
                 <div className="skills freelist-skill">
                   <p>{skill}</p>
                 </div>
+                ):null
               ))}
             </div>
           ))}

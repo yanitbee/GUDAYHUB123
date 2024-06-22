@@ -231,7 +231,7 @@ export default function Joblist() {
         </div>
 
         {isempty(readData) ? (
-          <div>
+          <div className="jobwhole">
             {readData.map((data) => (
               <>
                 <div
@@ -268,7 +268,7 @@ export default function Joblist() {
                           </p>
                         </div>
                       </div> )
-                      : <div  className="employerinfo1">employer has choosen to be anonymous </div>
+                      : <div  className="employerinfo1">Anonymous </div>
                     ) : (
                       <div>Loading...</div>
                     )}
@@ -282,7 +282,7 @@ export default function Joblist() {
                   <h3 className="text"> {t("Location")}</h3>
                   <p className="title">{data.location}</p>
                 </div>
-                <button className="btn-job">{t("More Information")}</button>
+                <button className="btn-job"  onClick={() => handleclick(data._id)}>{t("More Information")}</button>
               </>
             ))}
           </div>

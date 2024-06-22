@@ -15,10 +15,12 @@ import Postdetails from "../Pages/postdetails";
 import Messenger from "../Pages/messenger/Messenger";
 import Footer from "../Layouts/footer";
 import Complaint from "../assets/complaint";
+import Offer from "../Pages/offer";
 
 const AppRoutes = () => {
   const location = useLocation();
-  const showFooter = location.pathname !== "/";
+  
+  const showFooter = [location.pathname !== "/", location.pathname !== "/Messenger" ];
 
   return (
     <>
@@ -43,7 +45,11 @@ const AppRoutes = () => {
             element={<PrivateRoute element={<Taskmanager />} />}
           />
            <Route
-            path="/freelancerpage/Messenger"
+            path="/freelancerpage/Offer"
+            element={<PrivateRoute element={<Offer />} />}
+          />
+           <Route
+            path="/Messenger"
             element={<PrivateRoute element={<Messenger />} />}
           />
           <Route

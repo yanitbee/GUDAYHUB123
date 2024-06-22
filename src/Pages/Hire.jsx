@@ -1,10 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../components/employer/css/freelancerdetails.css";
+import useAuth from "../Hooks/UseAuth";
+import { AuthContext } from "../Hooks/AuthContext";
+
 
 export default function Hire() {
+
+  const { getUserData, getUserToken } = useAuth();
+  const { setCurrentChat } = useContext(AuthContext);
+
+  const userData = getUserData();
+  const token = getUserToken();
   const location = useLocation();
+const navigate = useNavigate()
+
 
   const { userid, applicaionid, check } = location.state || {};
 
@@ -33,6 +44,7 @@ export default function Hire() {
     },
   });
 
+  
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [interviewDate, setInterviewDate] = useState("");
   const [interviewTime, setInterviewTime] = useState("");
@@ -70,12 +82,32 @@ export default function Hire() {
       await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
         params: { status: status, applicantid: applicaionid },
       });
-      alert("applicant hired");
-      confirm("do you wish to close this job opening?");
     } catch (error) {
       console.error("error", error);
     }
   };
+  useEffect(() =>{
+    changestatus("application opened")
+  })
+
+
+const hiredapp = async (status) =>{
+  try{
+    await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
+      params: { status: status, applicantid: applicaionid },
+    });
+
+    await axios.post("http://localhost:4000/hired/addhired", { appId: applicaionid })
+
+  alert("applicant hired");
+  confirm("do you wish to close this job opening?");
+  }catch(error) {
+    console.error("Error adding hired:", error);
+    alert("Error adding hired");
+  }
+  }
+
+
 
   // Toggle the popup visibility
   const togglePopup = () => {
@@ -105,11 +137,29 @@ export default function Hire() {
   const handleratingSubmit = async () => {
     try {
       const response = await axios.put(`http://localhost:4000/user/addrating/${userid}`, { rating });
-      console.log('Rating submitted successfully', response.data);
+      response.data 
     } catch (error) {
       console.error('Error submitting rating', error);
     }
   };
+
+  const startConvo = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/conversations/`, {
+        senderId: userData.userID,
+        receiverId: userid,
+      });
+      console.log("convo started successfully");
+      const converation = response.data
+         setCurrentChat(converation)
+      navigate("/Messenger");
+    } catch (error) {
+      console.error("Error starting convo", error);
+    }
+  };
+
+ 
+
   return (
     <>
       <div className="fdetails">
@@ -193,7 +243,7 @@ export default function Hire() {
               </div>
             
 
-            <button className="chat-btn txtme">Text Me</button>
+            <button className="chat-btn txtme" onClick={startConvo}>Text Me</button>
             {check !== "hired" && (
               <>
                 <button className="chat-btn interview" onClick={togglePopup}>
@@ -201,7 +251,7 @@ export default function Hire() {
                 </button>
                 <button
                   className="chat-btn hire"
-                  onClick={() => changestatus("hired")}
+                  onClick={() => hiredapp("hire")}
                 >
                   Hire
                 </button>

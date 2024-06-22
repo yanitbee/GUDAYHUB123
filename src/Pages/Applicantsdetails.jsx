@@ -48,7 +48,6 @@ export default function Applicantsdetails(){
                 )
               );
 
-    console.log(applicantResponse.data)
           const hiredNames = hireResponses.map(response => response.data.Fullname);
     
           setreadData(applicantResponse.data);
@@ -79,7 +78,7 @@ export default function Applicantsdetails(){
       if(staus === "waiting"){
         changestatus(id, "application opened")
         navigate("/employerpage/Applicantsdetails/more/Hire", { state: {userid: userid,applicaionid:id,postid:"not" }})}
-        else if(staus === "hired" || staus === "got the job"){
+        else if(staus === "hired" || staus === "got the job" || staus === "hire"){
         navigate("/employerpage/Applicantsdetails/more/Hire", { state: {userid: userid ,applicaionid:id,check:"hired"  }})}
       else navigate("/employerpage/Applicantsdetails/more/Hire", { state: {userid: userid ,applicaionid:id,check:"not"  }})
       }
