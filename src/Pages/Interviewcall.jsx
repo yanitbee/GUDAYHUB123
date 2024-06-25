@@ -13,11 +13,10 @@ const socket = io.connect("ws://localhost:4100");
 
 export default function InterviewCall() {
     const { getUserData, getUserToken } = useAuth();
-
     const userData = getUserData();
     const token = getUserToken();
 
-    const [me, setMe] = useState("");
+    const [me, setMe] = useState(userData.userID);
     const [stream, setStream] = useState(null);
     const [receivingCall, setReceivingCall] = useState(false);
     const [caller, setCaller] = useState("");
@@ -25,7 +24,7 @@ export default function InterviewCall() {
     const [callAccepted, setCallAccepted] = useState(false);
     const [idToCall, setIdToCall] = useState("");
     const [callEnded, setCallEnded] = useState(false);
-    const [name, setName] = useState("");
+    const [name, setName] = useState(userData.name);
     const [remoteStream, setRemoteStream] = useState(null);
 
     const myVideo = useRef();
@@ -41,10 +40,8 @@ export default function InterviewCall() {
             }
         });
 
-        // Receive socket ID from server
-        socket.on("me", (id) => {
-            setMe(id);
-        });
+        // Register the user with their ID
+        socket.emit("addUser", userData.userID);
 
         // Handle incoming call
         socket.on("callUser", (data) => {
@@ -53,9 +50,18 @@ export default function InterviewCall() {
             setName(data.name);
             setCallerSignal(data.signal);
         });
-    }, []);
 
-   
+        // Handle call accepted
+        socket.on("callAccepted", async (signal) => {
+            setCallAccepted(true);
+            const remoteDesc = new RTCSessionDescription(signal);
+            await peerConnection.current.setRemoteDescription(remoteDesc);
+        });
+
+        return () => {
+            socket.emit("disconnect-video");
+        };
+    }, []);
 
     useEffect(() => {
         if (userVideo.current) {
@@ -72,12 +78,6 @@ export default function InterviewCall() {
             signalData: offer,
             from: me,
             name: name
-        });
-
-        socket.on("callAccepted", async (signal) => {
-            setCallAccepted(true);
-            const remoteDesc = new RTCSessionDescription(signal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
         });
     };
 
@@ -111,7 +111,7 @@ export default function InterviewCall() {
             };
         }
     }, [stream]);
- 
+
     return (
         <>
             <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
