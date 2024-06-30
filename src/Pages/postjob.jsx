@@ -119,6 +119,19 @@ export default function Write() {
     setinputValue({ ...inputValue, urgency: !inputValue.urgency });
   };
 
+  const handleDelete = async (postId) => {
+    try {
+      const response = await axios.delete(`http://localhost:4000/PostHistory/deletepost/${postId}`);
+
+      console.log(response.data);
+      alert("post deleted")
+      setreadData(readData.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error.message);
+    }
+  };
+
+
   return (
     <>
       <div className="postimg">
@@ -302,6 +315,13 @@ export default function Write() {
                 <h3 className="textf">Description </h3>
                 <p className="titlef">{data.Description}</p>
               </div>
+              <button
+                className="btn-job1 more"
+                onClick={() => handleDelete(data._id)}
+              >
+                 Delete Post 
+              </button>
+
               <button
                 className="btn-job1 more"
                 onClick={() => handlepost(data._id)}

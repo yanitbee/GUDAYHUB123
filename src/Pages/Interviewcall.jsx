@@ -1,15 +1,16 @@
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { io } from "socket.io-client";
-import { useEffect, useState, useRef } from "react";
-import useAuth from "../Hooks/UseAuth";
+import { useEffect, useState, useRef } from 'react';
+import { io } from 'socket.io-client';
+import useAuth from '../Hooks/UseAuth';
 import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import ReactPlayer from "react-player";
 
-const socket = io.connect("ws://localhost:4100");
+const socket = io.connect('ws://localhost:4100');
 
 export default function InterviewCall() {
     const { getUserData, getUserToken } = useAuth();
@@ -17,119 +18,128 @@ export default function InterviewCall() {
     const userData = getUserData();
     const token = getUserToken();
 
-    const [me, setMe] = useState("");
-    const [stream, setStream] = useState();
+    const [me, setMe] = useState('');
+    const [stream, setStream] = useState(null);
     const [receivingCall, setReceivingCall] = useState(false);
-    const [caller, setCaller] = useState("");
-    const [callerSignal, setCallerSignal] = useState();
+    const [caller, setCaller] = useState('');
+    const [callerSignal, setCallerSignal] = useState(null);
     const [callAccepted, setCallAccepted] = useState(false);
-    const [idToCall, setIdToCall] = useState("");
+    const [idToCall, setIdToCall] = useState('');
     const [callEnded, setCallEnded] = useState(false);
-    const [name, setName] = useState("");
+    const [name, setName] = useState('');
+    const [remoteStream, setRemoteStream] = useState(null);
+    const [userVideoSrc, setUserVideoSrc] = useState('');
 
     const myVideo = useRef();
     const userVideo = useRef();
-    const connectionRef = useRef();
-    const localPeerConnection = useRef();
+    const peerConnection = useRef(new RTCPeerConnection());
 
     useEffect(() => {
+        // Set up local video stream
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream);
-            myVideo.current.srcObject = stream;
+          
         });
 
-        socket.on("me", (id) => {
+        // Receive socket ID from server
+        socket.on('me', (id) => {
             setMe(id);
         });
 
-        socket.on("callUser", (data) => {
+        // Handle incoming call
+        socket.on('callUser', (data) => {
             setReceivingCall(true);
             setCaller(data.from);
             setName(data.name);
             setCallerSignal(data.signal);
         });
-    }, []);
 
-    const callUser = (id) => {
-        localPeerConnection.current = new RTCPeerConnection();
-
-        stream.getTracks().forEach((track) => {
-            localPeerConnection.current.addTrack(track, stream);
-        });
-
-        localPeerConnection.current.onicecandidate = (event) => {
-            if (event.candidate) {
-                socket.emit("sendCandidate", { candidate: event.candidate, to: id });
+        // Handle incoming tracks from remote peer
+        peerConnection.current.ontrack = (event) => {
+            if (event.streams && event.streams[0]) {
+                setRemoteStream(event.streams[0]);
+                console.log(event.streams[0])
             }
         };
 
-        localPeerConnection.current.ontrack = (event) => {
-            userVideo.current.srcObject = event.streams[0];
-        };
+    }, []);
 
-        localPeerConnection.current.createOffer().then((offer) => {
-            localPeerConnection.current.setLocalDescription(offer);
-            socket.emit("callUser", {
+    // Set remote stream to userVideoSrc when it changes
+    useEffect(() => {
+        if (remoteStream) {
+            const videoSrc = URL.createObjectURL(remoteStream);
+            setUserVideoSrc(videoSrc);
+        }
+    }, [remoteStream]);
+
+    const callUser = async (id) => {
+        try {
+            const offer = await peerConnection.current.createOffer();
+            await peerConnection.current.setLocalDescription(offer);
+
+            socket.emit('callUser', {
                 userToCall: id,
                 signalData: offer,
                 from: me,
                 name: name,
             });
-        });
 
-        socket.on("callAccepted", (signal) => {
-            setCallAccepted(true);
-            localPeerConnection.current.setRemoteDescription(new RTCSessionDescription(signal));
-        });
-
-        connectionRef.current = localPeerConnection.current;
+            socket.on('callAccepted', async (signal) => {
+                setCallAccepted(true);
+                const remoteDesc = new RTCSessionDescription(signal);
+                await peerConnection.current.setRemoteDescription(remoteDesc);
+            });
+        } catch (error) {
+            console.error('Error creating or setting local description:', error);
+        }
     };
 
-    const answerCall = () => {
-        setCallAccepted(true);
-        localPeerConnection.current = new RTCPeerConnection();
+    const answerCall = async () => {
+        try {
+            setCallAccepted(true);
 
-        stream.getTracks().forEach((track) => {
-            localPeerConnection.current.addTrack(track, stream);
-        });
+            const remoteDesc = new RTCSessionDescription(callerSignal);
+            await peerConnection.current.setRemoteDescription(remoteDesc);
 
-        localPeerConnection.current.onicecandidate = (event) => {
-            if (event.candidate) {
-                socket.emit("sendCandidate", { candidate: event.candidate, to: caller });
-            }
-        };
+            const answer = await peerConnection.current.createAnswer();
+            await peerConnection.current.setLocalDescription(answer);
 
-        localPeerConnection.current.ontrack = (event) => {
-            userVideo.current.srcObject = event.streams[0];
-        };
-
-        localPeerConnection.current.setRemoteDescription(new RTCSessionDescription(callerSignal)).then(() => {
-            localPeerConnection.current.createAnswer().then((answer) => {
-                localPeerConnection.current.setLocalDescription(answer);
-                socket.emit("answerCall", { signal: answer, to: caller });
-            });
-        });
-
-        connectionRef.current = localPeerConnection.current;
+            socket.emit('answerCall', { signal: answer, to: caller });
+        } catch (error) {
+            console.error('Error answering call:', error);
+        }
     };
 
     const leaveCall = () => {
         setCallEnded(true);
-        connectionRef.current.close();
+        if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+        }
+        if (peerConnection.current) {
+            peerConnection.current.close();
+        }
+        if (socket.connected) {
+            socket.disconnect();
+        }
     };
+    console.log("my",stream)
+    console.log("other",remoteStream)
 
     return (
         <>
-            <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
+            <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
             <div className="container">
                 <div className="video-container">
                     <div className="video">
-                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+                        {stream &&  <ReactPlayer url={stream} playing muted autoPlay style={{ width: '300px' }}/> }
                     </div>
                     <div className="video">
-                        {callAccepted && !callEnded ?
-                            <video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} /> :
-                            null}
+                        {callAccepted && !callEnded ? (
+                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
+                        ) : null}
+                        {callAccepted && !callEnded && userVideoSrc && (
+                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
+                        )}
                     </div>
                 </div>
                 <div className="myId">
@@ -139,9 +149,9 @@ export default function InterviewCall() {
                         variant="filled"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        style={{ marginBottom: "20px" }}
+                        style={{ marginBottom: '20px' }}
                     />
-                    <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
+                    <CopyToClipboard text={me} style={{ marginBottom: '2rem' }}>
                         <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
                             Copy ID
                         </Button>
@@ -164,7 +174,6 @@ export default function InterviewCall() {
                                 <PhoneIcon fontSize="large" />
                             </IconButton>
                         )}
-                        {idToCall}
                     </div>
                 </div>
                 <div>
