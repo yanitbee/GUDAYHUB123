@@ -5,7 +5,7 @@ const videos = [
   "/image/passport-checking-at-airport-5010098-4171905.mp4",
   "/image/man-waiting-for-taxi-11240553-9048488.mp4",
   "/image/asian-female-hoovering-floor-11213621-9014917.mp4",
-  "/image/delivery-boy-3571543-3025940.mp4",
+  "/image/delivery-woman-going-to-delivery-parcel-3573267-3070288.mp4",
   "/image/developers-doing-discussion-with-manager-on-javascript-3574026-3099677.mp4",
   "/image/farmer-watering-on-plants-4234261-3527521.mp4",
   "/image/woman-works-as-makeup-artist-8636673-6860974.mp4",
@@ -21,6 +21,7 @@ const text = {
   Gardener: '“And into the forest I go, to lose my mind and find my soul”',
   MakeUpArtist: '“Mist to mist, drops to drops. For water thou art, and unto water shalt thou return”',
   Shopper: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
+  Movers: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
  
 };
 
