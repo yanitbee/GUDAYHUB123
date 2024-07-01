@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import "./css/freelancerdetails.css";
 import { useTranslation } from 'react-i18next';
 import useAuth from "../../Hooks/UseAuth";
@@ -11,6 +11,7 @@ export default function Freelancerdetails() {
   const token = getUserToken();
 
   const location = useLocation();
+  const navigate = useNavigate()
 
   const { t } = useTranslation();
   const { userid } = location.state || {};
@@ -65,7 +66,11 @@ export default function Freelancerdetails() {
   const [popup, setPopup] = useState(false);
 
   const togglePopup = () => {
+    if (!userData) {
+      navigate("/login");
+    } else {
     setPopup(!popup);
+    }
   };
 
   if (popup) {

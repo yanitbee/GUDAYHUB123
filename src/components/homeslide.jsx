@@ -22,7 +22,6 @@ const text = {
   MakeUpArtist: '“Mist to mist, drops to drops. For water thou art, and unto water shalt thou return”',
   Shopper: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
   Movers: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
- 
 };
 
 const HomeSlide = () => {
@@ -44,9 +43,18 @@ const HomeSlide = () => {
   }, [nextSlide]);
 
   useEffect(() => {
-    if (videoRefs.current[activeIndex]) {
-      videoRefs.current[activeIndex].load();
-      videoRefs.current[activeIndex].play();
+    const currentVideo = videoRefs.current[activeIndex];
+    if (currentVideo) {
+      const handleCanPlay = () => {
+        currentVideo.play();
+      };
+
+      currentVideo.load();
+      currentVideo.addEventListener('canplay', handleCanPlay);
+
+      return () => {
+        currentVideo.removeEventListener('canplay', handleCanPlay);
+      };
     }
   }, [activeIndex]);
 
@@ -64,7 +72,7 @@ const HomeSlide = () => {
                 ref={(el) => (videoRefs.current[i] = el)}
                 muted
                 controls={false}
-                autoPlay={i === activeIndex}
+                autoPlay={false}
                 loop
               >
                 <source src={video} type="video/mp4" />

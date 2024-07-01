@@ -311,6 +311,23 @@ nav .menu-btn,
 .menu-icon{
   display:none;
 }
+.drop{
+  display: inline-flex;
+  justify-content: center;
+}
+.item{
+  display: none;
+margin-top: 2rem;
+position: absolute;
+}
+.otheritem{
+margin-top: 4rem;
+margin-left: -0.05rem;
+}
+.drop:hover .item{
+  display: block;
+}
+
 .header-heading{
   text-align: center;
 font-family: 'Montserrat';
@@ -382,7 +399,7 @@ background-color:#2a3131 ;
   background-color: #468386;
 }
 #service h1{
-  color: #5f9ea0;
+  color: #923f0e;
   font-size: 3rem;
 }
 .a-container{
@@ -534,7 +551,7 @@ background-color:#36686b;
 }
 .about-text h1{
 font-size: 3rem;
-color:#5f9ea0;
+color:#923f0e;
   font-weight: 500;
   margin: 0px;
 padding: 0px;
@@ -542,7 +559,7 @@ padding: 0px;
 .about-text p{
   width: 80%;
 font-size: 1.2rem;
-color:#cecece;
+color:#fff;
 text-align: justify;
 text-justify: inter-word;
 }

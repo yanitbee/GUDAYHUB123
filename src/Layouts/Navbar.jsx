@@ -27,6 +27,8 @@ const Navbar = () => {
           case "/Interview":
           case "/room/:roomId":
       case "/employerpage/Freelancerdetails":
+        case "/freelancerlist/Freelancerdetails":
+          case "/joblist/apply":
         setshowNav(false);
         break;
       default:
@@ -118,11 +120,24 @@ const Navbar = () => {
                 {t("Home")}
               </Link>
             </li>
-            <li>
+            <div className="drop">
+            <li className="serv">
               <Link to="service" smooth={true} duration={500}>
                 {t("Service")}
               </Link>
             </li>
+           
+            <li className="item">
+              <RouterLink to="/joblist">
+                {t("Job List")}
+              </RouterLink>
+            </li>
+            <li className="item otheritem">
+              <RouterLink to="/freelancerlist">
+                {t("Freelancer")}
+              </RouterLink>
+            </li>
+            </div>
             <li>
               <Link to="about" smooth={true} duration={500}>
                 {t("About")}

@@ -170,7 +170,12 @@ const Home = () => {
     document.body.classList.remove("active-popup");
   }
 
-
+const navigateToJoblist = () =>{
+  navigate("joblist")
+}
+const navigateToApply = () =>{
+  navigate("freelancerlist")
+}
 
 
   return (
@@ -394,7 +399,8 @@ const Home = () => {
             <div id="service">
               <h1>{t('Our Services')}</h1>
               <div className="a-container">
-                <div className="a-box">
+                <div className="a-box" 
+                onClick={()=>{navigateToApply()}}>
                   <div className="a-b-img">
                     <img src= "/image/post.svg" alt="" />
                   </div>
@@ -403,7 +409,8 @@ const Home = () => {
                     <p>{t('Employers can post jobs/tasks')}</p>
                   </div>
                 </div>
-                <div className="a-box">
+                <div className="a-box"
+                 onClick={()=>{navigateToJoblist()}}>
                   <div className="a-b-img">
                     <img src= "/image/details.svg" alt="" />
                   </div>
