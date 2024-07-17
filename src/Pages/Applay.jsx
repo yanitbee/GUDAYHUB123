@@ -66,7 +66,8 @@ export default function Apply() {
       }
       if (
         readData.cv &&
-        (!freelancerData.freelancerprofile.cv || freelancerData.freelancerprofile.cv === "")
+        (!freelancerData.freelancerprofile.cv ||
+          freelancerData.freelancerprofile.cv === "")
       ) {
         alert("CV is a requirement for this job");
         return;
@@ -89,9 +90,12 @@ export default function Apply() {
   const fetchData = async () => {
     if (userData && userData.userID) {
       try {
-        const response = await axios.get("http://localhost:4000/applicant/searchapplied", {
-          params: { postid: postid, freelancerid: userData.userID },
-        });
+        const response = await axios.get(
+          "http://localhost:4000/applicant/searchapplied",
+          {
+            params: { postid: postid, freelancerid: userData.userID },
+          }
+        );
         const data = response.data;
 
         if (data.message === "have applied") {
@@ -140,6 +144,7 @@ export default function Apply() {
     }
   };
 
+
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -168,22 +173,66 @@ export default function Apply() {
 
   return (
     <>
-      <div>
+      <div className="applaywhole ">
         {readData && (
           <div>
-            <h2> {readData.JobTask}</h2>
-            <h2>Job Type: {readData.Jobtype}</h2>
-            <p>Job Title: {readData.Jobtitle}</p>
-            <p>Description: {readData.Description}</p>
-            <p>Qualification: {readData.Qualification}</p>
-            <p>Salary: {readData.Salary}</p>
-            <p>Location: {readData.Location}</p>
-            <p>Contact: {readData.Contact}</p>
-            <p>Posted Date: {format(readData.PostedDate)}</p>
-            <p>Deadline: {readData.Deadline}</p>
+            <h1 className="title">{readData.Jobtitle}</h1>
+            <br />
+            <div className=" row">
+              <div className=" leftone col-5">
+                <h2> {readData.JobTask}</h2>
+                <h2>{readData.Jobtype}</h2>
+                <div className="onebyone">
+                  <h3>Description</h3>
+                  <p>{readData.Description}</p>
+                </div>
 
+                <div className="oneby"></div>
+                <h3>Qualification</h3>
+                {readData.Qualification && (
+                  <ul>
+                    {readData.Qualification.split(",").map((item, index) => (
+                      <li key={index}>{item.trim()}</li>
+                    ))}
+                  </ul>
+                )}
+
+                <p>Salary: {readData.Salary}</p>
+                <p>Location: {readData.location}</p>
+                <p>Contact: {readData.Contact}</p>
+                <p>Posted Date: {format(readData.PostedDate)}</p>
+                <p>Deadline: {readData.Deadline}</p>
+              </div>
+
+              <div className="sideline col-3">
+           <h4>Requirements to apply</h4><br/>
+                <div className="by"></div><br/>
+                <div className="typewhole">
+                <h5>CV:</h5>
+
+                {readData.cv ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Required</p>
+              :<p style={{marginTop:".5rem", marginLeft:"1rem",color:"#1c8300"}}> Not Required</p>}
+                </div>
+                <div className="typewhole">
+                <h5>Cover Letter:</h5>
+
+                {readData.coverletter ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Required</p>
+              :<p style={{marginTop:".5rem", marginLeft:"1rem",color:"#1c8300"}}> Not Required</p>}
+                </div>
+
+                {readData.urgency ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Urgent</p>
+              :null}
+              </div>
+
+            </div>
             {applied === "applied" || applied === "hired" ? (
-              <button className="apply-btn applied" onClick={() => alreadyApplied(applied)}>
+              <button
+                className="apply-btn applied"
+                onClick={() => alreadyApplied(applied)}
+              >
                 Apply Now
               </button>
             ) : (
@@ -231,7 +280,9 @@ export default function Apply() {
                     {freelancerData.freelancerprofile.cv ? (
                       <div className="">
                         <a
-                          href={getProfilePicUrl(freelancerData.freelancerprofile.cv)}
+                          href={getProfilePicUrl(
+                            freelancerData.freelancerprofile.cv
+                          )}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -275,4 +326,3 @@ export default function Apply() {
     </>
   );
 }
-

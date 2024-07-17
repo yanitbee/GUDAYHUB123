@@ -1,9 +1,10 @@
 .alljoblist{
-  background: linear-gradient(-60deg, #b8d8d8, #88baba, #659a9c, #a8c7c7, #82b8b8);
+  background-color: #468386;
+
 
 }
 .jobwhole{
-  padding: 1rem 4rem  0 4rem  ;
+  padding: 1rem 0rem  0 6rem  ;
 }
 .postblock{
  
@@ -12,11 +13,31 @@
     margin-left: 8.5rem;
     margin-bottom: -10rem;
    height: 15rem;
-   background-color: #ffffff;
+   max-width: 900px;
+   background-color: #ededed;
    border-radius: .2rem;
    box-shadow: rgb(172, 180, 187) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
  
-  
+  z-index: 1;
+}
+.postblock::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, var(--c1) var(--stop), var(--c2) var(--stop));
+}
+.postblock::before{
+  position: absolute;
+  content: ''; 
+  height: 15rem;
+  width: 15px;
+  background-color: #8a4d47;
+  display: block;
+  z-index: 1;
 }
 
 .allfilter{
@@ -54,15 +75,12 @@
 
 .sidebaractive{
   box-shadow: rgba(251, 251, 255, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
- 
   position: fixed;
-    width: 25%;
-    height: 700px;
-    margin-top: 5rem;
-   
+    width: 22%;
+    height: 630px;
+    margin-top: 6rem;
     overflow-x: hidden;
-    overflow-y: scroll;
-    z-index: 1;
+    z-index: 2;
     backdrop-filter: blur(5px);
     background:  #0b5b5fcc;
 }
@@ -78,12 +96,17 @@
     box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px,  rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
   
 }
+
 .text{
     color: #5f9ea0;
-    margin-left: 1rem;
+
+}
+.titlet{
+
+
 }
 .title{
-    margin-left: 2rem;
+ 
 }
 
 .btn-job {
@@ -164,7 +187,7 @@
   background-color: #ccfaf8;
   border-radius: 10px;
   transition: all 0.5s;
-  z-index: 1;
+  z-index: 2;
   
 }
 .another.active{
@@ -184,13 +207,31 @@
    
         width: 32%;
       }
+
+  }
+  @media (max-width:1500px) {
+    .sidebaractive{
+   
+        width: 32%;
+      }
+      
+  }
+  @media (min-width: 1100px) {
+    .sidebar{
+  display: block;
+      box-shadow: rgba(251, 251, 255, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+      position: fixed;
+        width: 22%;
+        height: 630px;
+        margin-top: 6rem;
+        overflow-x: hidden;
+        z-index: 2;
+        backdrop-filter: blur(5px);
+        background:  #0b5b5fcc;
+      }
   }
 @media (max-width:1100px) {
-  .sidebar{
-    display:none;
-    margin-top: 3.5rem;
-      width: 40%;
-    }
+
     .sidebaractive{
       animation: side .3s ease-out ;
       margin-top: 7.3rem;
@@ -319,11 +360,48 @@
 
 .employerinfo{
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 4.5%;
+  top: 10%;
 }
 
+.emp{
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+.emppro {
+  position: absolute;
+  left: -16rem;
+  z-index: 4;
+margin-top: 5rem;
+  top: 0;
+  height: 300px;
+  overflow: hidden;
+}
+.jobtype{
+  width: 35px;
+  height: 35px;
 
+
+}
+.location{
+  width: 35px;
+  height: 35px;
+  margin-left: 2rem;
+}
+.birr{
+  width: 40px;
+  height: 40px;
+}
+.s{
+  margin-left: 2rem;
+}
+.typewhole{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 .ribbon-2 {
   width: 15%;

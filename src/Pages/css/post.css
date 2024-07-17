@@ -3,6 +3,7 @@
     background-repeat: no-repeat; 
     background-position:right ;
     background-size: 18em;
+
 }
 .post{
     margin-right: 100px;
@@ -10,8 +11,19 @@
    
     --input-hovered-color: #6b63ff9d;
     position: relative;
+   
     
 }
+.postjob{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-left: 10%;
+
+}
+.p{
+  margin-left: -20%;
+
+}
+
 
 .post-input {
     color: #050505;
@@ -49,10 +61,11 @@
   text-transform: uppercase;
   font-size: 15px;
   transition: all 0.5s ease;
+  border: #0093b8 solid;
   }
   .btn-save:hover {
     letter-spacing: 3px;
-    background-color: #6C63FF;
+    background-color: #83c4e4;
     color: hsl(0, 0%, 100%);
     box-shadow: rgb(34, 15, 68) 0px 7px 29px 0px;
   }
@@ -179,17 +192,18 @@
 
   .toggle-div{
   position: absolute;
-  margin-right: -6rem;
+
   
 }
 .both{
   margin-top: 8rem;
-  margin-right: -9rem;
+  margin-right: -3.5rem;
 }
   }
 
   .toggle-div p{
     display: inline-block;
+    margin-right: 4rem;
   }
 
   .toggle-button-cover {

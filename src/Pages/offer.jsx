@@ -91,6 +91,7 @@ export default function Offer() {
 
   return (
     <>
+    <div style={{padding:"2rem"}}>
       {arrayIsEmpty ? (
         <div className="nojob">
           <img style={{ width: "300px" }} src={`/image/nooffer.png`} alt="No offers" />
@@ -114,7 +115,7 @@ export default function Offer() {
               </div>
               {data.status === "waiting" ? (
                 <>
-                  <button onClick={() => handleAccept("accepted", data._id)} className="btn-job">Accept</button>
+                  <button onClick={() => handleAccept("accepted", data._id)} className="btn-job ">Accept</button>
                   <button onClick={() => togglePopup(data._id)} className="btn-job reject">Reject</button>
                 </>
               ) : (
@@ -147,6 +148,7 @@ export default function Offer() {
           </div>
         </div>
       )}
+      </div>
     </>
   );
 }

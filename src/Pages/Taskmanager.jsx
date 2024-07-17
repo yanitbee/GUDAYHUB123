@@ -118,8 +118,8 @@ export default function Taskmanager() {
         <div className="taskblock">You have not gotten any job in GudayHub</div>
       ) : (
         <>
-          <div className="taskblock">You have gotten {hiredLen} job{hiredLen > 1 ? 's' : ''} in GudayHub</div>
-          <div className="container">
+          <div className="taskblock ">You have gotten {hiredLen} job{hiredLen > 1 ? 's' : ''} in GudayHub</div>
+          <div className="container ">
             {readHired.map((data, index) => (
               <div className="applylist" key={data.postid}>
                 {readHiredPostTitles[index] && (

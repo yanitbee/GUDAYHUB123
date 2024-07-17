@@ -144,6 +144,9 @@ export default function Frelancerprofile() {
   const handleComplaintClick = () => {
     navigate("/Complaint");
   };
+  const handleTestimonyClick = () => {
+    navigate("/Testimony");
+  };
   const handleClick = () => {
     navigate("/Interview");
 };
@@ -164,6 +167,7 @@ export default function Frelancerprofile() {
       <div>{ShowAddProfile && <Addprofile prop={freelancerData}
                                           prop2 ={addpro} />}</div>
       <div>
+      
         <div className="holder start-0">
           {freelancerData === null ? (
             <img
@@ -187,10 +191,12 @@ export default function Frelancerprofile() {
             
           )}
         </div>
+       
         <div className="wrapper ">
           {popup && (
-            <div className={`profilebox `}>
-              <div className="profile-content">
+            <div className={`profilebox`}>  
+              <div className="profile-content ">
+                <div className="upperpro">
                 <div className="pholder " onClick={handleImage}>
                   <img
                     className="ppic "
@@ -209,9 +215,13 @@ export default function Frelancerprofile() {
                     style={{ display: "none" }}
                   />
                 </div>
+             
                 <br />
-                {freelancerData.Fullname} <br />
+                <div className="infopro">
+                {freelancerData.username} <br />
                 {freelancerData.Email}
+                </div>
+                </div>
                 <br />
                 {freelancerData &&
                   (freelancerData.freelancerprofile?.title === null ||
@@ -228,14 +238,11 @@ export default function Frelancerprofile() {
                   <div className="finprofile complaint" onClick={handleComplaintClick}>
                       <h6>{t('Complaint')} </h6>
                     </div>
-              
+                    <div className="finprofile complaint" onClick={handleTestimonyClick}>
+                      <h6>{t('Testimony')} </h6>
+                    </div>
                 <br /> <br />
-                <button className="popup-btn" onClick={editData}>
-                  {t('Submit')}
-                </button>
-                <button className="popup-btn" id="x" onClick={togglePopup}>
-                  X
-                </button>
+     
               </div>
             </div>
           )}

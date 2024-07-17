@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "../Pages/Home";
 import Layout from "../Layouts/Layout";
 import Freelancerpage from "../Pages/FreelancerPage";
@@ -23,6 +23,9 @@ import { SocketProvider } from "../provider/socket";
 import { PeerProvider } from "../provider/peer";
 import Joblist from "../components/Freelancer/JobList";
 import Freelancerlist from "../components/employer/freelancerlist";
+import Testimony from "../assets/testimony";
+import Register from "../assets/register";
+import useAuth from "../Hooks/UseAuth";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -31,8 +34,10 @@ const AppRoutes = () => {
     location.pathname !== "/",
     location.pathname !== "/Messenger",
     location.pathname !== "/InterviewCalls",
+    location.pathname !== "/Register",
   ];
-
+  const { isLoggedIn } = useAuth();
+  const isAuthenticated = isLoggedIn();
   return (
     <>
       <SocketProvider>
@@ -44,7 +49,14 @@ const AppRoutes = () => {
               <Route path="/joblist" element={<Joblist />} />
               <Route path="/joblist/apply" element={<Apply />} />
               <Route path="/freelancerlist" element={<Freelancerlist />} />
-              <Route path="/freelancerlist/Freelancerdetails" element={<Freelancerdetails />} />
+              <Route
+                path="/freelancerlist/Freelancerdetails"
+                element={<Freelancerdetails />}
+              />
+               <Route
+                path="/Register"
+                element={<Register />}
+              />
               <Route
                 path="/freelancerpage"
                 element={<PrivateRoute element={<Freelancerpage />} />}
@@ -114,6 +126,10 @@ const AppRoutes = () => {
               <Route
                 path="/complaint"
                 element={<PrivateRoute element={<Complaint />} />}
+              />
+              <Route
+                path="/Testimony"
+                element={<PrivateRoute element={<Testimony />} />}
               />
             </Route>
           </Routes>

@@ -27,7 +27,7 @@ input{
 }
 .logo img{
   width: 200px;
-  margin-left: -5rem;
+  margin-left: -10rem;
   margin-top: -4.5rem;
 }
 
@@ -36,7 +36,7 @@ input{
  
     transition: transform .18s ease;
   
-    transform: translateY(4%);
+    transform: translateY(9%);
   z-index: 5;
   }
 
@@ -64,6 +64,16 @@ input{
   padding: 1rem;
   z-index: 5;
 }
+.registerpop{
+  transform: translate(-0%,-45%);
+}
+.wholeregister{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .h3-register{
   color: #ffffff;
   font-size: 1.2rem;
@@ -83,6 +93,11 @@ font-weight: 500;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
   overflow: hidden;
 }
+.shift-btn{
+  position: absolute;
+  bottom: 0;
+  
+ }
 
 .popup-btn::before {
   content: '';
@@ -251,6 +266,7 @@ background: radial-gradient( circle at 40% 60%, #6abcbfe1,#498b8dd5);
 backdrop-filter: blur(15px);
   transition: 0.6s ease-in-out;
   box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.157);
+  z-index: 2;
 }
 
 .nav::after {
@@ -261,7 +277,6 @@ backdrop-filter: blur(15px);
   right: 0;
   bottom: 0;
   background: radial-gradient(circle at 40% 60%, #b9fdff, #3e989b);
-
   z-index: -1; /* Ensure the background is behind the content */
 }
 nav.active{
@@ -540,7 +555,7 @@ align-items: center;
 justify-content: space-between;
 padding: 0px 5% 0px 5%;
 position: relative;
-background-color:#36686b;
+background-color:#3b7174;
 }
 
 .about-text{
@@ -586,6 +601,38 @@ background-color: rgb(0, 0, 0);
 width: 600px;
 }
 
+#testimony{
+  width:100%;
+  height:110vh;
+  box-sizing: border-box;
+  font-family:'Lato';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #3b686c;
+}
+.testimony-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+.t-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 30px;
+  position: relative;
+}
+#testimony h1{
+  font-size: 3rem;
+  color:#5f9ea0;
+    font-weight: 500;
+    margin: 0px;
+  padding: 0px;
+  }
 #contact{
   width:100%;
   display:flex;
@@ -864,7 +911,7 @@ width: 600px;
         position: fixed;
         top: 220px;
         left: 27px;
-        z-index: 1000; 
+        z-index: 3; 
       }
       
       .round-btn {
@@ -896,7 +943,7 @@ width: 600px;
         background: linear-gradient(to right, #008728, #007c63);
         filter: blur(10px);
         bottom: -3px;
-        z-index: 1000;
+        z-index: 3;
         transition-duration: 0.3s;
       }
       
@@ -911,6 +958,48 @@ width: 600px;
         width: 24px;
         height: 24px;
       }
+
+
+      
+.thought {
+  background-color:#fff;
+  padding:20px;
+  border-radius:30px;
+  min-width:40px;
+  max-width:240px;
+  min-height:150px;
+  margin:20px;
+  position:relative;
+  text-align:center;
+  z-index: 1;
+}
+.thought:before,
+.thought:after {
+  content:"";
+  background-color:#fff;
+  border-radius:50%;
+  display:block;
+  position:absolute;
+  z-index:-1;
+}
+.thought:before {
+  width:44px;
+  height:44px;
+  top:-12px;
+  left:28px;
+  box-shadow:-50px 30px 0 -12px #fff;
+}
+.thought:after {
+  bottom:-10px;
+  right:26px;
+  width:30px;
+  height:30px;
+  box-shadow:40px -34px 0 0 #fff,
+             -28px -6px 0 -2px #fff,
+             -24px 17px 0 -6px #fff,
+             -5px 25px 0 -10px #fff;
+  
+}
 
       
 

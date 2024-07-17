@@ -1,3 +1,39 @@
+
+.applaywhole{
+  margin-top: 9rem;
+
+}
+
+.title{
+  color: cadetblue;
+  text-decoration: underline;
+}
+.sideline{
+  border: #afafaf solid 2px;
+
+  margin-left: 15%;
+  border-radius: 20px;
+
+}
+.onebyone{
+  border-top: #000 solid 2px;
+  margin: 0 3rem 0 3rem;
+}
+.oneby{
+  border-top: #000 solid 2px;
+  margin: 0 20rem 0 20rem;
+}
+.by{
+  border-top: #000 solid 2px;
+  margin: 0 1rem 0 1rem;
+}
+.leftone{
+  border: #afafaf solid 2px;
+width: 200px;
+margin-left: 10%;
+border-radius: 20px;
+}
+
 .form{
     display: flex;
     align-items: center;

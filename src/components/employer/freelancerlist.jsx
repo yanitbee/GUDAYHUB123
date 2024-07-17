@@ -11,6 +11,7 @@ export default function Freelancerlist() {
   const [readData, setreadData] = useState({});
   const { t } = useTranslation();
   const [searchicon, setsearchicon] = useState("");
+  const [search, setsearch] = useState("");
 
   const searchclicked = () => {
     setsearchicon("active");
@@ -19,24 +20,62 @@ export default function Freelancerlist() {
     setsearchicon("");
   };
 
+  const handelsearch = (e) => {
+    setsearch(e.target.value);
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/employer/readfromserver"
+          "http://localhost:4000/employer/readfromserver" ,
+          {
+            params: { serachtitle: search},
+          }
         );
         const data = response.data;
 
         // Filter the freelancers
         const freelancers = data.filter((user) => user.Usertype === "freelancer");
 
-        // Categorize the filtered freelancers
+        // Default categories
+        const defaultCategories = {
+          "House Work": ["Cleaner", "Plumber"],
+          "IT & Software": ["Developer", "Designer"],
+          "Writing & Translation": ["Writer", "Translator"],
+          "Transportation" : ["driver","Delivery","Pickup"]
+          // Add more default categories as needed
+        };
+
+        // Convert default categories to lowercase for comparison
+        const lowerCaseCategories = Object.entries(defaultCategories).reduce((acc, [category, titles]) => {
+          acc[category] = titles.map(title => title.toLowerCase());
+          return acc;
+        }, {});
+
+        // Categorize freelancers
         const categorizedData = freelancers.reduce((acc, freelancer) => {
-          const category = freelancer.freelancerprofile.title || "Others";
-          if (!acc[category]) {
-            acc[category] = [];
+          const freelancerTitle = freelancer.freelancerprofile.title ? freelancer.freelancerprofile.title.toLowerCase() : "others";
+          let foundCategory = false;
+
+          for (const [category, titles] of Object.entries(lowerCaseCategories)) {
+            if (titles.includes(freelancerTitle)) {
+              if (!acc[category]) {
+                acc[category] = [];
+              }
+              acc[category].push(freelancer);
+              foundCategory = true;
+              break;
+            }
           }
-          acc[category].push(freelancer);
+
+          if (!foundCategory) {
+            if (!acc["Others"]) {
+              acc["Others"] = [];
+            }
+            acc["Others"].push(freelancer);
+          }
           return acc;
         }, {});
 
@@ -46,7 +85,9 @@ export default function Freelancerlist() {
       }
     };
     fetchData();
-  }, []);
+  }, [search]);
+
+ 
 
   const navigate = useNavigate();
 
@@ -86,6 +127,11 @@ export default function Freelancerlist() {
     stars.reverse();
     return stars;
   };
+ 
+ 
+ 
+
+
 
   return (
     <>
@@ -99,6 +145,7 @@ export default function Freelancerlist() {
             className={`another end-0 morecss`}
             type="text"
             placeholder="Search specialtys"
+            onChange={handelsearch}
             onClick={searchclicked}
           />
         </div>
@@ -111,52 +158,54 @@ export default function Freelancerlist() {
         </div>
 
         <div className="freelist-container">
-          {Object.keys(readData).map((category) => (
-            <div key={category} className="category-section">
-              <div className="taskblock catagory">{category}</div>
-              {readData[category].map((data) => (
-                <div
-                  key={data._id}
-                  onClick={() => handleclick(data._id)}
-                  className="free-list"
-                >
-                  <div>
-                    <img
-                      className="ppf"
-                      src={
-                        data.freelancerprofile.profilepic === "" ||
-                        data.freelancerprofile.profilepic === null
-                          ? `/image/profile.jpg`
-                          : getProfilePicUrl(data.freelancerprofile.profilepic)
-                      }
-                      alt="Profile"
-                    />
-                    <p className="titles">{data.freelancerprofile.title}</p>
+          {Object.keys(readData)
+            .sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : 0))
+            .map((category) => (
+              <div key={category} className="category-section">
+                <div className="taskblock catagory">{category}</div>
+                {readData[category].map((data) => (
+                  <div
+                    key={data._id}
+                    onClick={() => handleclick(data._id)}
+                    className="free-list"
+                  >
+                    <div>
+                      <img
+                        className="ppf"
+                        src={
+                          data.freelancerprofile.profilepic === "" ||
+                          data.freelancerprofile.profilepic === null
+                            ? `/image/profile.jpg`
+                            : getProfilePicUrl(data.freelancerprofile.profilepic)
+                        }
+                        alt="Profile"
+                      />
+                      <p className="titles">{data.freelancerprofile.title}</p>
+                    </div>
+
+                    <div className="rating">
+                      {generateStars(data.freelancerprofile.rating)}
+                    </div>
+
+                    <p className="namef">{data.Fullname}</p>
+                    <p>
+                      {data.freelancerprofile.gudayhistory.jobs
+                        ? data.freelancerprofile.gudayhistory.jobs
+                        : 0}{" "}
+                      jobs in GudayHub
+                    </p>
+
+                    {data.freelancerprofile.skills.map((skill, key) =>
+                      key <= 1 ? (
+                        <div className="skills freelist-skill" key={key}>
+                          <p>{skill}</p>
+                        </div>
+                      ) : null
+                    )}
                   </div>
-
-                  <div className="rating">
-                    {generateStars(data.freelancerprofile.rating)}
-                  </div>
-
-                  <p className="namef">{data.Fullname}</p>
-                  <p>
-                    {data.freelancerprofile.gudayhistory.jobs
-                      ? data.freelancerprofile.gudayhistory.jobs
-                      : 0}{" "}
-                    jobs in GudayHub
-                  </p>
-
-                  {data.freelancerprofile.skills.map((skill, key) =>
-                    key <= 1 ? (
-                      <div className="skills freelist-skill" key={key}>
-                        <p>{skill}</p>
-                      </div>
-                    ) : null
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+                ))}
+              </div>
+            ))}
         </div>
       </div>
     </>

@@ -144,15 +144,16 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
+              <Link to="testimony" smooth={true} duration={500}>
+                {t("Testimony")}
+              </Link>
+            </li>
+            <li>
               <Link to="contact" smooth={true} duration={500}>
                 {t("Contact")}
               </Link>
             </li>
-            <li>
-              <Link to="register" smooth={true} duration={500}>
-                {t("Register")}
-              </Link>
-            </li>
+          
             <LanguageSwitcher />
           </>
         );
