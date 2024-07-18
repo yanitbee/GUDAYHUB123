@@ -1,0 +1,40 @@
+.intdate{
+   position: absolute;
+    
+}
+
+
+.interviewbox{
+    position: relative;
+   width: auto;
+   height: 4.5rem;
+   background-color: #ededed;
+   border-radius: .2rem;
+   box-shadow: rgb(172, 180, 187) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+ 
+}
+.notpassed{
+    color: rgb(28, 142, 70);
+}
+.passedInterview{
+    color: rgb(226, 0, 0);
+}
+.infoside{
+    border-left: solid 2px #858585;
+}
+.infobox{
+    margin-top: 5rem;
+    margin-left:20%;
+}
+.convo{
+
+        position: absolute;
+        left: 40%;
+        font-size: 40px;
+        color:#b4b1b1;
+        cursor: default;
+
+}
+.interviewlogo1{
+    width: 50px;
+}

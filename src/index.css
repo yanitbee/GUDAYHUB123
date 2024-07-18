@@ -49,7 +49,7 @@ input{
 
   .contentfalse{
  transition: transform .18s ease;
-    transform: translateY(8%);
+    transform: translateY(5%);
   }
   .contenttrue{
     transition: transform .18s ease;

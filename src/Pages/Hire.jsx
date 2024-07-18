@@ -48,6 +48,9 @@ const navigate = useNavigate()
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [interviewDate, setInterviewDate] = useState("");
   const [interviewTime, setInterviewTime] = useState("");
+  const [interviewType, setinterviewType] = useState("");
+  const [interviewinfo, setInterviewinfo] = useState("");
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +66,7 @@ const navigate = useNavigate()
     fetchData();
   }, [userid]);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -70,6 +74,8 @@ const navigate = useNavigate()
         applicantid: applicaionid,
         interviewdate: interviewDate,
         interviewTime: interviewTime,
+        interviewInfo:interviewinfo ,
+      interviewType:interviewType
       });
       alert("Interview date and time set successfully");
     } catch (error) {
@@ -86,7 +92,23 @@ const navigate = useNavigate()
       console.error("error", error);
     }
   };
+
+  const [application ,setapplication] = useState({})
   useEffect(() =>{
+  
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:4000/applicant/searchapplicant/${applicaionid}`
+          );
+          setapplication(response.data);
+        } catch (error) {
+          console.error("error", error);
+        }
+      };
+      fetchData();
+   
+    if(application && application.status==="waiting")
     changestatus("application opened")
   })
 
@@ -122,6 +144,14 @@ const hiredapp = async (status) =>{
   const handleTimeChange = (e) => {
     setInterviewTime(e.target.value);
   };
+
+  const handleTypeChange = (e) => {
+    setinterviewType(e.target.value);
+  }
+
+  const handleLocationChange = (e) => {
+    setInterviewinfo(e.target.value);
+  }
 
   const openDocument = (value) => {
     const file = `http://localhost:4000/${value}`;
@@ -262,32 +292,51 @@ const hiredapp = async (status) =>{
       </div>
 
       {isPopupOpen && (
-        <div className="popupi">
-          <div className="popup-contenti">
-            <h2>Set Interview Date</h2>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="interviewDate">Interview Date:</label>
-              <input
-                type="date"
-                id="interviewDatei"
-                value={interviewDate}
-                onChange={handleDateChange}
-              />
-              <label htmlFor="interviewTime">Interview Time:</label>
-              <input
-                type="time"
-                id="interviewTime"
-                value={interviewTime}
-                onChange={handleTimeChange}
-              />
-              <button type="submit">Set Date</button>
-              <button type="button" onClick={togglePopup}>
-                Cancel
-              </button>
-            </form>
+  <div className="popupi">
+    <div className="popup-contenti">
+      <h2>Set Interview Details</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="interviewType">Interview Type:</label>
+        <select id="interviewType" value={interviewType} onChange={handleTypeChange}>
+          <option value="video">Video Interview</option>
+          <option value="onsite">Onsite Interview</option>
+        </select>
+
+        {interviewType === 'onsite' && (
+          <div>
+            <label htmlFor="location">Location:</label>
+            <input
+              type="text"
+              id="location"
+              value={interviewinfo}
+              onChange={handleLocationChange}
+            />
           </div>
-        </div>
-      )}
+        )}
+
+        <label htmlFor="interviewDate">Interview Date:</label>
+        <input
+          type="date"
+          id="interviewDate"
+          value={interviewDate}
+          onChange={handleDateChange}
+        />
+        <label htmlFor="interviewTime">Interview Time:</label>
+        <input
+          type="time"
+          id="interviewTime"
+          value={interviewTime}
+          onChange={handleTimeChange}
+        />
+        <button type="submit">Set Date</button>
+        <button type="button" onClick={togglePopup}>
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

@@ -231,7 +231,8 @@ const clicked = ()=>{
                           <div onClick={togglePopup} className="overlay"></div>
                           <div className={`popup-content content${radio}`}>
                           
-                          <h3 className="h3-register">{t("Register")}</h3>
+                          
+                          <p>Would you like to register as an employer or a freelancer?</p>
   <div>
     <img src="/image/choose.png" ></img>
   </div>

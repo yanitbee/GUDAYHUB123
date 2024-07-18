@@ -7,29 +7,26 @@
   padding: 1rem 0rem  0 6rem  ;
 }
 .postblock{
- 
     margin-top: 8rem;
     margin-right: 8.5rem;
     margin-left: 8.5rem;
     margin-bottom: -10rem;
    height: 15rem;
-   max-width: 900px;
+   max-width:auto;
    background-color: #ededed;
    border-radius: .2rem;
    box-shadow: rgb(172, 180, 187) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
  
   z-index: 1;
 }
-.postblock::before {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 1rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: linear-gradient(to right, var(--c1) var(--stop), var(--c2) var(--stop));
+.addcss{
+  max-width:900px;
 }
+.box {
+
+  position:relative;
+}
+
 .postblock::before{
   position: absolute;
   content: ''; 
@@ -38,6 +35,7 @@
   background-color: #8a4d47;
   display: block;
   z-index: 1;
+  border-top-left-radius: 4px;
 }
 
 .allfilter{
@@ -431,8 +429,4 @@ margin-top: 5rem;
 }
 
 
-.box {
-
-  position:relative;
-}
 

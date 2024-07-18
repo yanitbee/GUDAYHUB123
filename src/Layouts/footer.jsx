@@ -10,7 +10,7 @@ const navigate = useNavigate();
     };
 
     const handleinterClick = () => {
-      navigate("/InterviewCalls");
+      navigate("/Interview");
   };
 
   return (

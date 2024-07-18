@@ -257,7 +257,7 @@ export default function Joblist() {
                 <>
                   <div
                     onClick={() => handleclick(data._id)}
-                    className={`postblock box ${data.urgency ? "urgent" : ""}`}
+                    className={`postblock box addcss ${data.urgency ? "urgent" : ""}`}
                   >
                     <div class="ribbon-2">{data.JobTask}</div>
 

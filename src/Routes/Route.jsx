@@ -35,6 +35,7 @@ const AppRoutes = () => {
     location.pathname !== "/Messenger",
     location.pathname !== "/InterviewCalls",
     location.pathname !== "/Register",
+    location.pathname !== "/Interview",
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
