@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
 //import zxcvbn from 'zxcvbn';
 import { useTranslation } from "react-i18next";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -40,6 +43,7 @@ export default function Register(){
       const [codenum, setcodenum] = useState("");
     
       const [readData, setreadData] = useState([]);
+
     
       const togglePopupcode = () => {
         setcode("");
@@ -149,6 +153,11 @@ export default function Register(){
 
 
     const [action, setAction] = useState("");
+    const [radio, setRadio] = useState(false);
+
+const clicked = ()=>{
+  setRadio(!radio);
+}
 
     const loginLink = () => {
       setAction("active");
@@ -156,7 +165,6 @@ export default function Register(){
     const registerLink = () => {
       setAction("");
     };
-  
     const [popup, setPopup] = useState(false);
   
     const togglePopup = () => {
@@ -169,9 +177,27 @@ export default function Register(){
       document.body.classList.remove("active-popup");
     }
 
+
+
     return(
     <>
-    <div className="wholeregister">
+    
+    <div className="registerlogin">
+      <div className="backlogo"></div>
+    <div  className={`wholeregister`}>
+     
+    <div style={{zIndex:"-7"}} className={`loginvid${action}`}>
+    <video
+                width="600"
+                muted
+                controls={false}
+                autoPlay={true}
+                loop
+              >
+                <source src={"/image/sign-up-8431988-6716092.mp4"} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              </div>
     <div className={`code${code}`}>
                     <p>
                       {t(
@@ -200,52 +226,17 @@ export default function Register(){
                     </a>
                   </div>
 
-
-                  <div className={`wrapper`}>
-                        <div className={`popup registerpop` }>
+                  <div  className={`wrapper${action}`}>
+                        <div className={`popup ${radio} registerpop${action}` }>
                           <div onClick={togglePopup} className="overlay"></div>
-                          <div className={`popup-content${action}`}>
-                            <div className="login-popup">
-                              <h3 className="h3-login">{t("LogIn")}</h3>
-                              <input
-                                className="input"
-                                type="text"
-                                placeholder={t("Username")}
-                                onChange={(e) => setusername(e.target.value)}
-                              />
-                              <input
-                                className="input"
-                                type="password"
-                                placeholder={t("Password")}
-                                onChange={(e) => setpassword(e.target.value)}
-                              />{" "}
-                              <br />
-                              <button className="popup-btn" onClick={forLogin}>
-                                {t("LogIn")}
-                              </button>
-                              <p>
-                                {t("Dont have an account.")}{" "}
-                                <a href="#" onClick={registerLink}>
-                                  {t("Register")}
-                                </a>
-                              </p>
-                     
-                            </div>
-                            <br /> <br /> <br /> <br /> <br /> <br /> <br />{" "}
-                            <br /> <br />
-                            <h3 className="h3-register">{t("Register")}</h3>
-                            <input
-                              type="radio"
-                              name="user"
-                              value="freelancer"
-                              onChange={(e) =>
-                                setinputValue({
-                                  ...inputValue,
-                                  Usertype: e.target.value,
-                                })
-                              }
-                            />{" "}
-                            {t("Freelancer")}
+                          <div className={`popup-content content${radio}`}>
+                          
+                          <h3 className="h3-register">{t("Register")}</h3>
+  <div>
+    <img src="/image/choose.png" ></img>
+  </div>
+                    
+ 
                             <input
                               type="radio"
                               name="user"
@@ -256,10 +247,34 @@ export default function Register(){
                                   Usertype: e.target.value,
                                 })
                               }
+                              onClick={clicked}
                             />{" "}
                             {t("Employer")}
-                            <br />
                             <input
+                              type="radio"
+                              name="user"
+                              value="freelancer"
+                              onChange={(e) =>
+                                setinputValue({
+                                  ...inputValue,
+                                  Usertype: e.target.value,
+                                })
+                              }
+                              onClick={clicked}
+                            />{" "}
+                            {t("Freelancer")}
+                            <br /><br />
+
+                            <p>
+                              {t("Already have an account.")}{" "}
+                            
+                              <button className="button-33" role="button"  onClick={loginLink}>{t("LogIn")}</button>
+                            </p>
+
+  <br/> <br/> <br/> <br/> 
+  <FontAwesomeIcon icon={faArrowUp} size="2x"   onClick={clicked}/>  
+  <h3 className="h3-register">{t("Register")}</h3>   
+    <input
                               className="input"
                               type="text"
                               placeholder={t("Fullname")}
@@ -347,17 +362,71 @@ export default function Register(){
                             </button>
                             <p>
                               {t("Already have an account.")}{" "}
-                              <a href="#" onClick={loginLink}>
-                                {t("LogIn")}
-                              </a>
+                            
+                              <button className="button-33" role="button"  onClick={loginLink}>{t("LogIn")}</button>
                             </p>
+          
+                          </div>
+                        </div>
+          
+                    </div>
+
+
+                    <div className="wholelogin">
+                    <div className={`registervid${action}`}>
+                    <video
+                width="700"
+                muted
+                controls={false}
+                autoPlay={true}
+                loop
+              >
+                <source src={ "/image/login-9832756-8050143.mp4"
+                } type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              </div>
+                    <div className={`wrapper`}>
+                        <div className={`popup  loginpop${action} ` }>
+                          <div onClick={togglePopup} className="overlay"></div>
+                          <div className={`popup-content newlogin`}>
+                            <div className="login-popup ">
+                              <h3 className="h3-login">{t("LogIn")}</h3>
+                              <input
+                                className="input"
+                                type="text"
+                                placeholder={t("Username")}
+                                onChange={(e) => setusername(e.target.value)}
+                              />
+                              <input
+                                className="input"
+                                type="password"
+                                placeholder={t("Password")}
+                                onChange={(e) => setpassword(e.target.value)}
+                              />{" "}
+                              <br />
+                              <button className="popup-btn" onClick={forLogin}>
+                                {t("LogIn")}
+                              </button>
+                              <p>
+                                {t("Dont have an account.")}{" "}
+                               
+                                <button className="button-33" role="button"  onClick={registerLink}>{t("Register")}</button>
+                              </p>                  
+                            </div>
+   
           
                           </div>
                         </div>
                       
                     </div>
+                    
+</div>
 
                     </div>
+                    
+                    </div>
+                 
                     
     </>
     )
