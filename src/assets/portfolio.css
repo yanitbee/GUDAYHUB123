@@ -1,0 +1,46 @@
+.proslider {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 300%; /* Adjust based on the number of slides */
+    height: 100%;
+  }
+  
+  .slide {
+    width: 100%;
+    height: 100%;
+    flex: 1 0 100%;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .control {
+    position: absolute;
+    top: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  .control-prev {
+    left: 10px;
+  }
+  
+  .control-next {
+    right: 10px;
+  }
+  

@@ -33,7 +33,12 @@ export default function Applicantsdetails(){
               axios.get(`http://localhost:4000/freelancer/apply/${id}`)
             )
           );
-          const applicantNames = freelancerResponses.map(response => response.data.Fullname);
+
+          const applicantNames = freelancerResponses.map(response => 
+            response.data.status !== undefined && response.data.status !== "deleted"
+              ? response.data.Fullname
+              : "Account deleted"
+          );
 //for hired
               const hiredResponse = await axios.get(
                 "http://localhost:4000/hired/readhired",
@@ -48,7 +53,12 @@ export default function Applicantsdetails(){
                 )
               );
 
-          const hiredNames = hireResponses.map(response => response.data.Fullname);
+              const hiredNames = hireResponses.map(response => 
+                response.data.status !== undefined && response.data.status !== "deleted"
+                  ? response.data.Fullname
+                  : "Account deleted"
+              );
+              
     
           setreadData(applicantResponse.data);
           setreadapplicant(applicantNames);
@@ -117,8 +127,16 @@ export default function Applicantsdetails(){
          <div onClick={() => handleclick(data._id,data.Freelancerid,data.status)}  className="freelist" >
           {readapplicant[index] && (
       <>
+        {readapplicant[index] !== "Account deleted" ? (
+        <>
         <h3 className="textf">Applicant name</h3>
         <p className="titlef">{readapplicant[index]}</p>
+        </>
+      ):(
+        <h3 style={{padding:"2rem",color:"red"}} className="titlef">{readapplicant[index]}</h3>
+      )
+      }
+       
       </>
     )}
              <h3 className="textf">Job type </h3>
@@ -144,8 +162,15 @@ export default function Applicantsdetails(){
          <div onClick={() => handleclick(data._id,data.Freelancerid,data.status)}  className="freelist" >
           {readhiredapplicant[index] && (
       <>
+      {readhiredapplicant[index] !== "Account deleted" ? (
+        <>
         <h3 className="textf">Applicant name</h3>
         <p className="titlef">{readhiredapplicant[index]}</p>
+        </>
+      ):(
+        <h3 style={{padding:"2rem",color:"red"}} className="titlef">{readhiredapplicant[index]}</h3>
+      )
+      }
       </>
     )}
              <h3 className="textf">Job type </h3>

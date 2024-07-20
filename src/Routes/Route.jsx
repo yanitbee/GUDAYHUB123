@@ -26,6 +26,7 @@ import Freelancerlist from "../components/employer/freelancerlist";
 import Testimony from "../assets/testimony";
 import Register from "../assets/register";
 import useAuth from "../Hooks/UseAuth";
+import AdminPage from "../admin/adminpage";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const AppRoutes = () => {
     location.pathname !== "/InterviewCalls",
     location.pathname !== "/Register",
     location.pathname !== "/Interview",
+    location.pathname !== "/admin",
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
@@ -57,6 +59,10 @@ const AppRoutes = () => {
                <Route
                 path="/Register"
                 element={<Register />}
+              />
+              <Route
+                path="/admin"
+                element={<PrivateRoute element={<AdminPage />} />}
               />
               <Route
                 path="/freelancerpage"

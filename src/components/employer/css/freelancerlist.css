@@ -124,7 +124,12 @@
   background-color: #cfeef0;
   box-shadow: rgba(8, 33, 34, 0.84) 3px 3px 6px 0px inset, rgb(255, 255, 255) -3px -3px 6px 1px inset;
 }
-.sidebar{
-  display: none;
+.freelancerlist{
+ display: none;
 }
+.freelancerlistactive{
+  display: block;
+}
+
+
 

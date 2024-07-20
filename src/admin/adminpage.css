@@ -1,0 +1,331 @@
+.dashboard {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-gap: 0;
+    grid-template-columns: 350px auto;
+    grid-template-rows: 80px auto;
+    grid-template-areas: 
+        'menu search'
+        'menu content';
+}
+
+.admsearch {
+    height: 40px;
+}
+
+.admsearch label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.admsearch svg {
+    display: block;
+    margin-right: 10px;
+}
+
+.search-wrap input {
+    display: block;
+    padding-left: 1em;
+    height: 100%;
+    margin: 0;
+    border: 0;
+}
+
+.search-wrap {
+    grid-area: search;
+    background: #fff;
+    border-bottom: 1px solid #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3em;
+}
+
+.user-actions button {
+    border: 0;
+    background: none;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    margin-left: 0.5em;
+}
+
+.user-actions svg {
+    position: relative;
+    top: 2px;
+}
+
+.user-actions svg:hover path,
+.user-actions svg:hover circle {
+    fill: lighten(#000, 10%);
+}
+
+.user {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0 3em;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menu-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+figcaption {
+    margin: 0;
+    padding: 0 0 0 1em;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.875em;
+    line-height: 100%;
+}
+
+.menu-wrap {
+    grid-area: menu;
+    padding-bottom: 3em;
+    overflow: auto;
+    background: #fff;
+    border-right: 1px solid #000;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+overflow-y: scroll;
+}
+
+.adminNav section {
+    display: block;
+    padding: 3em 1rem 0;
+}
+
+
+
+.adminui {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.adminsidelist{
+    display: block;
+    padding-top: 1rem;
+    margin: 1em 0 0;
+  background-color: rgba(206, 206, 206, 0.408);
+}
+
+.content-wrap {
+    grid-area: content;
+    padding: 3em;
+    overflow: auto;
+}
+
+.content-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content-head h1 {
+    font-size: 1.375em;
+    line-height: 100%;
+    color: #000;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.action button {
+    border: 0;
+    background: #02687d;
+    color: #fff;
+    width: auto;
+    height: 3.5em;
+    padding: 0 2.25em;
+    border-radius: 3.5em;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: background-color .15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action button:hover {
+    background-color: darken(#02687d, 10%);
+}
+
+.action button:active {
+    background-color: darken(#02687d, 20%);
+    transition: none;
+}
+
+.info-boxes {
+    padding: 3em 0 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 2em;
+}
+
+.info-box {
+    background: #fff;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 3em;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-row{
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+   gap: 2rem;
+   
+}
+
+.box-icon svg {
+    display: block;
+    width: 48px;
+    height: 48px;
+}
+
+.box-content {
+    padding-left: 1.25em;
+    white-space: nowrap;
+}
+
+.big {
+    display: block;
+    font-size: 2em;
+    line-height: 150%;
+    color: #000;
+}
+
+.person-boxes {
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 2em;
+}
+
+.person-box {
+    background: #fff;
+    height: 320px;
+    text-align: center;
+    padding: 3em;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.person-box:nth-child(2n) .box-avatar .no-name {
+    background: #02687d;
+}
+
+.person-box:nth-child(5n) .box-avatar .no-name {
+    background: #ffe100;
+}
+
+.box-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.box-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+    width: 100%;
+    height: 100%;
+    background: #790000;
+}
+
+.box-bio {
+    white-space: nowrap;
+}
+
+.bio-name {
+    margin: 2em 0 .75em;
+    color: #000;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+.bio-position {
+    margin: 0;
+    font-size: .875em;
+    line-height: 100%;
+}
+
+.box-actions {
+    margin-top: 1.25em;
+    padding-top: 1.25em;
+    width: 100%;
+    border-top: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box-actions button {
+    border: 0;
+    background: none;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.box-actions button:hover svg path,
+.box-actions button:hover svg circle {
+    fill: lighten(#000, 10%);
+}
+
+.box-actions svg {
+    position: relative;
+    top: 2px;
+}
+
+.box-actions svg path,
+.box-actions svg circle {
+    fill: lighten(#fff, 10%);
+    transition: fill .15s ease;
+}
+
+.pie-chat{
+   width: 15rem;
+}
+
+

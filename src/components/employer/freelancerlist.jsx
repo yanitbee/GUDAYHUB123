@@ -37,7 +37,9 @@ export default function Freelancerlist() {
         const data = response.data;
 
         // Filter the freelancers
-        const freelancers = data.filter((user) => user.Usertype === "freelancer");
+        const freelancers = data.filter((user) => 
+          user.Usertype === "freelancer" && user.status !== "deleted" && user.status !== undefined
+        );
 
         // Default categories
         const defaultCategories = {
@@ -149,7 +151,7 @@ export default function Freelancerlist() {
             onClick={searchclicked}
           />
         </div>
-        <div className={`sidebar${searchicon} end-0 morecssside`}>
+        <div className={`sidebar${searchicon} freelancerlist${searchicon} end-0 morecssside`}>
           <FontAwesomeIcon
             className={`arrow start-0`}
             icon={faArrowRight}

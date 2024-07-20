@@ -64,6 +64,86 @@
 }
 
 
+.olcards {
+  list-style: none;
+  counter-reset: list;
+  padding: 0 1rem;
+  left:50%;
+  transform: translate(15%);
+  margin-top:7rem;
+  animation: up 1.5s ease-in-out ;
+
+}
+
+
+@keyframes up {
+  0% {
+    transform: translateY(60%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+
+.olcards li {
+--stop: calc(100% / var(--length) * var(--i));
+--l: 62%;
+--l2: 88%;
+--h: calc((var(--i) - 1) * (180 / var(--length)));
+--c1: hsl(var(--h), 71%, var(--l));
+--c2: hsl(var(--h), 71%, var(--l2));
+
+position: relative;
+counter-increment: list;
+max-width: 40rem;
+min-width: 40rem;
+margin: 2rem auto;
+padding: 2rem 1rem 1rem;
+box-shadow: 0.1rem 0.1rem 1.5rem rgba(0, 0, 0, 0.3);
+border-radius: 0.25rem;
+overflow: hidden;
+background-color: rgb(232, 232, 232);
+
+}
+
+.olcards li::before {
+content: '';
+display: block;
+width: 30%;
+height: 1rem;
+position: absolute;
+top: 0;
+left: 0;
+background-color: #17917f;
+}
+.workcard ::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #17917b54;
+  }
+
+  .num{
+    color: #007860;
+    display: inline-block;
+    font-size: 230%;
+    background-color: #017e8479;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+   
+  }
+  .work{
+    display: inline;
+  }
+
+
+
 
 .radio-inputs {
   position: absolute;
@@ -93,7 +173,7 @@
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   border: none;
-  padding: 0.5rem 0.8rem;
+  padding: 0.35rem 0.8rem;
   transition: all 0.15s ease-in-out;
   position: relative;
   font-weight: 700;
@@ -365,6 +445,54 @@
     border-width: 0 0.15em 0.15em 0;
     transform: rotate(45deg);
   }
+
+
+ 
+  
+  
+  .checkbox.frst:checked ~ ul li:nth-child(1) {
+    opacity: 1;
+    pointer-events: auto;
+    border-radius: 16px;
+  }
+  .checkbox.scnd:checked ~ ul li:nth-child(2) {
+    opacity: 1;
+    pointer-events: auto;
+    border-radius: 16px;
+  }
+  .checkbox.thrd:checked ~ ul li:nth-child(3) {
+    opacity: 1;
+    pointer-events: auto;
+    border-radius: 16px;
+  }
+  .checkbox.foth:checked ~ ul li:nth-child(4) {
+    opacity: 1;
+    pointer-events: auto;
+    border-radius: 16px;
+  }
+  
+  
+  
+  @media (max-width: 767px) {
+    .slider-height-padding {
+      padding-top: 340px;
+    }
+    .porfolioUI li {
+      height: 300px;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+  }
+  
+  @media (max-width: 575px) {
+    .slider-height-padding {
+      padding-top: 240px;
+    }
+    .porfolioUI li {
+      height: 200px;
+    }
+  }
+
 
   
   

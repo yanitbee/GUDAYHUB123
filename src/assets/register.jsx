@@ -140,7 +140,11 @@ export default function Register(){
           } else if (data.message.userData.UserType === "freelancer") {
             console.log("a");
             navigate("/freelancerpage");
+          }else if (data.message.userData.UserType === "admin") {
+            console.log("a");
+            navigate("/admin");
           }
+
         } catch (error) {
           if (error.response && error.response.status === 404) {
             alert(error.response.data.error);

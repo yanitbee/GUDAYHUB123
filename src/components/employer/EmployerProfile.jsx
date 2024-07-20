@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../Freelancer/css/addprofile.css";
 import useAuth from "../../Hooks/UseAuth";
+import Editprofile from "./profilEdit";
 
 export default function EmployerProfile() {
   const { getUserData, getUserToken } = useAuth();
@@ -9,13 +10,6 @@ export default function EmployerProfile() {
   const userData = getUserData();
   const token = getUserToken();
 
-  const [inputValue, setInputValue] = useState({
-    fullname: "",
-    email: "",
-    phonenumber: "",
-    gender: "",
-    title: "",
-  });
   const inputRef = useRef(null);
   const [employerData, setEmployerData] = useState({
     Usertype: null,
@@ -25,9 +19,11 @@ export default function EmployerProfile() {
     Email: null,
     Gender: null,
     freelancerprofile: {
-        profilepic: null}
+      profilepic: null,
+    },
   });
   const [popup, setPopup] = useState(false);
+  const [ShowAddProfile, setShowAddProfile] = useState(false);
 
   const handleImage = () => {
     inputRef.current.click();
@@ -61,7 +57,6 @@ export default function EmployerProfile() {
     fetchData();
   }, [userData.userID]);
 
-
   const editPic = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -81,12 +76,15 @@ export default function EmployerProfile() {
   };
 
   const editData = async () => {
-   
     try {
       await axios.put(
-        `http://localhost:4000/employer/edit/${userData.userID}`, 
+        `http://localhost:4000/employer/edit/${userData.userID}`,
         {
-            fullname:inputValue.fullname, email:inputValue.email, phonenumber: inputValue.phonenumber, gender:inputValue.gender,title: inputValue.title
+          fullname: inputValue.fullname,
+          email: inputValue.email,
+          phonenumber: inputValue.phonenumber,
+          gender: inputValue.gender,
+          title: inputValue.title,
         }
       );
     } catch (error) {
@@ -110,19 +108,26 @@ export default function EmployerProfile() {
 
   const handleClick = () => {
     navigate("/Interview");
-};
+  };
+
+  const addpro = () => {
+    setShowAddProfile(!ShowAddProfile);
+    setPopup(!popup);
+  };
 
   return (
     <>
-  <div className="holder start-0 interviewlogo">
-          
-          <img
-            onClick={handleClick}
-            className="profilepic "
-            src={`/image/interview5.png`}
-            alt="Profile"
-          />
-   
+      <div>
+        {ShowAddProfile && <Editprofile prop={employerData} prop2={addpro} />}
+      </div>
+      <div></div>
+      <div className="holder start-0 interviewlogo">
+        <img
+          onClick={handleClick}
+          className="profilepic "
+          src={`/image/interview5.png`}
+          alt="Profile"
+        />
       </div>
 
       <div className="holder start-0">
@@ -147,7 +152,9 @@ export default function EmployerProfile() {
                   src={
                     !employerData.freelancerprofile.profilepic
                       ? `/image/profile.jpg`
-                      : getProfilePicUrl(employerData.freelancerprofile.profilepic)
+                      : getProfilePicUrl(
+                          employerData.freelancerprofile.profilepic
+                        )
                   }
                   alt="Profile"
                 />
@@ -162,42 +169,7 @@ export default function EmployerProfile() {
               {employerData.Fullname} <br />
               {employerData.Email}
               <br />
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={inputValue.fullname}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, fullname: e.target.value })
-                }
-              />
-              <br />
-              <input
-                type="email"
-                placeholder="Email"
-                value={inputValue.email}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, email: e.target.value })
-                }
-              />
-              <br />
-              <input
-                type="text"
-                placeholder="Phone Number"
-                value={inputValue.phonenumber}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, phonenumber: e.target.value })
-                }
-              />
-             
-              <br /> <br />
-              <input
-                type="text"
-                placeholder="Title"
-                value={inputValue.title}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, title: e.target.value })
-                }
-              />
+              <p onClick={addpro}>edit</p>
               <br /> <br />
               <button className="popup-btn" onClick={editData}>
                 Submit

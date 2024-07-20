@@ -127,7 +127,7 @@ input{
   
   .backlogo {
     position: absolute;
-    top: 35%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 900px;
@@ -574,7 +574,7 @@ background-color:#2a3131 ;
   background-color: #468386;
 }
 #service h1{
-  color: #923f0e;
+  color: #bbffee;
   font-size: 3rem;
 }
 .a-container{

@@ -22,6 +22,8 @@ export default function Joblist() {
   const [employerInfo, setEmployerInfo] = useState({});
   const { t } = useTranslation();
   const [popup, setPopup] = useState(false);
+  const [deletedEmployers, setDeletedEmployers] = useState([]);
+  
 
   const togglePopup = (employerId) => {
     setPopup((prevState) => ({
@@ -104,6 +106,13 @@ export default function Joblist() {
       console.error("employer error", error);
     }
   };
+
+  useEffect(() => {
+    const updatedDeletedEmployers = Object.keys(employerInfo).filter(
+      (id) => employerInfo[id].status === "deleted"
+    );
+    setDeletedEmployers(updatedDeletedEmployers);
+  }, [employerInfo]);
 
   useEffect(() => {
     // Fetch employer info for all unique employer IDs in readData
@@ -258,6 +267,7 @@ export default function Joblist() {
                   <div
                     onClick={() => handleclick(data._id)}
                     className={`postblock box addcss ${data.urgency ? "urgent" : ""}`}
+                    style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}
                   >
                     <div class="ribbon-2">{data.JobTask}</div>
 
@@ -286,6 +296,7 @@ export default function Joblist() {
                                       />
                                     </div>
                                     <br />
+                                  
                                     {employerInfo[data.employerid].Fullname} <br />
                                     {employerInfo[data.employerid].title}
                                     {employerInfo[data.employerid].Email}
@@ -402,6 +413,7 @@ export default function Joblist() {
                   <button
                     className="btn-job"
                     onClick={() => handleclick(data._id)}
+                    style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}
                   >
                     {t("More Information")}
                   </button>

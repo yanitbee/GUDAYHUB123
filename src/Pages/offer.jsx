@@ -13,40 +13,51 @@ export default function Offer() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [selectedOfferId, setSelectedOfferId] = useState(null);
+  const [deletedEmployers, setDeletedEmployers] = useState([]);
+
 
   useEffect(() => {
     setArrayIsEmpty(readData.length === 0);
   }, [readData]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const dataResponse = await axios.get(`http://localhost:4000/Offer/read`, {
-          params: { freelancerid: userData.userID },
-        });
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const dataResponse = await axios.get(`http://localhost:4000/Offer/read`, {
+        params: { freelancerid: userData.userID },
+      });
 
-        setReadData(dataResponse.data);
+      setReadData(dataResponse.data);
 
-        await Promise.all(
-          dataResponse.data.map(async (data) => {
-            try {
-              const response = await axios.get(`http://localhost:4000/employer/searchoffer/${data.employerid}`);
-              setReadDataPostTitles((prevState) => ({
-                ...prevState,
-                [data.employerid]: response.data,
-              }));
-            } catch (error) {
-              console.error(`Error fetching employer data for ID ${data.employerid}:`, error);
-            }
-          })
-        );
-      } catch (error) {
-        console.log("Error fetching data: " + error);
-      }
-    };
+      const employerRequests = dataResponse.data.map(async (data) => {
+        try {
+          const response = await axios.get(`http://localhost:4000/employer/searchoffer/${data.employerid}`);
+          const employerData = response.data;
 
-    fetchData();
-  }, [userData.userID]);
+          // Check if the employer's status is deleted
+          if (employerData.status === "deleted") {
+            setDeletedEmployers((prevState) => [...prevState, data.employerid]);
+          }
+
+          // Update post titles state
+          setReadDataPostTitles((prevState) => ({
+            ...prevState,
+            [data.employerid]: employerData,
+          }));
+        } catch (error) {
+          console.error(`Error fetching employer data for ID ${data.employerid}:`, error);
+        }
+      });
+
+      await Promise.all(employerRequests);
+    } catch (error) {
+      console.log("Error fetching data: " + error);
+    }
+  };
+
+  fetchData();
+}, [userData.userID]);
+
 
   const handleAccept = async (status, id) => {
     try {
@@ -99,8 +110,9 @@ export default function Offer() {
       ) : (
         <div className="">
           {readData.map((data) => (
-            <div key={data._id}>
-              <div className="postblock box">
+            <div key={data._id} >
+              <div className="postblock box"
+              style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}>
                 <div className="ribbon-2">{data.status}</div>
                 <h3 className="textf">Description</h3>
                 <p className="titlef">{data.Description}</p>
@@ -115,13 +127,17 @@ export default function Offer() {
               </div>
               {data.status === "waiting" ? (
                 <>
-                  <button onClick={() => handleAccept("accepted", data._id)} className="btn-job ">Accept</button>
-                  <button onClick={() => togglePopup(data._id)} className="btn-job reject">Reject</button>
+                  <button onClick={() => handleAccept("accepted", data._id)} className="btn-job "
+                    style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}>Accept</button>
+                  <button onClick={() => togglePopup(data._id)} className="btn-job reject"
+                    style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}>Reject</button>
                 </>
               ) : (
                 <>
-                  <button className="btn-job applied">Accept</button>
-                  <button className="btn-job reject applied">Reject</button>
+                  <button className="btn-job applied"
+                  style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}>Accept</button>
+                  <button className="btn-job reject applied"
+                  style={{ display: deletedEmployers.includes(data.employerid) ? 'none' : 'block' }}>Reject</button>
                 </>
               )}
             </div>

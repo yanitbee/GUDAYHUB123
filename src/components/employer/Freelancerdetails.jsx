@@ -4,6 +4,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 import "./css/freelancerdetails.css";
 import { useTranslation } from 'react-i18next';
 import useAuth from "../../Hooks/UseAuth";
+import PortfolioSlider from "../../assets/portfolio";
 
 export default function Freelancerdetails() {
   const { getUserData, getUserToken } = useAuth();
@@ -46,8 +47,23 @@ export default function Freelancerdetails() {
     freelancerid: "",
     employerid: "",
   });
+  const [showWork, setshowWork] = useState(false);
+  const [showPortfolio, setshowportfolio] = useState(true);
 
+  const work = ()=>{
+    if(!showWork)
+    setshowWork(!showWork)
+    if(showPortfolio){
+      setshowportfolio(!showPortfolio)
+    }
+  }
 
+  const portfolio = ()=>{
+    if(!showPortfolio)
+    setshowportfolio(!showPortfolio)
+    if(showWork)
+      setshowWork(!showWork)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,7 +71,6 @@ export default function Freelancerdetails() {
           `http://localhost:4000/employer/freelancerdetail/${userid}`
         );
         setreadData(response.data);
-        console.log(response.data.freelancerprofile.title);
       } catch (error) {
         console.error("error", error);
       }
@@ -148,7 +163,7 @@ export default function Freelancerdetails() {
     }
   };
 
-
+console.log(showWork)
 
   return (
     <>
@@ -195,13 +210,13 @@ export default function Freelancerdetails() {
             </button>
       <div className="full-info">
       <div className="radio-inputs">
-  <label className="radio">
+  <label className="radio" >
     <input type="radio" name="radio" />
-    <span className="name h">Work History</span>
+    <span className="name h" onClick={work}>Work History</span>
   </label>
   <label className="radio">
     <input type="radio" name="radio" />
-    <span className="name r">Porfolio</span>
+    <span className="name r"  onClick={portfolio}>Porfolio</span>
   </label>
 
   <label className="radio">
@@ -209,6 +224,48 @@ export default function Freelancerdetails() {
     <span className="name v">Vue</span>
   </label>
 </div>
+
+{showWork && 
+(readData.freelancerprofile.workhistory ? (
+  <>
+   
+	<ol className="olcards ">
+  {readData.freelancerprofile.workhistory.map((data, index) => (
+    <>
+		
+		<li className="workcard">
+			<div className="content">
+				<div className="title num ">{index+1}</div>
+				<div className="text work">{data}</div>
+			</div>
+		</li>
+ 
+    </>
+    ))}
+	</ol>
+
+  </>
+):(
+  <>
+
+  <ol className="olcards ">
+ 
+		<li className="workcard">
+			<div className="content">
+				
+				<div className="text work">No work History</div>
+			</div>
+		</li>
+	</ol>
+  </>
+))}
+
+{showPortfolio && (
+ <>
+
+<PortfolioSlider/>
+
+ </>)}
       </div>
       </div>
 

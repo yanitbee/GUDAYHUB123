@@ -29,6 +29,7 @@ const Navbar = () => {
       case "/employerpage/Freelancerdetails":
         case "/freelancerlist/Freelancerdetails":
           case "/joblist/apply":
+            case "/admin":
         setshowNav(false);
         break;
       default:

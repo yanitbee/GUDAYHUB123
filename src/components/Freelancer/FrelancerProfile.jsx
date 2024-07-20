@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "../../Hooks/UseAuth";
 import "./css/profile.css";
 import Addprofile from "./Addprofile";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function Frelancerprofile() {
@@ -98,16 +98,11 @@ export default function Frelancerprofile() {
         alert("An error occurred. Please try again later.");
       }
     }
-      
-    
   };
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
-    
   };
-
-  
 
   const editData = async () => {
     const formData = new FormData();
@@ -140,7 +135,6 @@ export default function Frelancerprofile() {
     document.body.classList.remove("active-popup");
   }
 
-
   const handleComplaintClick = () => {
     navigate("/Complaint");
   };
@@ -149,25 +143,23 @@ export default function Frelancerprofile() {
   };
   const handleClick = () => {
     navigate("/Interview");
-};
+  };
 
   return (
     <>
-           <div className="holder start-0 interviewlogo">
-          
-            <img
-              onClick={handleClick}
-              className="profilepic "
-              src={`/image/interview5.png`}
-              alt="Profile"
-            />
-     
-        </div>
+      <div className="holder start-0 interviewlogo">
+        <img
+          onClick={handleClick}
+          className="profilepic "
+          src={`/image/interview5.png`}
+          alt="Profile"
+        />
+      </div>
 
-      <div>{ShowAddProfile && <Addprofile prop={freelancerData}
-                                          prop2 ={addpro} />}</div>
       <div>
-      
+        {ShowAddProfile && <Addprofile prop={freelancerData} prop2={addpro} />}
+      </div>
+      <div>
         <div className="holder start-0">
           {freelancerData === null ? (
             <img
@@ -184,43 +176,46 @@ export default function Frelancerprofile() {
                 freelancerData.freelancerprofile.profilepic === "" ||
                 freelancerData.freelancerprofile.profilepic === null
                   ? `/image/profile.jpg`
-                  : getProfilePicUrl(freelancerData.freelancerprofile.profilepic)
+                  : getProfilePicUrl(
+                      freelancerData.freelancerprofile.profilepic
+                    )
               }
               alt="Profile"
             />
-            
           )}
         </div>
-       
+
         <div className="wrapper ">
           {popup && (
-            <div className={`profilebox`}>  
+            <div className={`profilebox`}>
               <div className="profile-content ">
                 <div className="upperpro">
-                <div className="pholder " onClick={handleImage}>
-                  <img
-                    className="ppic "
-                    src={
-                      freelancerData.freelancerprofile.profilepic === "" ||
-                      freelancerData.freelancerprofile.profilepic === null
-                        ? `/image/profile.jpg`
-                        :  getProfilePicUrl(freelancerData.freelancerprofile.profilepic)
-                    }
-                    alt="Profile"
-                  />
-                  <input
-                    onChange={uploadimg}
-                    type="file"
-                    ref={inputref}
-                    style={{ display: "none" }}
-                  />
-                </div>
-             
-                <br />
-                <div className="infopro">
-                {freelancerData.username} <br />
-                {freelancerData.Email}
-                </div>
+                  <div className="pholder " onClick={handleImage}>
+                    <img
+                      className="ppic "
+                      src={
+                        freelancerData.freelancerprofile.profilepic === "" ||
+                        freelancerData.freelancerprofile.profilepic === null
+                          ? `/image/profile.jpg`
+                          : getProfilePicUrl(
+                              freelancerData.freelancerprofile.profilepic
+                            )
+                      }
+                      alt="Profile"
+                    />
+                    <input
+                      onChange={uploadimg}
+                      type="file"
+                      ref={inputref}
+                      style={{ display: "none" }}
+                    />
+                  </div>
+
+                  <br />
+                  <div className="infopro">
+                    {freelancerData.username} <br />
+                    {freelancerData.Email}
+                  </div>
                 </div>
                 <br />
                 {freelancerData &&
@@ -230,19 +225,27 @@ export default function Frelancerprofile() {
                   freelancerData.freelancerprofile?.description === null ||
                   freelancerData.freelancerprofile.portfolio?.link === null ? (
                     <div className="finprofile" onClick={addpro}>
-                      <p>{t('Finish creating your profile!!')} </p>
-                      <h6>{t('Not having a finished profile  might affect your cradiability!')} </h6>
+                      <p>{t("Finish creating your profile!!")} </p>
+                      <h6>
+                        {t(
+                          "Not having a finished profile  might affect your cradiability!"
+                        )}{" "}
+                      </h6>
                     </div>
                   ) : null)}
-                 
-                  <div className="finprofile complaint" onClick={handleComplaintClick}>
-                      <h6>{t('Complaint')} </h6>
-                    </div>
-                    <div className="finprofile complaint" onClick={handleTestimonyClick}>
-                      <h6>{t('Testimony')} </h6>
-                    </div>
+                <div
+                  className="finprofile complaint"
+                  onClick={handleComplaintClick}
+                >
+                  <h6>{t("Complaint")} </h6>
+                </div>
+                <div
+                  className="finprofile complaint"
+                  onClick={handleTestimonyClick}
+                >
+                  <h6>{t("Testimony")} </h6>
+                </div>
                 <br /> <br />
-     
               </div>
             </div>
           )}

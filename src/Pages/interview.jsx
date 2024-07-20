@@ -129,7 +129,7 @@ export default function Interview() {
                     key={data.postid}
                     onClick={() => showDetails(index)}
                   >
-                    {employerInfo[index] && (
+                    {employerInfo[index] && employerInfo[index].status !== "deleted" && (
                       <>
                         <img
                           className="conversationImg"
@@ -142,6 +142,19 @@ export default function Interview() {
                         />
                         <span className="conversationName">
                           {employerInfo[index].Fullname}
+                        </span>
+                      </>
+                    )}
+                        {employerInfo[index] && employerInfo[index].status === "deleted" && (
+                      <>
+                        <img
+                          className="conversationImg"
+                          src={ `/image/deletedUser.png`}
+                          alt="profile"
+                        />
+                        <span className="conversationName"
+                        style={{color:"red"}}>
+                        Account <br/> Deleted
                         </span>
                       </>
                     )}
