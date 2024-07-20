@@ -169,7 +169,7 @@ export default function EmployerProfile() {
               {employerData.Fullname} <br />
               {employerData.Email}
               <br />
-              <p onClick={addpro}>edit</p>
+              <p onClick={addpro} className="eedit">Edit</p>
               <br /> <br />
               <button className="popup-btn" onClick={editData}>
                 Submit
