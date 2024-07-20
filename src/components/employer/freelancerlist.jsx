@@ -46,7 +46,7 @@ export default function Freelancerlist() {
           "House Work": ["Cleaner", "Plumber"],
           "IT & Software": ["Developer", "Designer"],
           "Writing & Translation": ["Writer", "Translator"],
-          "Transportation" : ["driver","Delivery","Pickup"]
+          "Transportation" : ["driver","Delivery","Pickup","bus driver"]
           // Add more default categories as needed
         };
 

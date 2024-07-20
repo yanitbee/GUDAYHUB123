@@ -47,8 +47,8 @@ export default function Freelancerdetails() {
     freelancerid: "",
     employerid: "",
   });
-  const [showWork, setshowWork] = useState(false);
-  const [showPortfolio, setshowportfolio] = useState(true);
+  const [showWork, setshowWork] = useState(true);
+  const [showPortfolio, setshowportfolio] = useState(false);
 
   const work = ()=>{
     if(!showWork)
@@ -263,7 +263,7 @@ console.log(showWork)
 {showPortfolio && (
  <>
 
-<PortfolioSlider/>
+
 
  </>)}
       </div>
