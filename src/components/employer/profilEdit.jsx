@@ -40,7 +40,9 @@ export default function Editprofile(prop) {
       <div className="addpform">
         <div className="addp-content">
           <div className={``}>
+            <h3>Edit Your Information Here</h3>
             <input
+            className="ee"
               type="text"
               placeholder="Full Name"
               value={inputValue.fullname}
@@ -50,6 +52,7 @@ export default function Editprofile(prop) {
             />
             <br />
             <input
+            className="ee"
               type="email"
               placeholder="Email"
               value={inputValue.email}
@@ -59,6 +62,7 @@ export default function Editprofile(prop) {
             />
             <br />
             <input
+            className="ee"
               type="text"
               placeholder="Phone Number"
               value={inputValue.phonenumber}
@@ -66,8 +70,9 @@ export default function Editprofile(prop) {
                 setInputValue({ ...inputValue, phonenumber: e.target.value })
               }
             />
-            <br /> <br />
+            <br />
             <input
+            className="ee"
               type="text"
               placeholder="Title"
               value={inputValue.title}
@@ -76,11 +81,11 @@ export default function Editprofile(prop) {
               }
             />
             <br /> <br />
-            <button className="popup-btn" onClick={editData}>
+            <button className="popup-btne" onClick={editData}>
               Submit
             </button>
             <button
-              className="popup-btn shift-btn thirdbtn"
+              className="xe"
               id="x"
               onClick={remove}
             >
