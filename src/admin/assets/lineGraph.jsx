@@ -6,14 +6,27 @@ import 'chartjs-adapter-date-fns';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
 
 const LineGraph = ({ data, dateField }) => {
+  const chartRef = React.useRef(null);
+
   const formattedData = {
     labels: data.map(item => new Date(item[dateField])),
     datasets: [
       {
         label: 'Entries Over Time',
         data: data.map((item, index) => ({ x: new Date(item[dateField]), y: index + 1 })),
-        fill: false,
-        backgroundColor: 'rgba(75,192,192,0.2)',
+        fill: true, // Enable fill
+        backgroundColor: function(context) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) {
+            // This case happens on initial chart render
+            return null;
+          }
+          const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          gradient.addColorStop(0, 'rgba(75,192,192,0.2)');
+          gradient.addColorStop(1, 'rgba(75,192,192,0)');
+          return gradient;
+        },
         borderColor: 'rgba(75,192,192,1)',
       },
     ],
@@ -33,7 +46,7 @@ const LineGraph = ({ data, dateField }) => {
     },
   };
 
-  return <Line data={formattedData} options={options} />;
+  return <Line ref={chartRef} data={formattedData} options={options} />;
 };
 
 export default LineGraph;

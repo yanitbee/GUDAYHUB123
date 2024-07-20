@@ -46,6 +46,10 @@ input{
     transform: translateY(-49%);
     z-index: 5;
   }
+  .adminreg{
+    transform: translateY(0%);
+  }
+
 
   .contentfalse{
  transition: transform .18s ease;
@@ -153,6 +157,7 @@ input{
     padding: 1rem;
   }
 
+ 
   
   .true{
     height: 565px;
@@ -163,6 +168,12 @@ input{
     transition: transform 2s ease-in-out;
     position: static;
     z-index: 3; 
+  }
+  .adminpop{
+
+    transform: translate(70%, 5%);
+    background-color: rgba(38, 102, 96, 0.374);
+    
   }
 .false{
     height: 400px;
