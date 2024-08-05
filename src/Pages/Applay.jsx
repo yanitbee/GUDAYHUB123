@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
 import { format } from "timeago.js";
 import "./css/apply.css";
+import Popup from "../assets/popup";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();
@@ -26,6 +27,12 @@ export default function Apply() {
     status: "",
   });
   const [popup, setPopup] = useState(false);
+
+  const [isPopupVisible, setIsPopupVisible] = useState("");
+
+  const handleCancel = () => {
+    setIsPopupVisible("");
+  };
 
   useEffect(() => {
     const fetchFreelancerData = async () => {
@@ -162,10 +169,18 @@ export default function Apply() {
   const togglePopup = () => {
     if (!userData) {
       navigate("/login");
-    } else {
+    }else if(!freelancerData.IsVerified || freelancerData.IsVerified === false){
+      setIsPopupVisible("Your account havenot been verified yet Click yes if you want to send request for verification");
+    }
+     else {
       setPopup(!popup);
     }
   };
+
+  const handleConfirm =() =>{
+    console.log("a")
+    handleCancel()
+  }
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
@@ -242,10 +257,19 @@ export default function Apply() {
             )}
 
             <div className="wrapper">
+            {isPopupVisible != "" && (
+        <Popup
+          message = {isPopupVisible}
+          onConfirm={()=>{handleConfirm()}}
+          onCancel={handleCancel}
+        />
+      )}
               {popup && (
+
                 <div className={`form`}>
                   <div className="form-content">
                     <h3 className="">
+                 
                       Application for {readData.Jobtitle} position
                     </h3>
                     Fullname
@@ -316,12 +340,16 @@ export default function Apply() {
                     <button className="popup-btn" id="x" onClick={togglePopup}>
                       X
                     </button>
+                
                   </div>
                 </div>
               )}
             </div>
+            
           </div>
+          
         )}
+        
       </div>
     </>
   );

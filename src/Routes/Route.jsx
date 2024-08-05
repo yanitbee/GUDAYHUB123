@@ -27,6 +27,7 @@ import Testimony from "../assets/testimony";
 import Register from "../assets/register";
 import useAuth from "../Hooks/UseAuth";
 import AdminPage from "../admin/adminpage";
+import ProjectAbstract from "../Pages/ReadMore";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -38,6 +39,11 @@ const AppRoutes = () => {
     location.pathname !== "/Register",
     location.pathname !== "/Interview",
     location.pathname !== "/admin",
+    location.pathname !== "/ReadMore",
+    location.pathname !== "/freelancerlist",
+    location.pathname !== "/freelancerlist/Freelancerdetails",
+    location.pathname !== "/joblist",
+    location.pathname !== "//joblist/apply",
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
@@ -52,6 +58,7 @@ const AppRoutes = () => {
               <Route path="/joblist" element={<Joblist />} />
               <Route path="/joblist/apply" element={<Apply />} />
               <Route path="/freelancerlist" element={<Freelancerlist />} />
+              <Route path="/ReadMore" element={<ProjectAbstract />} />
               <Route
                 path="/freelancerlist/Freelancerdetails"
                 element={<Freelancerdetails />}

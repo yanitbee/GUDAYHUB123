@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import "./adminpage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBriefcase,faEllipsisH ,faEye,faEdit,faPen,faComment } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBriefcase,faEllipsisH ,faEye,faEdit,faPen,faComment,faCheckCircle,faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
 import PieChart from "./assets/pieChart";
 import useAuth from "../Hooks/UseAuth";
 import LineGraph from "./assets/lineGraph";
 import { use } from "i18next";
 import View from "./component/view";
 import Add from "./component/add";
+import { useTranslation } from "react-i18next";
+import AlertPopup from "../assets/AlertPopup";
+import Update from "./component/update";
 
 export default function AdminPage() {
+  const { t } = useTranslation();
   const { getUserData, getUserToken } = useAuth();
   const userData = getUserData();
   const token = getUserToken();
@@ -24,6 +28,49 @@ export default function AdminPage() {
   const [poatloading, setPostLoading] = useState(true);
   const [posterror, setPostError] = useState("");
   const [showMain, setShowMain] = useState("analytic");
+  const [inputValue, setinputValue] = useState({
+    username: "",
+    VerifiedDoc: "",
+
+  });
+
+  const inputrefDoc = useRef(null);
+
+  const uploadDoc = async (e) => {
+    setinputValue({ ...inputValue, VerifiedDoc: e.target.files[0] });
+  };
+
+  function isFormDataEmpty(formData) {
+    for (let pair of formData.entries()) {
+      return false;
+    }
+    return true;
+  }
+
+  const verifyUser = async () => {
+    const formData = new FormData();
+    if (inputValue.VerifiedDoc) {
+      formData.append("VerifiedDoc", inputValue.VerifiedDoc);
+    }
+   
+    if (!isFormDataEmpty(formData)) {
+      try {
+        const response =  await axios.put(
+          `http://localhost:4000/admin/verifieUser/${inputValue.username}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setIsPopupAlertVisible(response.data.message);
+      } catch (error) {
+        console.error("errorr", error);
+      }
+    }
+
+  }
 
   const showView = () =>{
 	setShowMain("view")
@@ -34,6 +81,14 @@ export default function AdminPage() {
   const showAdd = () =>{
 	setShowMain("Add")
   }
+  const showVerify = () =>{
+    setShowMain("Verify")
+    }
+
+    const showUpdate = () =>{
+      setShowMain("Update")
+      }
+  
 
 
   useEffect(() => {
@@ -131,13 +186,21 @@ export default function AdminPage() {
 
  
 
- 
-
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
   };
 
+  
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleCancel = () => {
+    setIsPopupAlertVisible("");
+  };
+
+  const handleDoc = () => {
+    inputrefDoc.current.click();
+  };
   return (
     <>
       <div className="dashboard">
@@ -240,6 +303,17 @@ export default function AdminPage() {
                   </a>
                 </li>
 
+                <li className="adminsidelist" onClick={showVerify}>
+                  <a href="#">
+                  <FontAwesomeIcon
+                      icon={faCheckCircle }
+                      size="1x"
+                      color="rgba(0, 0, 0, 0.701)"
+                    />
+                    Verify
+                  </a>
+                </li>
+
                 <li className="adminsidelist" onClick={showAdd}>
                   <a href="#">
                     <svg
@@ -255,7 +329,7 @@ export default function AdminPage() {
                   </a>
                 </li>
 
-                <li className="adminsidelist">
+                <li className="adminsidelist" onClick={showUpdate}>
                   <a href="#">
                   <FontAwesomeIcon
                       icon={faEdit }
@@ -358,6 +432,90 @@ export default function AdminPage() {
 		{showMain === "view" && (
 		<main className="content-wrap">
 <View data={users} />
+			</main>
+			)}
+      		{showMain === "Update" && (
+		<main className="content-wrap">
+<Update  />
+			</main>
+			)}
+
+{showMain === "Verify" && (
+		<main className="content-wrap">
+
+<div  className={`wrapper`}>
+                        <div className={`popup adminpop 
+                        verify` }
+                        style={{display:"inline-flex"}}>
+                          <div  className="overlay"></div>
+                          <div className={`popup-content adminreg`}>                        
+                      
+                           <br />
+  
+  <h3 className="h3-register">{t("Verify")}</h3>   
+    <input
+                              className="input"
+                              type="text"
+                              placeholder={t("Search UserName")}
+                              onChange={(e) =>
+                                setinputValue({
+                                  ...inputValue,
+                                  username: e.target.value,
+                                })
+                              }
+                            />
+                              <br />
+                              <br />  <br />
+                            User Information
+                            <input
+                              className="input"
+                              type="text"
+                              placeholder={t("Username")}
+                            />
+                            <input
+                              className="input"
+                              type="text"
+                              placeholder={t("Phonenumber")}
+                            />
+                            <input
+                              className="input"
+                              type="email"
+                              placeholder={t("Email")}
+                            />
+                            <input
+                              className="input"
+                              type="password"
+                              placeholder={t("Password")}
+                            />{" "}
+                          
+          
+                          </div>
+                        </div>
+
+                    </div>
+                    <div className="fileinput" onClick={handleDoc}
+                       style={{ marginTop: "-5.5rem" }}>
+                      <h4>Upload the documentation</h4>
+                      <br/>
+                    <FontAwesomeIcon
+                                icon={faFileArrowUp}
+                                size="5x"
+                                color="rgba(73, 154, 149, 0.61)"
+                             
+                              />
+                      <input type="file" onChange={uploadDoc} 
+                       ref={inputrefDoc}
+                       style={{ display: "none" }}/>
+                     
+                    </div>
+                    <button className="button-33" onClick={verifyUser}>Verify</button>
+
+                    {isPopupAlertVisible != "" && (
+    <AlertPopup
+    message={isPopupAlertVisible}
+    onClose={handleCancel}
+  />
+)}
 			</main>
 			)}
 

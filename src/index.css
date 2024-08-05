@@ -264,10 +264,14 @@ input{
     z-index: 3; 
   }
   .adminpop{
-
     transform: translate(70%, 5%);
     background-color: rgba(38, 102, 96, 0.374);
-    
+ 
+  }
+  .verify{
+    transform: translate(-50%, 5%);
+    background-color: rgba(38, 102, 96, 0.374);
+    height: 165px;
   }
 .false{
     height: 400px;
@@ -582,9 +586,9 @@ color:#01575a;
   transition: 0.2s ease-in-out;
 }
 nav ul li a:hover{
-background-color: #438c8f;
-  color:#ffffff;
-box-shadow: 5px 10px 30px rgb(98, 175, 177);
+background-color: #70d3d8;
+  color:#000;
+  box-shadow: rgba(0, 175, 175, 0.621) 0px 54px 55px, rgba(24, 159, 159, 0.845) 0px -12px 30px, rgba(0, 142, 161, 0.642) 0px 4px 6px, rgba(0, 225, 255, 0.61) 0px 12px 13px, rgba(0, 134, 158, 0.681) 0px -3px 5px;
 transition: all ease 0.2s;
 }
 nav .menu-btn,
@@ -695,13 +699,17 @@ background-color:#2a3131 ;
   height: 400px;
   margin: 30px;
   border-radius: 10px;
-  overflow: hidden;
   transition: 0.4s ease-in-out;
   position: relative;
 }
 .a-b-img{
   width: 100%;
   height: 60%;
+
+}
+.a-box:hover .a-b-img{
+transform:perspective(500px) rotatex(-20deg) scale(2.3);
+transition: 0.4s ease-in-out;
 
 }
 .a-b-img img{
@@ -712,6 +720,7 @@ background-color:#2a3131 ;
 
 }
 .a-box:hover{
+  transform:perspective(500px) rotatex(10deg);
   border: 1px solid #5f9ea0;
   box-shadow: 2px 2px 12px rgb(95, 158, 160);
 }

@@ -82,7 +82,7 @@ export default function Freelancerdetails() {
 
   const togglePopup = () => {
     if (!userData) {
-      navigate("/login");
+      navigate("/Register");
     } else {
     setPopup(!popup);
     }
@@ -163,8 +163,6 @@ export default function Freelancerdetails() {
     }
   };
 
-console.log(showWork)
-
   return (
     <>
     <div className="full-page">
@@ -216,12 +214,12 @@ console.log(showWork)
   </label>
   <label className="radio">
     <input type="radio" name="radio" />
-    <span className="name r"  onClick={portfolio}>Porfolio</span>
+    <span className="name r"  onClick={portfolio}>Porfolio Images</span>
   </label>
 
   <label className="radio">
     <input type="radio" name="radio" />
-    <span className="name v">Vue</span>
+    <span className="name v">Other Porfolio</span>
   </label>
 </div>
 
@@ -263,7 +261,7 @@ console.log(showWork)
 {showPortfolio && (
  <>
 
-
+<PortfolioSlider />
 
  </>)}
       </div>

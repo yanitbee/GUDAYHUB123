@@ -73,7 +73,9 @@ export default function Register(){
             title: "",
             profilepic: "",
             code: codenum,
+            IsVerified:false,
             nullvalue,
+
           });
           console.log("data: ", nullvalue);
           setPopup(!popup);
