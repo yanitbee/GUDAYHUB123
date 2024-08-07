@@ -563,18 +563,23 @@ navigate("ReadMore")
         <Element name="about">
           <section>
             {
+              
               <div id="about">
+                  <h1>{t("About Us")}</h1>
+            <div className="about-container">
                 <div className="about-image">
                   <img src={fimage5} alt="" />
                 </div>
+                
                 <div className="about-text">
-                  <h1>{t("About Us")}</h1>
+                
                   <p>
                     {t(
                       "GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet.The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity."
                     )}{" "}
                   </p>
                   <button onClick={readmore}>{t("Read More")}</button>
+                </div>
                 </div>
               </div>
             }

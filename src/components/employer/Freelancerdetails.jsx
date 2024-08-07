@@ -82,7 +82,7 @@ export default function Freelancerdetails() {
 
   const togglePopup = () => {
     if (!userData) {
-      navigate("/Register");
+      navigate("/login");
     } else {
     setPopup(!popup);
     }

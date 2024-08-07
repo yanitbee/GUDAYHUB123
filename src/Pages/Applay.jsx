@@ -5,6 +5,7 @@ import useAuth from "../Hooks/UseAuth";
 import { format } from "timeago.js";
 import "./css/apply.css";
 import Popup from "../assets/popup";
+import AlertPopup from "../assets/AlertPopup";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();
@@ -29,7 +30,11 @@ export default function Apply() {
   const [popup, setPopup] = useState(false);
 
   const [isPopupVisible, setIsPopupVisible] = useState("");
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
   const handleCancel = () => {
     setIsPopupVisible("");
   };
@@ -57,10 +62,10 @@ export default function Apply() {
 
   const alreadyApplied = (applied) => {
     if (applied === "applied") {
-      alert("You have already applied");
+      setIsPopupAlertVisible("You have already applied");
     }
     if (applied === "hired") {
-      alert("You have already been hired");
+      setIsPopupAlertVisible("You have already been hired");
     }
   };
 
@@ -68,7 +73,7 @@ export default function Apply() {
     try {
       editData(file);
       if (readData.coverletter && !inputValue.Coverletter) {
-        alert("Cover letter is a requirement for this job");
+        setIsPopupAlertVisible("Cover letter is a requirement for this job");
         return;
       }
       if (
@@ -76,7 +81,7 @@ export default function Apply() {
         (!freelancerData.freelancerprofile.cv ||
           freelancerData.freelancerprofile.cv === "")
       ) {
-        alert("CV is a requirement for this job");
+        setIsPopupAlertVisible("CV is a requirement for this job");
         return;
       }
       await axios.post("http://localhost:4000/applicant/writeapplicant", {
@@ -87,7 +92,7 @@ export default function Apply() {
       });
       console.log("data: ", inputValue);
       setPopup(!popup);
-      alert("Application sent");
+      setIsPopupAlertVisible("Application sent");
       fetchData();
     } catch (error) {
       console.log("error", error);
@@ -264,6 +269,14 @@ export default function Apply() {
           onCancel={handleCancel}
         />
       )}
+
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
+
               {popup && (
 
                 <div className={`form`}>
