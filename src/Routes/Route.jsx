@@ -49,6 +49,8 @@ const AppRoutes = () => {
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
+  const { getUserData } = useAuth();
+  const userData = getUserData(); 
   return (
     <>
       <SocketProvider>
@@ -57,22 +59,47 @@ const AppRoutes = () => {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="/" element={<Home />} />
-              <Route path="/joblist" element={<Joblist />} />
-              <Route path="/joblist/apply" element={<Apply />} />
-              <Route path="/freelancerlist" element={<Freelancerlist />} />
+              <Route path="/joblist" element={isAuthenticated ? (
+            userData.UserType === "employer" ? <Navigate to="/employerpage"  replace/> :
+            userData.UserType === "freelancer" ? <Navigate to="/freelancerpage"  replace/> :
+            userData.UserType === "admin" ? <Navigate to="/admin"  replace/> :
+            <Navigate to="/"  />
+          ) : <Joblist />} />
+              <Route path="/joblist/apply" element={isAuthenticated ? (
+            userData.UserType === "employer" ? <Navigate to="/employerpage"  replace/> :
+            userData.UserType === "freelancer" ? <Navigate to="/freelancerpage"  replace/> :
+            userData.UserType === "admin" ? <Navigate to="/admin"  replace/> :
+            <Navigate to="/"  />
+          ) : <Apply />} />
+              <Route path="/freelancerlist" element={isAuthenticated ? (
+            userData.UserType === "employer" ? <Navigate to="/employerpage"  replace/> :
+            userData.UserType === "freelancer" ? <Navigate to="/freelancerpage"  replace/> :
+            userData.UserType === "admin" ? <Navigate to="/admin"  replace/> :
+            <Navigate to="/"  />
+          ) : <Freelancerlist />} />
               <Route path="/ReadMore" element={<ProjectAbstract />} />
               <Route
                 path="/freelancerlist/Freelancerdetails"
-                element={<Freelancerdetails />}
+                element={isAuthenticated ? (
+                  userData.UserType === "employer" ? <Navigate to="/employerpage"  replace/> :
+                  userData.UserType === "freelancer" ? <Navigate to="/freelancerpage"  replace/> :
+                  userData.UserType === "admin" ? <Navigate to="/admin"  replace/> :
+                  <Navigate to="/"  />
+                ) : <Freelancerdetails />}
               />
                <Route
                 path="/Register"
-                element={<Register />}
+                element={ <Register />}
               />
-               <Route
-                path="/login"
-                element={<Login />}
-              />
+                 <Route
+          path="/login"
+          element={isAuthenticated ? (
+            userData.UserType === "employer" ? <Navigate to="/employerpage"  replace/> :
+            userData.UserType === "freelancer" ? <Navigate to="/freelancerpage"  replace/> :
+            userData.UserType === "admin" ? <Navigate to="/admin"  replace/> :
+            <Navigate to="/"  />
+          ) : <Login />}
+        />
               <Route
                 path="/admin"
                 element={<PrivateRoute element={<AdminPage />} />}

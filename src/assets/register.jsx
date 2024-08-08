@@ -5,8 +5,13 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import AlertPopup from "./AlertPopup";
+import useAuth from "../Hooks/UseAuth";
 
 export default function Register() {
+
+  const { getUserData, logOut } = useAuth();
+  const userData = getUserData();
+
   const { t } = useTranslation();
   const navigate = useNavigate()
   const [isExiting, setIsExiting] = useState(false);
@@ -35,6 +40,10 @@ export default function Register() {
   const [popup, setPopup] = useState(false);
   const [code, setCode] = useState("");
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  if(userData){
+    logOut();
+  }
 
   const handleClose = () => {
     setIsPopupAlertVisible("");
@@ -132,6 +141,8 @@ export default function Register() {
       navigate(path);
     }, 700); 
   };
+
+
 
   return (
     <div className="registerlogin">

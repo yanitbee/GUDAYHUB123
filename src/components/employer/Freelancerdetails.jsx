@@ -82,11 +82,18 @@ export default function Freelancerdetails() {
 
   const togglePopup = () => {
     if (!userData) {
+      const redirectData = {
+        pathname: "/employerpage/Freelancerdetails",
+        state: location.state,
+      };
+      sessionStorage.setItem("redirectDataEmployer", JSON.stringify(redirectData));
+
       navigate("/login");
     } else {
     setPopup(!popup);
     }
   };
+
 
   if (popup) {
     document.body.classList.add("active-popup");

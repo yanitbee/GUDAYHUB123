@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Confetti from "react-confetti";
+import { Pie, Line, Bar } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 export default function Taskmanager() {
   const { getUserData, getUserToken } = useAuth();
   const userData = getUserData();
   const token = getUserToken();
-
- 
 
   const [readData, setReadData] = useState([]);
   const [readHired, setReadHired] = useState([]);
@@ -62,8 +64,8 @@ export default function Taskmanager() {
     if (hiredApplicant) {
       setHired(true);
       setTimeout(() => {
-         axios.put(`http://localhost:4000/applicant/changehirestatus`, null, {
-          params: { status: "hired", applicantid: hiredApplicant._id  }
+        axios.put(`http://localhost:4000/applicant/changehirestatus`, null, {
+          params: { status: "hired", applicantid: hiredApplicant._id }
         })
           .then(() => window.location.reload())
           .catch(error => {
@@ -81,64 +83,144 @@ export default function Taskmanager() {
     setHiredIsEmpty(readHired.length === 0);
   }, [readData, readHired]);
 
+  const pieData = {
+    labels: ["Waiting", "Application Opened", "Interview Set", "Hired"],
+    datasets: [
+      {
+        label: "Application Status",
+        data: [
+          readData.filter(data => data.status === "waiting").length,
+          readData.filter(data => data.status === "application opened").length,
+          readData.filter(data => data.status === "Interview Set").length,
+          readHired.length
+        ],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
+      }
+    ]
+  };
+
+  const totalApplications = readData.length + readHired.length;
+
+  const getPercentage = (count) => ((count / totalApplications) * 100).toFixed(1);
+  
+  const wait = getPercentage(totalApplications);  // This will always be 100%
+  const open = getPercentage(
+    readData.filter(data => data.status === "application opened").length +
+    readData.filter(data => data.status === "Interview Set").length +
+    readHired.length
+  );
+  const interview = getPercentage(
+    readData.filter(data => data.status === "Interview Set").length +
+    readHired.length
+  );
+  const hire = getPercentage(readHired.length);
 
   return (
     <>
-      <Confetti
-        width={width}
-        height={height}
-        run={hired}
-        numberOfPieces={400}
-        confettiSource={{ x: 0, y: 100, w: width, h: 600 }}
-      />
+      <div className="wholeTask">
+        <Confetti
+          width={width}
+          height={height}
+          run={hired}
+          numberOfPieces={400}
+          confettiSource={{ x: 0, y: 100, w: width, h: 600 }}
+        />
 
-      {arrayIsEmpty ? (
-        <div className="taskblock">You have not applied to any job or task yet</div>
-      ) : (
-        <>
-          <div className="taskblock">You have {dataLen} current application{dataLen > 1 ? 's' : ''}</div>
-          <div className="container">
-            {readData.map((data, index) => (
-              <div className="applylist" key={data.postid}>
-                {readDataPostTitles[index] && (
-                  <>
-                    <h3 className="textf">Job title</h3>
-                    <p className="titlef">{readDataPostTitles[index]}</p>
-                  </>
-                )}
-                <h3 className="textf">Cover Letter</h3>
-                <p className="titlef">{data.Coverletter}</p>
-                <h3 className="textf">Status</h3>
-                <p className="titlef">{data.status}</p>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+        {arrayIsEmpty ? (
+          <div className="taskblock">You have not applied to any job or task yet</div>
+        ) : (
+          <>
+            <div className="taskblock">You have {dataLen} current application{dataLen > 1 ? 's' : ''}</div>
+            <div className="container">
+              {readData.map((data, index) => (
+                <div className="applylist" key={data.postid}>
+                  {readDataPostTitles[index] && (
+                    <>
+                      <h3 className="textf">Job title</h3>
+                      <p className="titlef">{readDataPostTitles[index]}</p>
+                    </>
+                  )}
+                  <h3 className="textf">Cover Letter</h3>
+                  <p className="titlef">{data.Coverletter}</p>
+                  <h3 className="textf">Status</h3>
+                  <p className="titlef">{data.status}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
-      {hiredIsEmpty ? (
-        <div className="taskblock">You have not gotten any job in GudayHub</div>
-      ) : (
-        <>
-          <div className="taskblock ">You have gotten {hiredLen} job{hiredLen > 1 ? 's' : ''} in GudayHub</div>
-          <div className="container ">
-            {readHired.map((data, index) => (
-              <div className="applylist" key={data.postid}>
-                {readHiredPostTitles[index] && (
-                  <>
-                    <h3 className="textf">Job title</h3>
-                    <p className="titlef">{readHiredPostTitles[index]}</p>
-                  </>
-                )}
-                <h3 className="textf">Cover Letter</h3>
-                <p className="titlef">{data.Coverletter}</p>
-                <h3 className="textf">Status</h3>
-                <p className="titlef">{data.status}</p>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+        {hiredIsEmpty ? (
+          <div className="taskblock">You have not gotten any job in GudayHub</div>
+        ) : (
+          <>
+            <div className="taskblock ">You have gotten {hiredLen} job{hiredLen > 1 ? 's' : ''} in GudayHub</div>
+            <div className="container ">
+              {readHired.map((data, index) => (
+                <div className="applylist" key={data.postid}>
+                  {readHiredPostTitles[index] && (
+                    <>
+                      <h3 className="textf">Job title</h3>
+                      <p className="titlef">{readHiredPostTitles[index]}</p>
+                    </>
+                  )}
+                  <h3 className="textf">Cover Letter</h3>
+                  <p className="titlef">{data.Coverletter}</p>
+                  <h3 className="textf">Status</h3>
+                  <p className="titlef">{data.status}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+ <h2>Application Status Distribution</h2>
+        <div className="report-section">
+          <div></div>
+          <Pie data={pieData} />
+        </div>
+
+
+        <div className="bullet-section">
+          <h2>Average Application Progress</h2>
+  <div className="line"></div>
+  <div className="list">
+    <div className="itemList">
+      <div className="percent">
+        <p>{wait}% </p></div>
+  <img
+          src={`/image/wait.jpg`}
+          alt="waiting"
+        />
+        </div>
+        <div className="itemList">
+        <div className="percent">
+        <p>{open}% </p></div>
+        <img
+          src={`/image/open.jpg`}
+          alt="opened"
+        />
+        </div>
+        <div className="itemList">
+        <div className="percent">
+        <p>{interview}% </p></div>
+        <img
+          src={`/image/interview5.png`}
+          alt="Profile"
+        />
+        </div>
+        <div className="itemList">
+        <div className="percent">
+        <p>{hire}% </p></div>
+        <img
+          src={`/image/hire.jpg`}
+          alt="hired"
+        />
+        </div>
+        
+  </div>
+        </div>
+      </div>
     </>
   );
 }

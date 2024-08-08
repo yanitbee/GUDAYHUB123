@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Element } from "react-scroll";
 import fimage5 from "/image/logo.png";
 import useAuth from "../Hooks/UseAuth";
 import { useTranslation } from "react-i18next";
 import HomeSlide from "../components/homeslide";
 import AlertPopup from "../assets/AlertPopup";
+import { animateScroll as scroll } from 'react-scroll';
 
 const Home = () => {
   const [inputValue, setinputValue] = useState({
@@ -18,6 +19,9 @@ const Home = () => {
     Password: "",
     Gender: "",
   });
+
+  const { getUserData, logOut } = useAuth();
+  const userData = getUserData();
 
   const { t } = useTranslation();
   const nullvalue = useState({
@@ -41,6 +45,24 @@ const Home = () => {
   const [readData, setreadData] = useState([]);
 
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+  const location = useLocation();
+
+  if(userData){
+    logOut();
+  }
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        scroll.scrollTo(element.offsetTop, {
+          duration: 500,
+          smooth: true,
+        });
+      }
+    }
+  }, [location]);
 
   const handleCancel = () => {
     setIsPopupAlertVisible("");
@@ -86,7 +108,7 @@ const Home = () => {
         } else if (error.response.data === "Code has expired") {
           alert("Code has expired");
         } else {
-          alert(error.response.data); // Display other messages as an alert
+          alert(error.response.data);
         }
       } else if (error.response.data === "user already registered") {
         alert("user already registered");
@@ -259,7 +281,7 @@ navigate("ReadMore")
   }
 
   const registernav = () =>{
-    navigate("Register");
+    navigate("/Register");
   }
 
   const handleSubmit = async (event) => {

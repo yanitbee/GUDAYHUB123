@@ -1,3 +1,8 @@
+.wholeTask{
+    width: 100vw;
+    overflow-x: hidden;
+}
+
 .container {
     display: flex; 
     flex-wrap: wrap; 
@@ -70,4 +75,46 @@
 .more{
     padding-block: 0.5rem;
     padding-inline: 1.8rem;
+}
+.report-section{
+    width: 300px;
+    height: 300px;
+    transform: translateX(190%);
+    margin: 2rem ;
+}
+.bullet-section{
+    height: 300px; 
+    width: 735px;
+    transform: translateX(50%);
+}
+.line{
+    margin: 2rem ;
+    border: solid #5f9ea09c 10px;
+}
+.list{
+    display: flex;
+    gap: 7rem; 
+}
+
+.list img{
+    width: 60px;
+    border: solid 1px;
+    border-radius: 50%;
+
+}
+.itemList{
+    margin-left:2rem ;
+}
+.percent{
+    width: 60px;
+    height: 60px;
+    border: solid 1px #5f9ea09c;
+    border-radius: 50%;
+    margin-top: -4.5rem;
+    margin-bottom: 1rem;
+    background-color: #5f9ea09c;
+}
+.percent p{
+    margin-top: 1rem;
+    color: #fff;
 }

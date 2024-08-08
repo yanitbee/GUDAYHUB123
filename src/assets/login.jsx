@@ -32,10 +32,22 @@ export default function Login() {
 
       const data = response.data;
       logIn(data.message.userData, data.message.token);
+
       if (data.message.userData.UserType === "employer") {
-        navigate("/employerpage");
+
+        const redirectData = JSON.parse(sessionStorage.getItem("redirectDataEmployer")) ||  { pathname: "/employerpage", state: {} }
+
+      sessionStorage.removeItem("redirectDataEmployer");
+      navigate(redirectData.pathname, {  replace: true ,state: redirectData.state });
+
+
       } else if (data.message.userData.UserType === "freelancer") {
-        navigate("/freelancerpage");
+
+        const redirectData = JSON.parse(sessionStorage.getItem("redirectDataFreelancer")) || { pathname: "/freelancerpage", state: {} }
+ 
+        sessionStorage.removeItem("redirectDataFreelancer");
+        navigate(redirectData.pathname, { state: redirectData.state });
+
       } else if (data.message.userData.UserType === "admin") {
         navigate("/admin");
       }
@@ -44,10 +56,13 @@ export default function Login() {
         setIsPopupAlertVisible(error.response.data.error);
       } else {
         console.error("Error checking user:", error);
-        setIsPopupAlertVisible("An unexpected error occurred. Please try again later.");
+        setIsPopupAlertVisible(
+          "An unexpected error occurred. Please try again later."
+        );
       }
     }
   };
+
 
   const handleNavigation = (path) => {
     setIsExiting(true);
@@ -92,7 +107,7 @@ export default function Login() {
                 <button
                   className="button-33"
                   role="button"
-                  onClick={() => handleNavigation("/register")}
+                  onClick={() => handleNavigation("/Register")}
                 >
                   {t("Register")}
                 </button>

@@ -173,6 +173,11 @@ export default function Apply() {
 
   const togglePopup = () => {
     if (!userData) {
+      const redirectData = {
+        pathname: "/freelancerpage/Apply",
+        state: location.state,
+      };
+      sessionStorage.setItem("redirectDataFreelancer", JSON.stringify(redirectData));
       navigate("/login");
     }else if(!freelancerData.IsVerified || freelancerData.IsVerified === false){
       setIsPopupVisible("Your account havenot been verified yet Click yes if you want to send request for verification");
@@ -181,6 +186,7 @@ export default function Apply() {
       setPopup(!popup);
     }
   };
+
 
   const handleConfirm =() =>{
     console.log("a")
