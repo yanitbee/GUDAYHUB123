@@ -9,7 +9,7 @@
    transform: translate(-50%,-50%);
     border-radius: 20px;
     color: #ffffff;
-    background-color: rgba(14, 13, 13, 0.815);
+    background-color: rgba(39, 92, 85, 0.938);
     box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
     position: absolute;
     text-align: center;
@@ -37,12 +37,12 @@
 }
 
 #confirm-button {
-    background-color: #4CAF50;
+    background-color: #0a7c4a;
     color: white;
 }
 
 #cancel-button {
-    background-color: #f44336;
+    background-color: #a11919d9;
     color: white;
 }
 

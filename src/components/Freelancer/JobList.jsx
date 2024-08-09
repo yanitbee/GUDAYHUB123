@@ -213,7 +213,7 @@ export default function Joblist() {
               onClick={searchclicked}
             />
           </div>
-          <div class={`sidebar${searchicon} end-0`}>
+          <div className={`sidebar${searchicon} end-0`}>
             <FontAwesomeIcon
               className={`arrow start-0`}
               icon={faArrowRight}
