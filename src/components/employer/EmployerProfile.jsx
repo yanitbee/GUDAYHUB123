@@ -171,9 +171,6 @@ export default function EmployerProfile() {
               <br />
               <p onClick={addpro} className="eedit">Edit</p>
               <br /> <br />
-              <button className="popup-btn" onClick={editData}>
-                Submit
-              </button>
               <button className="popup-btn" id="x" onClick={togglePopup}>
                 X
               </button>

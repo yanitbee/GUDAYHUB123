@@ -5,6 +5,7 @@ import "./css/freelancerdetails.css";
 import { useTranslation } from 'react-i18next';
 import useAuth from "../../Hooks/UseAuth";
 import PortfolioSlider from "../../assets/portfolio";
+import BackButton from "../BackButton"
 
 export default function Freelancerdetails() {
   const { getUserData, getUserToken } = useAuth();
@@ -308,6 +309,7 @@ console.log(showWork)
                     </button>
                   </div>
                 </div>
+                
               )}
             </div>
     </>
