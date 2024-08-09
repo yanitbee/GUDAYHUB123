@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-
+code
 body{
   margin:0px;
   padding: 0px;
@@ -164,6 +164,7 @@ input{
   margin-left: 15rem;
   width: 100px;
 }
+
 .xe:hover {
   box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
   transform: scale(1.05) rotate(-1deg);
@@ -209,13 +210,41 @@ input{
     flex: 1;
     display: block;
     position: relative;
-    transform: translate(80%);
-    transition: transform 2s ease-in-out;
-    top: 9em;
+    transform: translate(-20%,30%);
     object-fit: cover;
     will-change: transform;
     z-index: -1;
+    animation: slideInVid 2s ease-in-out;
   }
+
+  @keyframes slideInVid {
+    from {
+      transform: translate(-120%,30%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-20%,27%);
+      opacity: 1;
+    }
+  }
+
+  .slide-exit{
+    animation: slideOutVid 1s ease-in-out;
+  }
+
+  
+  @keyframes slideOutVid {
+    from {
+      transform: translate(0%);
+      opacity: 1;
+    }
+    to {
+      transform: translate(-80%);
+      opacity: 0;
+    }
+  }
+
+
 
   .loginvidactive video{
     flex: 1;
@@ -234,13 +263,39 @@ input{
     flex: 1;
     display: block;
     position: relative;
-    transform: translate(120%);
-    transition: transform 2s ease-in-out;
-    top: 9em;
+    transform: translate(-10%,30%);
+    transition: transform 1s ease-in-out;
     object-fit: cover;
     will-change: transform;
     z-index: -1;
+    animation: slideInVidLogIn 2s ease-out;
   }
+
+  @keyframes slideInVidLogIn {
+    from {
+      transform: translate(60%,30%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-10%,30%);
+      opacity: 1;
+    }
+  }
+  .slide-exitVidLogIn{
+    animation: slideOutVidLogIn 2s ease-out;
+  }
+
+  @keyframes slideOutVidLogIn {
+    from {
+      transform: translate(0);
+      opacity: 1;
+    }
+    to {
+      transform: translate(110%);
+      opacity: 0;
+    }
+  }
+
   .registervidactive video {
     flex: 1;
     display: block;
@@ -288,21 +343,55 @@ input{
   }
   .registerpop {
     flex: 2;
-    transform: translate(130%, 5%);
+    transform: translate(10%, 5%);
     transition: transform 2s ease-in-out;
     position: static;
     z-index: 3; 
   }
   .adminpop{
-
     transform: translate(70%, 5%);
     background-color: rgba(38, 102, 96, 0.374);
-    
+ 
+  }
+  .verify{
+    transform: translate(-50%, 5%);
+    background-color: rgba(38, 102, 96, 0.374);
+    height: 165px;
   }
 .false{
     height: 400px;
-    transform: translate(130%, 20%);
+    transform: translate(10%, 23%);
+    animation: slideIn 2s ease-in-out;
   }
+
+  @keyframes slideIn {
+    from {
+      transform: translate(-150%,23%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(10%, 23%);
+      opacity: 1;
+    }
+  }
+
+  .slide-exitPop{
+    animation: slideOutPop 1s ease-in-out;
+  }
+
+  
+  @keyframes slideOutPop {
+    from {
+      transform: translate(0%, 23%);
+      opacity: 1;
+    }
+    to {
+      transform: translate(-120%, 23%);
+      opacity: 0;
+    }
+  }
+
+
   .registerpopactive {
     flex: 2;
     transform: translate(-350%,5%);
@@ -313,11 +402,35 @@ input{
   
   .loginpop {
     flex: 2;
-    transform: translate(95%, 23%);
-    transition: transform 2s ease-in-out;
+    transform: translate(5%, 30%);
+    transition: transform 1s ease-in-out;
     position: static;
     height: 365px;
     z-index: 3; 
+    animation: slideInLogIn 2s ease-in-out;
+  }
+  @keyframes slideInLogIn {
+    from {
+      transform: translate(150%,30%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(5%, 30%);
+      opacity: 1;
+    }
+  }
+  .slide-exitLogIn{
+    animation: slideOutLogIn 1s ease-in-out;
+  }
+  @keyframes slideOutLogIn {
+    from {
+      transform: translate(0,30%);
+      opacity: 1;
+    }
+    to {
+      transform: translate(125%,30%);
+      opacity: 0;
+    }
   }
   .loginpopactive{
     flex: 2;
@@ -612,9 +725,9 @@ color:#01575a;
   transition: 0.2s ease-in-out;
 }
 nav ul li a:hover{
-background-color: #438c8f;
-  color:#ffffff;
-box-shadow: 5px 10px 30px rgb(98, 175, 177);
+background-color: #70d3d8;
+  color:#000;
+  box-shadow: rgba(0, 175, 175, 0.621) 0px 54px 55px, rgba(24, 159, 159, 0.845) 0px -12px 30px, rgba(0, 142, 161, 0.642) 0px 4px 6px, rgba(0, 225, 255, 0.61) 0px 12px 13px, rgba(0, 134, 158, 0.681) 0px -3px 5px;
 transition: all ease 0.2s;
 }
 nav .menu-btn,
@@ -637,6 +750,15 @@ margin-left: -0.05rem;
 .drop:hover .item{
   display: block;
 }
+.lanDrop{
+  padding: 5px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #52a4a8;
+  margin-top: 8px;
+  box-shadow: rgba(66, 66, 66, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
 
 .header-heading{
   text-align: center;
@@ -725,13 +847,17 @@ background-color:#2a3131 ;
   height: 400px;
   margin: 30px;
   border-radius: 10px;
-  overflow: hidden;
   transition: 0.4s ease-in-out;
   position: relative;
 }
 .a-b-img{
   width: 100%;
   height: 60%;
+
+}
+.a-box:hover .a-b-img{
+transform:perspective(500px) rotatex(-20deg) scale(2.3);
+transition: 0.4s ease-in-out;
 
 }
 .a-b-img img{
@@ -742,6 +868,7 @@ background-color:#2a3131 ;
 
 }
 .a-box:hover{
+  transform:perspective(500px) rotatex(10deg);
   border: 1px solid #5f9ea0;
   box-shadow: 2px 2px 12px rgb(95, 158, 160);
 }
@@ -841,22 +968,36 @@ background-color: transparent;
   border: 2px solid #FF1414;
 }
 */
+
+#about h1{
+  color: #bbfcff;
+  font-size: 3rem;
+  margin-top: 8rem;
+}
 #about{
 width:100%;
-height: 120vh;
+height: 100vh;
 box-sizing: border-box;
 display: flex;
 align-items: center;
-justify-content: space-between;
+flex-direction: column;
 padding: 0px 5% 0px 5%;
 position: relative;
 background-color:#3b7174;
+}
+
+.about-container{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
 }
 
 .about-text{
   width: 45%;
   color: #fff;
   list-style: circle;
+  margin-top: 10rem;
 
 }
 .about-text h1{
@@ -894,6 +1035,7 @@ background-color: rgb(0, 0, 0);
 }
 .about-image img{
 width: 600px;
+
 }
 
 #testimony{
@@ -1199,6 +1341,12 @@ width: 600px;
       }
       .codeactive{
         display: block;
+        position: absolute;
+        z-index: 1;
+        background-color: #2e6566ee;
+        padding: 1rem;
+        border-radius: 10px;
+        color: #fff;
       }
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/freelancerlist.css";
@@ -7,159 +7,99 @@ import BackButton from "../BackButton"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import debounce from 'lodash.debounce';
 
 export default function Freelancerlist() {
-  const [readData, setreadData] = useState({});
+  const [readData, setReadData] = useState({});
   const { t } = useTranslation();
-  const [searchicon, setsearchicon] = useState("");
-  const [search, setsearch] = useState("");
+  const [searchIcon, setSearchIcon] = useState("");
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
-  const searchclicked = () => {
-    setsearchicon("active");
-  };
-  const searchclickednot = () => {
-    setsearchicon("");
-  };
+  const searchClicked = () => setSearchIcon("active");
+  const searchClickedNot = () => setSearchIcon("");
 
-  const handelsearch = (e) => {
-    setsearch(e.target.value);
-  };
+  const handleSearch = (e) => setSearch(e.target.value);
 
-
-  useEffect(() => {
-    const fetchData = async () => {
+  const debouncedSearch = useCallback(
+    debounce(async (search) => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/employer/readfromserver" ,
-          {
-            params: { serachtitle: search},
-          }
+          "http://localhost:4000/employer/readfromserver",
+          { params: { serachtitle: search } }
         );
         const data = response.data;
 
-        // Filter the freelancers
-        const freelancers = data.filter((user) => 
-          user.Usertype === "freelancer" && user.status !== "deleted" && user.status !== undefined
-        );
-
-        // Default categories
+        // Filter and categorize freelancers
+        const freelancers = data.filter(user => user.Usertype === "freelancer" && user.status !== "deleted");
         const defaultCategories = {
           "House Work": ["Cleaner", "Plumber"],
           "IT & Software": ["Developer", "Designer"],
           "Writing & Translation": ["Writer", "Translator"],
-          "Transportation" : ["driver","Delivery","Pickup","bus driver"]
-          // Add more default categories as needed
+          "Transportation": ["Driver", "Delivery", "Pickup", "Bus Driver"]
         };
-
-        // Convert default categories to lowercase for comparison
         const lowerCaseCategories = Object.entries(defaultCategories).reduce((acc, [category, titles]) => {
           acc[category] = titles.map(title => title.toLowerCase());
           return acc;
         }, {});
-
-        // Categorize freelancers
         const categorizedData = freelancers.reduce((acc, freelancer) => {
           const freelancerTitle = freelancer.freelancerprofile.title ? freelancer.freelancerprofile.title.toLowerCase() : "others";
           let foundCategory = false;
-
           for (const [category, titles] of Object.entries(lowerCaseCategories)) {
             if (titles.includes(freelancerTitle)) {
-              if (!acc[category]) {
-                acc[category] = [];
-              }
+              if (!acc[category]) acc[category] = [];
               acc[category].push(freelancer);
               foundCategory = true;
               break;
             }
           }
-
           if (!foundCategory) {
-            if (!acc["Others"]) {
-              acc["Others"] = [];
-            }
+            if (!acc["Others"]) acc["Others"] = [];
             acc["Others"].push(freelancer);
           }
           return acc;
         }, {});
-
-        setreadData(categorizedData);
+        setReadData(categorizedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    };
-    fetchData();
-  }, [search]);
+    }, 500), // 500ms debounce delay
+    []
+  );
 
- 
+  useEffect(() => {
+    debouncedSearch(search);
+  }, [search, debouncedSearch]);
 
-  const navigate = useNavigate();
-
-  const handleclick = (userid) => {
-    navigate("Freelancerdetails", { state: { userid: userid } });
+  const handleClick = (userid) => {
+    navigate("Freelancerdetails", { state: { userid } });
   };
 
-  const getProfilePicUrl = (fileName) => {
-    return `http://localhost:4000/${fileName}`;
-  };
+  const getProfilePicUrl = (fileName) => `http://localhost:4000/${fileName}`;
 
   const generateStars = (rating) => {
     const roundedRating = Math.round(rating * 2) / 2;
-    const stars = [];
-
-    for (let i = 5; i >= 1; i--) {
-      if (roundedRating >= i) {
-        stars.push(
-          <label key={i} className={`${i} full-stars`}>
-            &#9733;
-          </label>
-        );
-      } else if (roundedRating + 0.5 === i) {
-        stars.push(
-          <label key={i} className={`${i} half-stars`}>
-            &#9733;
-          </label>
-        );
-      } else {
-        stars.push(
-          <label key={i} className={`${i} no-stars`}>
-            &#9734;
-          </label>
-        );
-      }
-    }
-    stars.reverse();
-    return stars;
+    return Array.from({ length: 5 }, (_, i) => {
+      const starValue = i + 1;
+      return (
+        <label key={starValue} className={`${starValue} ${roundedRating >= starValue ? "full-stars" : roundedRating + 0.5 === starValue ? "half-stars" : "no-stars"}`}>
+          &#9733;
+        </label>
+      );
+    });
   };
- 
- 
- 
-
-
+  
 
   return (
     <>
       <div className="jobparent">
         <div className={`serachparent`}>
-          <FontAwesomeIcon
-            className={`search s${searchicon} end-0 morecssserch`}
-            icon={faSearch}
-          />
-          <input
-            className={`another end-0 morecss`}
-            type="text"
-            placeholder="Search specialtys"
-            onChange={handelsearch}
-            onClick={searchclicked}
-          />
+          <FontAwesomeIcon className={`search s${searchIcon} end-0 morecssserch`} icon={faSearch} />
+          <input className={`another end-0 morecss`} type="text" placeholder="Search specialties" onChange={handleSearch} onClick={searchClicked} />
         </div>
-        <div className={`sidebar${searchicon} freelancerlist${searchicon} end-0 morecssside`}>
-          <FontAwesomeIcon
-            className={`arrow start-0`}
-            icon={faArrowRight}
-            onClick={searchclickednot}
-          />
+        <div className={`sidebar${searchIcon} freelancerlist${searchIcon} end-0 morecssside`}>
+          <FontAwesomeIcon className={`arrow start-0`} icon={faArrowRight} onClick={searchClickedNot} />
         </div>
-
         <div className="freelist-container">
           {Object.keys(readData)
             .sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : 0))
@@ -167,44 +107,19 @@ export default function Freelancerlist() {
               <div key={category} className="category-section">
                 <div className="taskblock catagory">{category}</div>
                 {readData[category].map((data) => (
-                  <div
-                    key={data._id}
-                    onClick={() => handleclick(data._id)}
-                    className="free-list"
-                  >
+                  <div key={data._id} onClick={() => handleClick(data._id)} className="free-list">
                     <div>
-                      <img
-                        className="ppf"
-                        src={
-                          data.freelancerprofile.profilepic === "" ||
-                          data.freelancerprofile.profilepic === null
-                            ? `/image/profile.jpg`
-                            : getProfilePicUrl(data.freelancerprofile.profilepic)
-                        }
-                        alt="Profile"
-                      />
+                      <img className="ppf" src={data.freelancerprofile.profilepic ? getProfilePicUrl(data.freelancerprofile.profilepic) : `/image/profile.jpg`} alt="Profile" />
                       <p className="titles">{data.freelancerprofile.title}</p>
                     </div>
-
-                    <div className="rating">
-                      {generateStars(data.freelancerprofile.rating)}
-                    </div>
-
+                    <div className="rating">{generateStars(data.freelancerprofile.rating)}</div>
                     <p className="namef">{data.Fullname}</p>
-                    <p>
-                      {data.freelancerprofile.gudayhistory.jobs
-                        ? data.freelancerprofile.gudayhistory.jobs
-                        : 0}{" "}
-                      jobs in GudayHub
-                    </p>
-
-                    {data.freelancerprofile.skills.map((skill, key) =>
-                      key <= 1 ? (
-                        <div className="skills freelist-skill" key={key}>
-                          <p>{skill}</p>
-                        </div>
-                      ) : null
-                    )}
+                    <p>{data.freelancerprofile.gudayhistory.jobs ? data.freelancerprofile.gudayhistory.jobs : 0} jobs in GudayHub</p>
+                    {data.freelancerprofile.skills.slice(0, 2).map((skill, key) => (
+                      <div className="skills freelist-skill" key={key}>
+                        <p>{skill}</p>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>

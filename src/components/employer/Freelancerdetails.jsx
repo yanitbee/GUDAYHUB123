@@ -83,11 +83,18 @@ export default function Freelancerdetails() {
 
   const togglePopup = () => {
     if (!userData) {
+      const redirectData = {
+        pathname: "/employerpage/Freelancerdetails",
+        state: location.state,
+      };
+      sessionStorage.setItem("redirectDataEmployer", JSON.stringify(redirectData));
+
       navigate("/login");
     } else {
     setPopup(!popup);
     }
   };
+
 
   if (popup) {
     document.body.classList.add("active-popup");
@@ -164,8 +171,6 @@ export default function Freelancerdetails() {
     }
   };
 
-console.log(showWork)
-
   return (
     <>
     <div className="full-page">
@@ -217,12 +222,12 @@ console.log(showWork)
   </label>
   <label className="radio">
     <input type="radio" name="radio" />
-    <span className="name r"  onClick={portfolio}>Porfolio</span>
+    <span className="name r"  onClick={portfolio}>Porfolio Images</span>
   </label>
 
   <label className="radio">
     <input type="radio" name="radio" />
-    <span className="name v">Vue</span>
+    <span className="name v">Other Porfolio</span>
   </label>
 </div>
 
@@ -264,7 +269,7 @@ console.log(showWork)
 {showPortfolio && (
  <>
 
-
+<PortfolioSlider />
 
  </>)}
       </div>

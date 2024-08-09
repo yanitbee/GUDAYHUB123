@@ -24,7 +24,7 @@ const LanguageSwitcher = () => {
 
   return (
     <div className="lng">
-      <select onChange={handleLanguageChange} defaultValue={i18n.language}>
+      <select className='lanDrop' onChange={handleLanguageChange} defaultValue={i18n.language}>
         <option value="en">{t('English')}</option>
         <option value="am">{t('Amharic')}</option>
         <option value="ao">{t('Afan Oromoo')}</option>

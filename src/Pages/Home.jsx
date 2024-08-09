@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Element } from "react-scroll";
 import fimage5 from "/image/logo.png";
 import useAuth from "../Hooks/UseAuth";
-//import zxcvbn from 'zxcvbn';
 import { useTranslation } from "react-i18next";
 import HomeSlide from "../components/homeslide";
+import AlertPopup from "../assets/AlertPopup";
+import { animateScroll as scroll } from 'react-scroll';
 
 const Home = () => {
   const [inputValue, setinputValue] = useState({
@@ -18,6 +19,9 @@ const Home = () => {
     Password: "",
     Gender: "",
   });
+
+  const { getUserData, logOut } = useAuth();
+  const userData = getUserData();
 
   const { t } = useTranslation();
   const nullvalue = useState({
@@ -39,6 +43,30 @@ const Home = () => {
   const [codenum, setcodenum] = useState("");
 
   const [readData, setreadData] = useState([]);
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+  const location = useLocation();
+
+  if(userData){
+    logOut();
+  }
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        scroll.scrollTo(element.offsetTop, {
+          duration: 500,
+          smooth: true,
+        });
+      }
+    }
+  }, [location]);
+
+  const handleCancel = () => {
+    setIsPopupAlertVisible("");
+  };
 
   const togglePopupcode = () => {
     setcode("");
@@ -80,7 +108,7 @@ const Home = () => {
         } else if (error.response.data === "Code has expired") {
           alert("Code has expired");
         } else {
-          alert(error.response.data); // Display other messages as an alert
+          alert(error.response.data);
         }
       } else if (error.response.data === "user already registered") {
         alert("user already registered");
@@ -172,7 +200,9 @@ const Home = () => {
   const navigateToApply = () => {
     navigate("freelancerlist");
   };
-
+  const readmore = () => {
+navigate("ReadMore")
+}
   const isempty = (arr) => {
     if (arr.length === 0) {
       return false;
@@ -251,8 +281,27 @@ const Home = () => {
   }
 
   const registernav = () =>{
-    navigate("Register");
+    navigate("/Register");
   }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+    try {
+      const formData = new FormData(event.target);
+      const formObject = Object.fromEntries(formData.entries());
+  
+      const response = await axios.post(
+        'http://localhost:4000/user/writecontact',
+        formObject
+      );
+      setIsPopupAlertVisible(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
 
   return (
     <>
@@ -536,18 +585,23 @@ const Home = () => {
         <Element name="about">
           <section>
             {
+              
               <div id="about">
+                  <h1>{t("About Us")}</h1>
+            <div className="about-container">
                 <div className="about-image">
                   <img src={fimage5} alt="" />
                 </div>
+                
                 <div className="about-text">
-                  <h1>{t("About Us")}</h1>
+                
                   <p>
                     {t(
                       "GUDAYHUB is a ... organization with the aim of addressing the problem of unemployment in Ethiopia by providing a platform for freelancers and employers to meet.The website will provide job opportunities not only for graduates but also for individuals without formal degrees or specific skills, promoting inclusivity and diversity."
                     )}{" "}
                   </p>
-                  <button>{t("Read More")}</button>
+                  <button onClick={readmore}>{t("Read More")}</button>
+                </div>
                 </div>
               </div>
             }
@@ -613,15 +667,22 @@ const Home = () => {
               <>
                 <div id="contact">
                   <h1>{t("Contact Us")}</h1>
-                  <form>
-                    <input type="text" placeholder={t("Fullname")} required />
-                    <input type="email" placeholder={t("Email")} required />
+                  <form onSubmit={handleSubmit}>
+                    <input name="fullname" type="text" placeholder={t("Fullname")} required />
+                    <input name="email" type="email" placeholder={t("Email")} required />
                     <textarea
                       placeholder={t("Write here")}
                       name="message"
                     ></textarea>
                     <input type="submit" value={t("Send")} />
                   </form>
+
+{isPopupAlertVisible != "" && (
+    <AlertPopup
+    message={isPopupAlertVisible}
+    onClose={handleCancel}
+  />
+)}
 
                   <div>
                     <ul class="wrappersocial">

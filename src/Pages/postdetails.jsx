@@ -48,7 +48,6 @@ export default function Postdetails() {
   };
 
   const handleConfirm = (id) => {
-    // Your confirm action here
     closejob(id);
     setIsPopupVisible(false);
   };

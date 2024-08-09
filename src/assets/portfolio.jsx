@@ -1,48 +1,69 @@
-import React, { useState } from 'react';
-import './portfolio.css'; // Import the CSS file
-
-const slides = [
-    '/image.log 4.jpg',
-  '/image.log 4.jpg',
- '/image.log 4.jpg',
-];
+import React, { useState } from "react";
+import "./portfolio.css";
 
 const PortfolioSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [spread, setSpread] = useState(false);
 
-  const goToPrevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-    );
+  const slides = [
+    {
+      backgroundImage: "url('/image/nojob.png')",
+      transform: "rotate(8deg) scale(1.1)",
+    },
+    {
+      backgroundImage: "url('/image/remote.jpg')",
+      transform: "rotate(-5deg) scale(0.9)",
+    },
+    {
+      backgroundImage: "url('/image/logo 4.jpg')",
+      transform: "rotate(10deg) scale(1)",
+    },
+  ];
+
+  const transform = [
+    {
+      transform: "translateX(0)",
+    },
+    {
+      transform: "translateX(90%)",
+    },
+    {
+      transform: "translateY(80%)",
+    },
+    {
+      transform: "translateX(-80%)",
+    },
+ 
+  ];
+
+  const over = () => {
+    setSpread(true);
   };
-
-  const goToNextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-    );
+  const Notover = () => {
+    setSpread(false);
   };
 
   return (
-    <div className="proslider">
-      <div
-        className="slides"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="slide"
-            style={{ backgroundImage: `url(${slide})` }}
-          />
-        ))}
-      </div>
-      <button className="control control-prev" onClick={goToPrevSlide}>
-        &#10094;
-      </button>
-      <button className="control control-next" onClick={goToNextSlide}>
-        &#10095;
-      </button>
+    <>
+    <div className="proslider"
+    style={{ width: spread ? "300px" : "350px", height: spread ? "270px" : "350px" , top: spread ? "4rem" : "0" }}
+    onMouseOut={Notover}>
+       Click To Download
+      {slides.map((slide, index) => (
+
+    
+        <div
+          key={index}
+          className="slide"
+          style={{
+            ...slide,
+            ...(spread ? transform[index] : {})
+          }}
+          onMouseOver={over}
+        />
+   
+      ))}
     </div>
+    </>
   );
 };
 

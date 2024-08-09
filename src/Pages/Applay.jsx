@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
 import { format } from "timeago.js";
 import "./css/apply.css";
+import Popup from "../assets/popup";
+import AlertPopup from "../assets/AlertPopup";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();
@@ -26,6 +28,16 @@ export default function Apply() {
     status: "",
   });
   const [popup, setPopup] = useState(false);
+
+  const [isPopupVisible, setIsPopupVisible] = useState("");
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
+  const handleCancel = () => {
+    setIsPopupVisible("");
+  };
 
   useEffect(() => {
     const fetchFreelancerData = async () => {
@@ -50,10 +62,10 @@ export default function Apply() {
 
   const alreadyApplied = (applied) => {
     if (applied === "applied") {
-      alert("You have already applied");
+      setIsPopupAlertVisible("You have already applied");
     }
     if (applied === "hired") {
-      alert("You have already been hired");
+      setIsPopupAlertVisible("You have already been hired");
     }
   };
 
@@ -61,7 +73,7 @@ export default function Apply() {
     try {
       editData(file);
       if (readData.coverletter && !inputValue.Coverletter) {
-        alert("Cover letter is a requirement for this job");
+        setIsPopupAlertVisible("Cover letter is a requirement for this job");
         return;
       }
       if (
@@ -69,7 +81,7 @@ export default function Apply() {
         (!freelancerData.freelancerprofile.cv ||
           freelancerData.freelancerprofile.cv === "")
       ) {
-        alert("CV is a requirement for this job");
+        setIsPopupAlertVisible("CV is a requirement for this job");
         return;
       }
       await axios.post("http://localhost:4000/applicant/writeapplicant", {
@@ -80,7 +92,7 @@ export default function Apply() {
       });
       console.log("data: ", inputValue);
       setPopup(!popup);
-      alert("Application sent");
+      setIsPopupAlertVisible("Application sent");
       fetchData();
     } catch (error) {
       console.log("error", error);
@@ -161,11 +173,25 @@ export default function Apply() {
 
   const togglePopup = () => {
     if (!userData) {
+      const redirectData = {
+        pathname: "/freelancerpage/Apply",
+        state: location.state,
+      };
+      sessionStorage.setItem("redirectDataFreelancer", JSON.stringify(redirectData));
       navigate("/login");
-    } else {
+    }else if(!freelancerData.IsVerified || freelancerData.IsVerified === false){
+      setIsPopupVisible("Your account havenot been verified yet Click yes if you want to send request for verification");
+    }
+     else {
       setPopup(!popup);
     }
   };
+
+
+  const handleConfirm =() =>{
+    console.log("a")
+    handleCancel()
+  }
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
@@ -242,10 +268,27 @@ export default function Apply() {
             )}
 
             <div className="wrapper">
+            {isPopupVisible != "" && (
+        <Popup
+          message = {isPopupVisible}
+          onConfirm={()=>{handleConfirm()}}
+          onCancel={handleCancel}
+        />
+      )}
+
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
+
               {popup && (
+
                 <div className={`form`}>
                   <div className="form-content">
                     <h3 className="">
+                 
                       Application for {readData.Jobtitle} position
                     </h3>
                     Fullname
@@ -316,12 +359,16 @@ export default function Apply() {
                     <button className="popup-btn" id="x" onClick={togglePopup}>
                       X
                     </button>
+                
                   </div>
                 </div>
               )}
             </div>
+            
           </div>
+          
         )}
+        
       </div>
     </>
   );

@@ -385,8 +385,8 @@ export default function Joblist() {
                             : data.Jobtype === "remote"
                             ? `/image/remotew.png`
                             : data.jobtype === "hibrid"
-                            ? `/image/hibrid.png`
-                            : `/image/hibrid.png`
+                            ? `/image/hybrid.png`
+                            : `/image/hybrid.png`
                         }
                         alt="Profile"
                       />

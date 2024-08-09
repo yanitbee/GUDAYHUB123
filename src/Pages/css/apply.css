@@ -1,6 +1,7 @@
 
 .applaywhole{
   margin-top: 9rem;
+  overflow-x: hidden;
 
 }
 
@@ -37,12 +38,14 @@ border-radius: 20px;
 .form{
     display: flex;
     align-items: center;
+    margin-top: -20rem;
   }
   .form-content{
     margin-top: 0rem;
     margin: 10rem;
-    width: 80rem;
-    height: 580px;
+    margin-left: 13rem;
+    width: 70rem;
+    height: 590px;
     color: #ffffff;
     background-color: rgba(14, 13, 13, 0.815);
     box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);

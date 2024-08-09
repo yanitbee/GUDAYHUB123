@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link as RouterLink, useNavigate } from "react-router-dom";
+import { useLocation, Link as RouterLink, useNavigate, NavLink  } from "react-router-dom";
 import { Link } from "react-scroll";
 import useAuth from "../Hooks/UseAuth";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,7 @@ const Navbar = () => {
         case "/freelancerlist/Freelancerdetails":
           case "/joblist/apply":
             case "/admin":
+              case "/ReadMore":
         setshowNav(false);
         break;
       default:
@@ -93,6 +94,7 @@ const Navbar = () => {
       case "/employerpage/Post":
       case "/employerpage/Applicantsdetails":
       case "/employerpage/Applicantsdetails/more":
+      case "/employerpage/Freelancerdetails":
         return (
           <>
             <li>
@@ -113,6 +115,51 @@ const Navbar = () => {
             </li>
           </>
         );
+        case "/joblist":
+        case "/freelancerlist":
+          case "/login":
+            case "/Register":
+          return(
+            <> <li>
+            <NavLink to="/" smooth={true} duration={500}>
+              {t("Home")}
+            </NavLink>
+          </li>
+          <div className="drop">
+            <li className="serv">
+            <NavLink to="/#service">
+              {t("Service")}
+            </NavLink>
+            </li>
+            <li className="item">
+              <NavLink to="/joblist">
+                {t("Job List")}
+              </NavLink>
+            </li>
+            <li className="item otheritem">
+              <NavLink to="/freelancerlist">
+                {t("Freelancer")}
+              </NavLink>
+            </li>
+          </div>
+          <li>
+          <NavLink to="/#about">
+            {t("About")}
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/#testimony">
+            {t("Testimony")}
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/#contact">
+            {t("Contact")}
+          </NavLink>
+          </li>
+          <LanguageSwitcher />
+            </>
+          )
       case "/":
         return (
           <>

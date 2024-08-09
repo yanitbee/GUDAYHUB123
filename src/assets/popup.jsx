@@ -5,7 +5,7 @@ export default function Popup ({ message, onConfirm, onCancel }) {
   return (
     <div className="popupc-container confirm show">
       <div className="popupc">
-        <h2>Are you sure?</h2>
+        <h2>Message</h2>
         <p>{message}</p>
         <div className="popup-buttons">
           <button id="confirm-button" onClick={onConfirm}>
