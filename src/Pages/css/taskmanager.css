@@ -1,12 +1,41 @@
 .wholeTask{
     width: 100vw;
-    overflow-x: hidden;
+    margin-top: 2rem;
+    overflow-x: hidden; 
+    display: grid;
+    height: 100vh; 
+    grid-gap: 0;
+    grid-template-columns: auto 370px;
+    grid-template-areas: 
+        "main side";
 }
+
+.main{
+    grid-area: main;
+    overflow-y: auto; 
+    height: 100vh; 
+    padding: 1rem; 
+    background-color: #f5feffc0;
+}
+
+.sidetask{
+    grid-area: side;
+    overflow-y: auto; 
+    height: 100vh; 
+    border: solid #8d8d8dc7;
+    padding-top: 4rem;
+    position: sticky;
+    top:0;
+    background-color: #97c5c6;
+}
+
+
 
 .container {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
+    
 }
 
 
@@ -77,15 +106,15 @@
     padding-inline: 1.8rem;
 }
 .report-section{
-    width: 300px;
+    width: 250px;
     height: 300px;
-    transform: translateX(190%);
     margin: 2rem ;
 }
 .bullet-section{
     height: 300px; 
     width: 735px;
-    transform: translateX(50%);
+    transform: translate(20%,30%);
+
 }
 .line{
     margin: 2rem ;
@@ -118,3 +147,33 @@
     margin-top: 1rem;
     color: #fff;
 }
+.bubles{
+    width: 130px;
+    transform: translateX(60%);
+    margin: 2rem;
+    border-radius: 10px;
+    color: #fff;
+}
+.bubles p{
+    margin-top: 9px;
+    padding: 8px;
+    cursor: pointer;
+}
+.bubles a{
+    color: #fff;
+}
+.hire{
+    background-color: #1d485cda;
+}
+.hire :hover{
+    background-color: #0089c9da;
+    border-radius: 10px;
+}
+.app{
+    background-color: #821f1fda;
+}
+.app :hover{
+    background-color: #c60000da;
+    border-radius: 10px;
+}
+

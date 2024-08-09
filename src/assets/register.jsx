@@ -53,6 +53,10 @@ export default function Register() {
     setPopup(!popup);
   };
 
+  const togglecodePopup = ()=>{
+    setCode("")
+  }
+
   const sendcode = async () => {
     try {
       await axios.post("http://localhost:4000/user/sendcode", {
@@ -66,7 +70,7 @@ export default function Register() {
 
   const saveData = async () => {
     try {
-      await axios.post("http://localhost:4000/user/registerUser", {
+      const response =   await axios.post("http://localhost:4000/user/registerUser", {
         Usertype: inputValue.Usertype,
         Fullname: inputValue.Fullname,
         username: inputValue.username,
@@ -76,22 +80,33 @@ export default function Register() {
         Gender: inputValue.Gender,
         title: "",
         profilepic: "",
-        code: codenum,
         IsVerified: false,
         nullvalue,
       });
-      console.log("data: ", nullvalue);
-      setPopup(!popup);
+      
+      if (response.status === 201 && response.data.message === "Verification code sent to email") {
+        setIsPopupAlertVisible("Verification code sent to email");
+        setCode("active");
+      }  else if(response.data.message === "User already exists. Verification code has been reset."){
+        setIsPopupAlertVisible(response.data.message); 
+        setCode("active"); 
+      }else {
+        setIsPopupAlertVisible("Unexpected response from server.");
+      }
+   
     } catch (error) {
-      if (error.response.status === 400) {
-        if (error.response.data === "User already registered") {
+      if (error.response && error.response.status === 400) {
+        const errorData = error.response.data;
+
+        if (Array.isArray(errorData.errors)) {
+          const validationErrors = errorData.errors.map(err => err.msg).join(", ");
+          setIsPopupAlertVisible(validationErrors);
+        }
+        else if (error.response.data === "User already registered") {
           setIsPopupAlertVisible("User already registered");
-        } else if (error.response.data === "Invalid code") {
-          setIsPopupAlertVisible("Invalid code");
-        } else if (error.response.data === "Code has expired") {
-          setIsPopupAlertVisible("Code has expired");
-        } else {
-          setIsPopupAlertVisible(error.response.data); 
+        }
+        else {
+          setIsPopupAlertVisible(error.response.data.message); 
         }
       } else if (error.response.data === "user already registered") {
         setIsPopupAlertVisible("user already registered");
@@ -100,6 +115,33 @@ export default function Register() {
       console.log("errorr", error);
     }
   };
+
+  const verify = async () => {
+    try {
+      const response = await axios.post("http://localhost:4000/user/verify", {
+        email: inputValue.Email,
+        verificationCode: codenum,
+      });
+  
+      if (response.status === 200) {
+        setIsPopupAlertVisible(response.data.message); 
+        setCode(""); 
+        setTimeout(() => {
+          handleNavigation("/login")
+        }, 400);
+      } else {
+        setIsPopupAlertVisible("Unexpected response from server.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+
+        setIsPopupAlertVisible(error.response.data.message || "An error occurred");
+      } else {
+        setIsPopupAlertVisible("An unexpected error occurred.");
+      }
+    }
+  };
+  
 
   const togglecode = () => {
     const isEmpty = (value) => {
@@ -118,6 +160,7 @@ export default function Register() {
       setIsPopupAlertVisible("please fill out all of the fields");
     } else {
       sendcode();
+      setIsPopupAlertVisible("Code resent")
       setCode("active");
       setPopup(!popup);
     }
@@ -170,10 +213,10 @@ export default function Register() {
             onChange={(e) => setCodenum(e.target.value)}
           />{" "}
           <br />
-          <button className="popup-btn" onClick={saveData}>
+          <button className="popup-btn" onClick={verify}>
             {t("Submit")}
           </button>
-          <button className="popup-btn" id="x" onClick={togglePopup}>
+          <button className="popup-btn" id="x" onClick={togglecodePopup}>
             X
           </button>
           <a href="#" onClick={togglecode}>
@@ -315,7 +358,7 @@ export default function Register() {
               />{" "}
               {t("Female")}
               <br /> <br />
-              <button className="popup-btn" onClick={togglecode}>
+              <button className="popup-btn" onClick={saveData}>
                 {t("Submit")}
               </button>
               <p>

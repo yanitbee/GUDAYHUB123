@@ -4,7 +4,7 @@ import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Confetti from "react-confetti";
-import { Pie, Line, Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
@@ -118,6 +118,7 @@ export default function Taskmanager() {
 
   return (
     <>
+    
       <div className="wholeTask">
         <Confetti
           width={width}
@@ -126,7 +127,8 @@ export default function Taskmanager() {
           numberOfPieces={400}
           confettiSource={{ x: 0, y: 100, w: width, h: 600 }}
         />
-
+        <div className="main">
+<section id="applications">
         {arrayIsEmpty ? (
           <div className="taskblock">You have not applied to any job or task yet</div>
         ) : (
@@ -150,7 +152,8 @@ export default function Taskmanager() {
             </div>
           </>
         )}
-
+</section>
+<section id="hired">
         {hiredIsEmpty ? (
           <div className="taskblock">You have not gotten any job in GudayHub</div>
         ) : (
@@ -174,13 +177,8 @@ export default function Taskmanager() {
             </div>
           </>
         )}
- <h2>Application Status Distribution</h2>
-        <div className="report-section">
-          <div></div>
-          <Pie data={pieData} />
-        </div>
-
-
+        </section>
+        
         <div className="bullet-section">
           <h2>Average Application Progress</h2>
   <div className="line"></div>
@@ -220,6 +218,19 @@ export default function Taskmanager() {
         
   </div>
         </div>
+        </div>
+        <div className="sidetask">
+        <section>
+          <div className="bubles app"><a href="#applications"><p>Applications: {readHired.length + readData.length}</p></a></div>
+          <div className="bubles hire"><a href="#hired"><p>Hired: {readHired.length}</p></a></div>
+ <h4>Application Status </h4>
+        <div className="report-section">
+          <div></div>
+          <Pie data={pieData} />
+        </div>
+        </section>
+        </div>
+
       </div>
     </>
   );
