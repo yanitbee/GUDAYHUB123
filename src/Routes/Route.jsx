@@ -150,6 +150,14 @@ const AppRoutes = () => {
                 element={<PrivateRoute element={<RoomPage />} />}
               />
               <Route
+                path="/freelancerpage/Freelancerdetails"
+                element={<PrivateRoute element={<Freelancerdetails />} />}
+              />
+              <Route
+                path="/employerpage/Portfolio"
+                element={<PrivateRoute element={<Freelancerdetails />} />}
+              />
+                <Route
                 path="/employerpage/Freelancerdetails"
                 element={<PrivateRoute element={<Freelancerdetails />} />}
               />

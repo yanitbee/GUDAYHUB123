@@ -132,6 +132,70 @@
         height: 200px;
         background-color: #0a7e73;
       }
+
+      .ViewPro{
+        display: inline;
+      }
+
+      .CVpopup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgb(255, 255, 255);
+        padding: 5rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        color: #0a7e73;
+      }
+      
+      .popup-inner {
+        display: flex;
+        flex-direction: column;
+        margin-top: -1rem
+      }
+      .popup-inner input {
+        background-color: #d4d4d4;
+        width: 350px;
+        height: 40px;
+        height: 35px;
+        border-radius: 10px;
+      }
+      .popup-inner textarea{
+        margin-left: 1rem;
+        width: 400px;
+        height: 100px;
+        border-radius: 10px;
+        resize:none;
+      }
+      .CV{
+        position: relative;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        padding-block: 0.5rem;
+        padding-inline: 1.25rem;
+        background-color: cadetblue;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffff;
+        gap: 10px;
+        font-weight: bold;
+        border: 3px solid #ffffff4d;
+        outline: none;
+        overflow: hidden;
+        font-size: 15px;
+        transform: translateX(110%);
+      }
+     
+      .CVEdu{
+        transform: translateX(50%);
+      }
+.CVdown{
+  z-index: 1000;
+}
       
      
     
