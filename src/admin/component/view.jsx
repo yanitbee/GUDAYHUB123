@@ -39,6 +39,7 @@ export default function View ({data}){
 
     return(
         <>
+        <div className="specific-page">
        <div class="app-container">
 
   <div class="app-content">
@@ -112,6 +113,7 @@ export default function View ({data}){
 ))}
     </div>
   </div>
+</div>
 </div>
         </>
     )

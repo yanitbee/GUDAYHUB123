@@ -418,24 +418,31 @@
     transition: transform .2s;
     position: relative;
   }
- 
-    
-    @media screen and (max-width: 1024px) {&{
+ .specific-page {
+  @media screen and (max-width: 1024px) {
+    & {
       width: calc(33.3% - 16px);
-    }}
-    
-    @media screen and (max-width: 820px) {&{
+    }
+  }
+  
+  @media screen and (max-width: 820px) {
+    & {
       width: calc(50% - 16px);
-    }}
-    
-    @media screen and (max-width: 520px) {&{
+    }
+  }
+  
+  @media screen and (max-width: 520px) {
+    & {
       width: 100%;
       margin: 8px 0;
-      
+
       &:hover {
         transform: none;
       }
-    }}
+    }
+  }
+}
+
     
     .cell-more-button {
       border: none;

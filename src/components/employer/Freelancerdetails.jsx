@@ -211,9 +211,16 @@ export default function Freelancerdetails() {
           </div>
         )}
       </div>
-      <button className="chat-btn" onClick={togglePopup}>
-               offer
-            </button>
+      {!userData &&(
+       <button className="chat-btn" onClick={togglePopup}>
+       offer
+    </button> 
+      )}
+      {userData && userData.UserType === "employer" ? 
+       <button className="chat-btn" onClick={togglePopup}>
+       offer
+    </button>: null}
+     
       <div className="full-info">
       <div className="radio-inputs">
   <label className="radio" >
