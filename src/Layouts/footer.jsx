@@ -15,7 +15,6 @@ export default function Footer() {
   };
 
   const toggleHelp = () => {
-    // Function to toggle the help modal
     const helpIcon = document.querySelector(".help-icon");
     if (helpIcon) helpIcon.click();
   };

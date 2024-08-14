@@ -13,9 +13,7 @@ const Help = () => {
 
   return (
     <div>
-      {/* Floating Help Icon */}
       <div className="help-icon" onClick={handleHelpClick}>
-        <FontAwesomeIcon icon={faQuestionCircle} size="3x" />
       </div>
     </div>
   );

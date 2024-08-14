@@ -3,46 +3,114 @@
     max-width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
-  }
-  
-  .help-page h1 {
+}
+
+.help-page h1 {
     text-align: center;
-    color: #333;
+    color: cadetblue;
     margin-bottom: 20px;
-  }
-  
-  .help-page p {
+    margin-top: 5rem;
+}
+
+.help-page p {
     text-align: center;
     font-size: 18px;
     margin-bottom: 40px;
-  }
-  
-  .help-section {
-    margin-bottom: 40px;
-  }
-  
-  .help-section h2 {
+    color: #333;
+}
+
+.search {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search__input {
+    font-family: inherit;
+    font-size: inherit;
+    background-color: #f4f2f2;
+    border: none;
+    color: #646464;
+    padding: 0.7rem 1rem;
+    border-radius: 30px;
+    width: 300px;
+    transition: all 0.5s ease-in-out;
+    margin-left: 50rem;
+}
+
+.search__button {
+    background-color: transparent;
+    border: none;
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+.search__button .search__icon {
+    height: 20px;
+    width: 20px;
+    fill: cadetblue;
+}
+
+.search__input:focus {
+    outline: none;
+    background-color: #f0eeee;
+    box-shadow: 0 0 1em #00000013;
+}
+
+.search__input::placeholder {
+    color: #999;
+}
+
+.help-section {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.section-title {
+    cursor: pointer;
+    font-size: 1.2rem;
     color: cadetblue;
-    margin-bottom: 10px;
-  }
-  
-  .help-section p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title .arrow {
+    transition: transform 0.3s ease;
+    border: solid cadetblue;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    margin-left: 10px;
+}
+
+.section-title .arrow.open {
+    transform: rotate(-135deg);
+}
+
+.section-content {
+    margin-top: 10px;
+}
+
+.section-content p {
     font-size: 16px;
     margin-bottom: 10px;
-  }
-  
-  .help-section ul {
+    color: #555;
+}
+
+.section-content ul {
     list-style-type: disc;
     padding-left: 20px;
-  }
-  
-  .help-section ul li {
+}
+
+.section-content ul li {
     margin-bottom: 5px;
     font-size: 16px;
-    color: #555;
-  }
-  
-  .back-button {
+    color: cadetblue;
+}
+
+.back-button {
     display: block;
     width: 100px;
     margin: 20px auto;
@@ -54,9 +122,8 @@
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-  }
-  
-  .back-button:hover {
-    background-color: cadetblue;
-  }
-  
+}
+
+.back-button:hover {
+    background-color: #5d96a6;
+}

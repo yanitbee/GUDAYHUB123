@@ -124,7 +124,6 @@ export default function Freelancerlist() {
                 ))}
               </div>
             ))}
-            <BackButton/>
         </div>
       </div>
     </>
