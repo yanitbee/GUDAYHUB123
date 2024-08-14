@@ -29,6 +29,7 @@ import Login from "../assets/login";
 import useAuth from "../Hooks/UseAuth";
 import AdminPage from "../admin/adminpage";
 import ProjectAbstract from "../Pages/ReadMore";
+import VerificationPage from "../assets/VerificationPage";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const AppRoutes = () => {
     location.pathname !== "/joblist",
     location.pathname !== "/joblist/apply",
     location.pathname !== "/login",
+    location.pathname !== "/verification",
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
@@ -104,6 +106,8 @@ const AppRoutes = () => {
                 path="/admin"
                 element={<PrivateRoute element={<AdminPage />} />}
               />
+                 <Route path="/verification"
+                   element={<PrivateRoute element={<VerificationPage />} />} />
               <Route
                 path="/freelancerpage"
                 element={<PrivateRoute element={<Freelancerpage />} />}

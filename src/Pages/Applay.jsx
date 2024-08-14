@@ -6,6 +6,7 @@ import { format } from "timeago.js";
 import "./css/apply.css";
 import Popup from "../assets/popup";
 import AlertPopup from "../assets/AlertPopup";
+import Frelancerprofile from "../components/Freelancer/FrelancerProfile";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();
@@ -199,6 +200,7 @@ export default function Apply() {
 
   return (
     <>
+      <Frelancerprofile />
       <div className="applaywhole ">
         {readData && (
           <div>

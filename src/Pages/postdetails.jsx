@@ -3,6 +3,8 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Popup from "../assets/popup";
 import "./css/apply.css";
+import EmployerProfile from "../components/employer/EmployerProfile";
+import { format } from "timeago.js";
 
 export default function Postdetails() {
  
@@ -59,21 +61,64 @@ export default function Postdetails() {
 
   return (
     <>
-      <div>
+       <EmployerProfile />
+      <div className="applaywhole">
         {readData && (
           <div>
-            <h2> {readData.JobTask}</h2>
-            <h2>Job Type: {readData.Jobtype}</h2>
-            <p>Job Title: {readData.Jobtitle}</p>
-            <p>Description: {readData.Description}</p>
-            <p>Qualification: {readData.Qualification}</p>
-            <p>Salary: {readData.Salary}</p>
-            <p>location: {readData.location}</p>
-            <p>Contact: {readData.Contact}</p>
-            <p>PostedDate: {readData.PostedDate}</p>
-            <p>Deadline: {readData.Deadline}</p>
+             <h1 className="title">{readData.Jobtitle}</h1>
+             <br />
+             <div className=" row">
+              <div className=" leftone col-5">
+                <h2> {readData.JobTask}</h2>
+                <h2>{readData.Jobtype}</h2>
+                <div className="onebyone">
+                  <h3>Description</h3>
+                  <p>{readData.Description}</p>
+                </div>
 
-            <button onClick={handleShowPopup}>Close opening</button>
+                <div className="oneby"></div>
+                <h3>Qualification</h3>
+                {readData.Qualification && (
+                  <ul>
+                    {readData.Qualification.split(",").map((item, index) => (
+                      <li key={index}>{item.trim()}</li>
+                    ))}
+                  </ul>
+                )}
+
+                <p>Salary: {readData.Salary}</p>
+                <p>Location: {readData.location}</p>
+                <p>Contact: {readData.Contact}</p>
+                <p>Posted Date: {format(readData.PostedDate)}</p>
+                <p>Deadline: {readData.Deadline}</p>
+              </div>
+
+              <div className="sideline col-3">
+           <h4>Requirements to apply</h4><br/>
+                <div className="by"></div><br/>
+                <div className="typewhole">
+                <h5>CV:</h5>
+
+                {readData.cv ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Required</p>
+              :<p style={{marginTop:".5rem", marginLeft:"1rem",color:"#1c8300"}}> Not Required</p>}
+                </div>
+                <div className="typewhole">
+                <h5>Cover Letter:</h5>
+
+                {readData.coverletter ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Required</p>
+              :<p style={{marginTop:".5rem", marginLeft:"1rem",color:"#1c8300"}}> Not Required</p>}
+                </div>
+
+                {readData.urgency ? 
+                <p style={{marginTop:".5rem", marginLeft:"1rem",color:"#830000"}}>Urgent</p>
+              :null}
+              </div>
+
+            </div>
+
+            <button className="apply-btn" onClick={handleShowPopup}>Close opening</button>
 
             {isPopupVisible && (
         <Popup

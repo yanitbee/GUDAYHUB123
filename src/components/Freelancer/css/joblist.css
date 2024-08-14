@@ -5,11 +5,12 @@
 }
 .jobwhole{
   padding: 1rem 0rem  0 6rem  ;
+  min-height: 100vh;
 }
 .postblock{
     margin-top: 8rem;
     margin-right: 8.5rem;
-    margin-left: 8.5rem;
+    margin-left: 7rem;
     margin-bottom: -10rem;
    height: 15rem;
    max-width:auto;
@@ -62,9 +63,9 @@
   box-shadow:rgba(255, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(232, 204, 204) 3px 3px 6px 0px inset, rgba(244, 114, 114, 0.5) -3px -3px 6px 1px inset;
 }
 .nojob{
-  margin: 7.5rem;
+padding: 7rem 0rem  0 0rem  ;
   z-index: -2;
-
+min-height: 100vh;
 }
 .sidebar{
 
@@ -75,8 +76,8 @@
   box-shadow: rgba(251, 251, 255, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   position: fixed;
     width: 22%;
-    height: 630px;
-    margin-top: 6rem;
+    height: 660px;
+    margin-top: 5rem;
     overflow-x: hidden;
     z-index: 2;
     backdrop-filter: blur(5px);
@@ -220,8 +221,8 @@
       box-shadow: rgba(251, 251, 255, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
       position: fixed;
         width: 22%;
-        height: 630px;
-        margin-top: 6rem;
+        height: 670px;
+        margin-top: 5rem;
         overflow-x: hidden;
         z-index: 2;
         backdrop-filter: blur(5px);
@@ -233,7 +234,7 @@
     .sidebaractive{
       animation: side .3s ease-out ;
       margin-top: 7.3rem;
-        width: 42%;
+        width: 32%;
       }
       .another{
         margin-top: 4.5rem ;

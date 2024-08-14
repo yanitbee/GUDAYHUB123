@@ -15,9 +15,11 @@ import { useTranslation } from "react-i18next";
 export default function Joblist() {
   const [readData, setreadData] = useState([]);
   const [jobtype, setjobtype] = useState("");
+  const [jobtitle, setjobtitle] = useState("");
   const [jobtask, setjobtask] = useState("");
   const [serach, setsearch] = useState("");
-  let defalutjobtype = ["onsite", "remote", "hybrid"];
+  const defalutjobtype = ["onsite", "remote", "hybrid"];
+  const defalutjobtitle = ["Developer", "Deliver", "Cleaner","Pick Up"];
   const [searchicon, setsearchicon] = useState("");
   const [employerInfo, setEmployerInfo] = useState({});
   const { t } = useTranslation();
@@ -53,6 +55,16 @@ export default function Joblist() {
     setjobtype("");
   };
 
+  const handlejobtitle = (title) => {
+    setjobtitle(title);
+    console.log(jobtitle);
+  };
+
+  const handlejobtitled = () => {
+    setjobtitle("");
+  };
+
+
   const handlejobtask = (type) => {
     setjobtask(type);
     console.log(jobtype);
@@ -80,7 +92,7 @@ export default function Joblist() {
         const response = await axios.get(
           "http://localhost:4000/post/readpost",
           {
-            params: { search: jobtype, serachtitle: serach, filter: jobtask },
+            params: { search: jobtype, serachtitle: `${serach}${jobtitle}`, filter: jobtask },
           }
         );
 
@@ -94,7 +106,7 @@ export default function Joblist() {
     };
 
     fetchData();
-  }, [jobtype, serach, jobtask]);
+  }, [jobtype, serach, jobtask,jobtitle]);
 
   const fetchEmployerInfo = async (id) => {
     try {
@@ -220,20 +232,31 @@ export default function Joblist() {
               onClick={searchclickednot}
             />
             <br /> <br />
-            <div className="type">
-              {t("Job Title")} <br />
-              {defalutjobtype.map((type) => (
+            <div style={{fontWeight:"bold",fontSize:"16px"}}>
+              <div className="postsidelist">
+              {t("Job Title")}
+              </div>
+               <br />
+              {defalutjobtitle.map((type) => (
+                  jobtitle === type ? (
                 <>
-                  <div className="skills">
+                  <div className="skills" onClick={handlejobtitled}>
+                    <FontAwesomeIcon className="delete" icon={faMinus} />
+                    {type}
+                  </div>
+                </>) : (
+                    <div className="skills" style={{color:"#b7fff2"}} onClick={() => {handlejobtitle(type)}}>
                     <FontAwesomeIcon className="delete" icon={faPlus} />
                     {type}
                   </div>
-                </>
+                )
               ))}
             </div>
-            <br />
-            <div className="type">
+       
+            <div style={{fontWeight:"bold",fontSize:"16px"}}>
+            <div className="postsidelist">
               {t("Job Type")}
+              </div>
               <br />
               {defalutjobtype.map((type) =>
                 jobtype === type ? (
@@ -245,7 +268,7 @@ export default function Joblist() {
                   </>
                 ) : (
                   <>
-                    <div
+                    <div style={{color:"#b7fff2"}}
                       className="skills"
                       onClick={() => {
                         handlejobtype(type);
@@ -296,17 +319,17 @@ export default function Joblist() {
                                       />
                                     </div>
                                     <br />
-                                  
+                                    <br />
                                     {employerInfo[data.employerid].Fullname} <br />
                                     {employerInfo[data.employerid].title}
                                     {employerInfo[data.employerid].Email}
                                     <div className="typewhole">
-                                      <p>Jobs posted:</p>
-                                    {employerInfo[data.employerid].freelancerprofile.gudayhistory.jobs} 
+                                      <p>Jobs posted:  {" "}
+                                     {employerInfo[data.employerid].freelancerprofile.gudayhistory.jobs} </p>
                                     </div>
                                     <div className="typewhole">
-                                      <p>Freelancers hired:</p>
-                                    {employerInfo[data.employerid].freelancerprofile.gudayhistory.hired} 
+                                      <p>Freelancers hired: {" "}
+                                    {employerInfo[data.employerid].freelancerprofile.gudayhistory.hired} </p>
                                     </div>
                                   </div>
                                 </div>

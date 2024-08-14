@@ -238,7 +238,7 @@ export default function Freelancerdetails() {
 </div>
 
 {showWork && 
-(readData.freelancerprofile.workhistory ? (
+(readData.freelancerprofile.workhistory?.length > 0 ? (
   <>
    
 	<ol className="olcards ">

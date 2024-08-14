@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/post.css";
 import useAuth from "../Hooks/UseAuth";
+import AlertPopup from "../assets/AlertPopup";
+import Popup from "../assets/popup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import EmployerProfile from "../components/employer/EmployerProfile";
+import { useNavigate } from "react-router-dom";
 
 export default function Write() {
   const { getUserData, getUserToken } = useAuth();
@@ -26,6 +32,8 @@ export default function Write() {
   });
 
   const [readData, setreadData] = useState([]);
+  const [readActiveData, setreadActiveData] = useState([]);
+  const [readOfferData, setreadOfferData] = useState([]);
   const [show, setShow] = useState("");
   const [showbox, setShowbox] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState({
@@ -33,7 +41,26 @@ export default function Write() {
     time: "",
   });
   const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
+  const [ActivearrayIsEmpty, setActiveArrayIsEmpty] = useState(false);
+  const [OfferarrayIsEmpty, setOfferArrayIsEmpty] = useState(false);
   const [DataLen, setDataLen] = useState("");
+  const [ActiveDataLen, setActiveDataLen] = useState("");
+  const [OfferDataLen, setOfferDataLen] = useState("");
+
+  const [isPopupVisible, setIsPopupVisible] = useState("");
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
+  const handleCancel = () => {
+    setIsPopupVisible("");
+    setPostIdToDelete(null);
+  };
+
 
   useEffect(() => {
     const now = new Date();
@@ -55,18 +82,31 @@ export default function Write() {
 
   const saveData = async () => {
     try {
-      await axios.post("http://localhost:4000/post/writepost", {
+      const response = await axios.post("http://localhost:4000/post/writepost", {
         ...inputValue,
         PostedDate: combinedDateTime,
         employerid: userData.userID,
       });
-      console.log("data: ", inputValue);
-      alert("job/task posted");
+  
+      // Display the success message
+      setIsPopupAlertVisible(response.data.message);
     } catch (error) {
-      console.log("error", error);
+      // Handle validation errors
+      if (error.response && error.response.data.errors) {
+        // Map through the array of errors and join them into a string
+        const errorMessages = error.response.data.errors
+          .map(err => err.msg) // Assuming `msg` contains the error message
+          .join("\n"); // Join messages with a newline for readability
+          setIsPopupAlertVisible(errorMessages);
+      } else {
+        // Fallback for other errors
+        setIsPopupAlertVisible("An error occurred while posting the job/task.");
+      }
+      console.log("Error:", error);
     }
   };
-
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,6 +119,36 @@ export default function Write() {
         console.error("error", error);
       }
     };
+
+    const fetchActiveData = async () => {
+      try {
+     const response = await axios.get("http://localhost:4000/post/reademployerpost" ,{
+        params: { employerid: userData.userID }
+      })
+          
+          const sortedData = response.data.sort(
+            (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
+          );
+          setreadActiveData(sortedData);
+          
+      } catch (error) {
+        console.error("error", error);
+      }
+    };
+
+    const fetchOfferData = async () => {
+      try {
+        await axios
+          .get("http://localhost:4000/Offer/reademployerOffer", {
+            params: { employerid: userData.userID },
+          })
+          .then((Offer) => setreadOfferData(Offer.data));
+      } catch (error) {
+        console.error("error", error);
+      }
+    };
+    fetchOfferData()
+    fetchActiveData()
     fetchData();
   }, [userData.userID]);
 
@@ -93,18 +163,32 @@ export default function Write() {
     setinputValue((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const isEmpty = (arr) => {
+  const isEmpty = (arr, type) => {
+
     const isEmptyArray = arr.length === 0;
-    if (!isEmptyArray) {
+    if (!isEmptyArray && type==="closed") {
       setDataLen(arr.length);
+    }
+    if (!isEmptyArray && type==="active") {
+      setActiveDataLen(arr.length);
+    }
+    if (!isEmptyArray && type==="offer") {
+      setOfferDataLen(arr.length);
     }
     return isEmptyArray;
   };
 
+
   useEffect(() => {
-    const emptyCheck = isEmpty(readData);
+    const emptyCheck = isEmpty(readData,"closed");
     setArrayIsEmpty(emptyCheck);
-  }, [readData]);
+
+    const emptyActiveCheck = isEmpty(readActiveData,"active");
+    setActiveArrayIsEmpty(emptyActiveCheck);
+
+    const emptyOfferCheck = isEmpty(readOfferData,"offer");
+    setOfferArrayIsEmpty(emptyOfferCheck);
+  }, [readData, readActiveData,readOfferData]);
 
   const handleAnonymousToggle = () => {
     setinputValue({ ...inputValue, anonymous: !inputValue.anonymous });
@@ -119,21 +203,32 @@ export default function Write() {
     setinputValue({ ...inputValue, urgency: !inputValue.urgency });
   };
 
-  const handleDelete = async (postId) => {
+  const handleDeleteConfirm = (postId) =>{
+    setIsPopupVisible("Are you sure you want to Delete the job post?")
+    setPostIdToDelete(postId); 
+  }
+
+  const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:4000/PostHistory/deletepost/${postId}`);
+      const response = await axios.delete(`http://localhost:4000/PostHistory/deletepost/${postIdToDelete}`);
 
       console.log(response.data);
-      alert("post deleted")
-      setreadData(readData.filter((post) => post._id !== postId));
+      setIsPopupAlertVisible("post deleted")
+      setreadData(readData.filter((post) => post._id !== postIdToDelete));
     } catch (error) {
       console.error('Error deleting post:', error.message);
     }
   };
-
+  const handlepost = (postid) => {
+    navigate("/employerpage/Applicantsdetails/postdetails", { state: { postid: postid } });
+  };
 
   return (
     <>
+       <EmployerProfile />
+    <div className="wholePost">
+    <div className="mainpost">
+      <section id="Addpost" >
       <div className="postimg">
         <div className="post">
           <h1 className="post-h1"></h1>
@@ -299,19 +394,30 @@ export default function Write() {
               <button className="btn-save" onClick={saveData}>
                 Post
               </button>
+
+              <button className="btn-save" onClick={()=>{setShow("")}}>
+                X
+              </button>
             </div>
           )}
+          
         </div>
       </div>
+      </section>
+      <section id="AllPost">
+      <div className="postHistory">
 
-      {arrayIsEmpty ? (
-        <div className="taskblock">You have not posted any job or task yet</div>
+      {arrayIsEmpty &&  ActivearrayIsEmpty ? (
+        <div className="taskblock catagory">You have not posted any job or task yet</div>
       ) : (
         <div>
-          <div className="taskblock">You had posted {DataLen} job </div>
+          <div className="taskblock catagory">You had posted {DataLen + ActiveDataLen} job </div>
+          <section id="ClosedPost">
+{!arrayIsEmpty &&
+<div className="ActiveClosed">Closed</div>}
           {readData.map((data) => (
             <>
-              <div className="applylist">
+              <div className="applylist catagory">
                 <div>
                   <h3 className="textf">Job title </h3>
                   <p className="titlef">{data.Jobtitle}</p>
@@ -323,7 +429,7 @@ export default function Write() {
               </div>
               <button
                 className="btn-job1 more"
-                onClick={() => handleDelete(data._id)}
+                onClick={() => handleDeleteConfirm(data._id)}
               >
                  Delete Post 
               </button>
@@ -336,7 +442,130 @@ export default function Write() {
               </button>
             </>
           ))}
+          </section>
+          <section id="ActivePost">
+
+{!ActivearrayIsEmpty && <div className="ActiveClosed">Active</div>}
+
+                    {readActiveData.map((data) => (
+          <>
+          
+          <div>
+         <div className="applylist catagory" >
+             <div>
+             <h3 className="textf">Job title </h3>
+          <p className="titlef">{data.Jobtitle}</p>
+          </div>
+             <h3 className="textf">Job type </h3>
+          <p className="titlef">{data.Jobtype}</p>
+          <h3 className="textf">Description </h3>
+          <p className="titlef">{data.Description}</p>
+            </div>
+            </div>
+            <button className="btn-job1 more" onClick={() => handlepost(data._id)}>
+            Post details</button>
+            <button
+                className="btn-job1 more"
+                onClick={() => handleDeleteConfirm(data._id)}
+              >
+                 Delete Post 
+              </button>
+          </>
+         ))}
+         </section>
         </div>
+      )}
+    
+      </div>
+      <section id="Offer">
+<div className="Offersec">
+<div className="offerLayer"></div>
+{OfferarrayIsEmpty? (
+        <div className="taskblock catagory offerbock">You have not made any offer yet</div>
+      ) : (
+        <div>
+          <div className="taskblock catagory offerbock">You had made {OfferDataLen} offers </div> 
+      {readOfferData.map((data) => (
+            <div key={data._id} >
+              <div className="postblock box offerPost">
+                <div className="ribbon-2">{data.status}</div>
+                <h3 className="textf">Description</h3>
+                <p className="titlef">{data.Description}</p>
+                <h3 className="textf">Price</h3>
+                <p className="titlef">{data.price}</p>
+              </div>
+            </div>
+          ))}      
+</div>
+)}
+</div>
+</section>
+      </section>
+      </div>
+      <div className="sidePost">
+        <section>
+        <ul className="postui">
+  <li >
+  <a href="#Addpost" className="activea"
+	>
+    <div className="postsidelist">
+    <FontAwesomeIcon  icon={faBars} />
+	   {" "}Add Post
+    </div>
+    <div className="bublesPost app"
+    style={{backgroundColor:" #1d5c48da"}}><a href="#applications"><p>Task</p></a></div>
+    <div className="bublesPost hire"
+    style={{backgroundColor:" #1f1d5cda"}}><a href="#hired"><p>Job</p></a></div>
+	</a>
+  </li>
+
+  <li >
+  <a href="#AllPost">
+  <div className="postsidelist">
+  <FontAwesomeIcon  icon={faBars} />
+  {" "}
+	  All Post
+    </div>
+    <div className="bublesPost app"
+    style={{backgroundColor:" #815a23da"}}><a href="#ActivePost"><p>Active</p></a></div>
+    <div className="bublesPost hire"
+     style={{backgroundColor:" #5c1d4dda"}}><a href="#ClosedPost"><p>Closed</p></a></div>
+	</a>
+  </li>
+
+  <li >
+	<a href="#Offer">
+  <div className="postsidelist">
+  <FontAwesomeIcon  icon={faBars} />
+  {" "}
+	  All Offer
+    </div>
+    <div className="bublesPost app"
+     style={{backgroundColor:" #6c6c19da"}}><a href="#applications"><p>Waiting</p></a></div>
+    <div className="bublesPost app"
+     style={{backgroundColor:" #1d355cda"}}><a href="#applications"><p>Accepted</p></a></div>
+    <div className="bublesPost hire"
+     style={{backgroundColor:" #761f1fda"}}><a href="#hired"><p>Rejected</p></a></div>
+	</a>
+  </li>
+
+</ul>
+        </section>
+        </div>
+      </div>
+      {isPopupVisible != "" && (
+        <Popup
+          message = {isPopupVisible}
+          onConfirm={handleDelete}
+          onCancel={handleCancel}
+        />
+      )}
+
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
       )}
     </>
   );
@@ -392,8 +621,8 @@ function InputField({ name, placeholder, value, onChange }) {
 
 function DeadlineField({ value, onChange }) {
   return (
-    <div>
-      <label htmlFor="deadline">Deadline</label>
+    <div >
+      <label htmlFor="deadline"  >Deadline </label>
       <input
         className="post-input"
         type="date"
@@ -405,3 +634,5 @@ function DeadlineField({ value, onChange }) {
     </div>
   );
 }
+
+

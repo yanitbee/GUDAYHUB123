@@ -32,6 +32,8 @@ const Navbar = () => {
             case "/admin":
               case "/ReadMore":
                 case "/freelancerpage/Freelancerdetails":
+                  case "/verification":
+                    case "/employerpage/Applicantsdetails/more/Hire":
         setshowNav(false);
         break;
       default:
@@ -96,6 +98,7 @@ const Navbar = () => {
       case "/employerpage/Applicantsdetails":
       case "/employerpage/Applicantsdetails/more":
       case "/employerpage/Freelancerdetails":
+      case "/employerpage/Applicantsdetails/postdetails":
         return (
           <>
             <li>
@@ -215,9 +218,9 @@ const Navbar = () => {
     <>
       {shownav && (
         <nav className={nav ? "nav active" : "nav"}>
-          <RouterLink to="" className="logo">
+          <span className="logo">
             <img src="/image/logo.png" alt="" />
-          </RouterLink>
+          </span>
           <input className="menu-btn" type="checkbox" id="menu-btn" />
           <label className="menu-icon" htmlFor="menu-btn">
             <span className="nav-icon"></span>

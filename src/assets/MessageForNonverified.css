@@ -1,0 +1,26 @@
+.welcome-message {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    overflow: hidden;
+    width: 450px;
+   transform: translate(-50%,-50%);
+    border-radius: 20px;
+    color: #ffffff;
+    background-color: rgba(39, 92, 85, 0.938);
+    box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
+    position: absolute;
+    text-align: center;
+    padding: 1rem;
+    z-index: 1000;
+  }
+  
+  .welcome-message p {
+    margin: 0;
+  }
+  
+  .welcome-message button {
+    margin-top: 10px;
+  }
+  
