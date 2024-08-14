@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../Hooks/UseAuth";
 import "./css/offer.css";
+import Frelancerprofile from "../components/Freelancer/FrelancerProfile";
 
 export default function Offer() {
   const { getUserData } = useAuth();
@@ -102,6 +103,7 @@ useEffect(() => {
 
   return (
     <>
+      <Frelancerprofile />
     <div style={{padding:"2rem"}}>
       {arrayIsEmpty ? (
         <div className="nojob">

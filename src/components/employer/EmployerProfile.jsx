@@ -3,6 +3,8 @@ import axios from "axios";
 import "../Freelancer/css/addprofile.css";
 import useAuth from "../../Hooks/UseAuth";
 import Editprofile from "./profilEdit";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function EmployerProfile() {
   const { getUserData, getUserToken } = useAuth();
@@ -10,6 +12,8 @@ export default function EmployerProfile() {
   const userData = getUserData();
   const token = getUserToken();
 
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const inputRef = useRef(null);
   const [employerData, setEmployerData] = useState({
     Usertype: null,
@@ -115,6 +119,13 @@ export default function EmployerProfile() {
     setPopup(!popup);
   };
 
+  const handleComplaintClick = () => {
+    navigate("/Complaint");
+  };
+  const handleTestimonyClick = () => {
+    navigate("/Testimony");
+  };
+
   return (
     <>
       <div>
@@ -169,7 +180,8 @@ export default function EmployerProfile() {
               {employerData.Fullname} <br />
               {employerData.Email}
               <br />
-              <p onClick={addpro} className="eedit">Edit</p>
+              <p onClick={addpro} className="eedit"
+              style={{marginTop:"1rem"}}>Edit</p>
               <br /> <br />
               <button className="popup-btn" id="x" onClick={togglePopup}>
                 X

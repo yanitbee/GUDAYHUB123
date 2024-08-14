@@ -348,18 +348,21 @@ background-color: #17917f;
     margin-right: 10px;
   }
 
-
+.ratings{
+  transform: translateX(-35%);
+}
 
   .ratings:not(:checked) > input {
     position: absolute;
     appearance: none;
+ 
   }
   
   .ratings:not(:checked) > label {
     float: right;
     cursor: pointer;
     font-size: 30px;
-    color: #666;
+    color: #989898;
   }
   
   .ratings:not(:checked) > label:before {
@@ -397,17 +400,17 @@ background-color: #17917f;
     opacity: 1;
     -webkit-appearance: none;
     cursor: pointer;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     box-shadow: -10px -10px 15px rgba(255,255,255,0.5),
     10px 10px 15px rgba(0,0,70,0.12);
     border-radius: 50%;
-    border: 8px solid #ffffff;
     outline: none;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: .5s;
+    transform: translateX(420%);
   }
 
   .checkbox-wrapper-56 .rating-container {

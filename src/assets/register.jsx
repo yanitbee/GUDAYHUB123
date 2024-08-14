@@ -67,6 +67,7 @@ export default function Register() {
       console.log("errorr", error);
     }
   };
+  
 
   const saveData = async () => {
     try {
@@ -272,7 +273,7 @@ export default function Register() {
                   {t("LogIn")}
                 </button>
               </p>
-              <br /> <br /> <br /> <br />
+              <br /> 
               <FontAwesomeIcon icon={faArrowUp} size="2x" onClick={clicked} />
               <h3 className="h3-register">{t("Register")}</h3>
               <input
@@ -357,6 +358,7 @@ export default function Register() {
                 }
               />{" "}
               {t("Female")}
+
               <br /> <br />
               <button className="popup-btn" onClick={saveData}>
                 {t("Submit")}

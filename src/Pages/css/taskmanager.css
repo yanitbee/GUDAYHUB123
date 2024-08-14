@@ -1,11 +1,10 @@
 .wholeTask{
     width: 100vw;
-    margin-top: 2rem;
     overflow-x: hidden; 
     display: grid;
     height: 100vh; 
     grid-gap: 0;
-    grid-template-columns: auto 370px;
+    grid-template-columns: auto 340px;
     grid-template-areas: 
         "main side";
 }
@@ -14,7 +13,6 @@
     grid-area: main;
     overflow-y: auto; 
     height: 100vh; 
-    padding: 1rem; 
     background-color: #f5feffc0;
 }
 
@@ -23,14 +21,20 @@
     overflow-y: auto; 
     height: 100vh; 
     border: solid #8d8d8dc7;
-    padding-top: 4rem;
     position: sticky;
     top:0;
     background-color: #97c5c6;
 }
 
+#applications{
+    padding: 4rem;
+    background-color: #569293;
+}
 
-
+#hired{
+    padding: 2rem;
+    background-color: #5aa0a1;
+}
 .container {
     display: flex; 
     flex-wrap: wrap; 
@@ -40,7 +44,6 @@
 
 
 .applylist {
-   
     margin: 3.5rem; 
     width: 20rem; 
     margin-top: 7rem;
@@ -57,6 +60,8 @@
 .textf {
     color: #5f9ea0;
     margin-right: 4rem;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
 }
 
 .titlef {
@@ -67,8 +72,8 @@
 .taskblock{
 
     margin-top: 5rem;
-    margin-right: 2.5rem;
-    margin-left: 2.5rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
     margin-bottom: -4rem;
    height: 3rem;
    overflow: hidden;
@@ -76,8 +81,12 @@
    box-shadow:rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   
 }
-
-
+#applications{
+min-height: 100vh;
+}
+#hired{
+    min-height: 100vh;
+    }
 
 
 .btn-job1 {
@@ -100,10 +109,15 @@
     overflow: hidden;
     font-size: 15px;
     z-index: -1;
+    height: 45px;
   }
 .more{
     padding-block: 0.5rem;
     padding-inline: 1.8rem;
+    background: linear-gradient(140deg, rgb(75, 200, 200) 0%, rgb(27, 115, 109) 70%);
+}
+.more1{
+    background: linear-gradient(140deg, rgb(75, 200, 200) 0%, rgb(27, 115, 109) 80%);
 }
 .report-section{
     width: 250px;
@@ -176,4 +190,28 @@
     background-color: #c60000da;
     border-radius: 10px;
 }
+
+
+.wholeposthist{
+    padding-top: 2rem;
+
+   
+}
+.mainpostHis{
+    padding: 1rem; 
+    background-color: #048d8d;
+    padding-bottom: 5rem;
+}
+.chartpost{
+    width: 500px;
+    display: inline-block;
+    margin-top: -15rem;
+    transform: translate(50%,20%);
+    color: #fff;
+}
+.linepost{
+    border: solid 2px;
+}
+
+
 

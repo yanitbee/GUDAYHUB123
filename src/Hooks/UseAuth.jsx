@@ -10,6 +10,7 @@ function useAuth() {
   const logOut = () => {
     removeSessionStorage(AUTH_KEY_USER_DATA);
     removeSessionStorage(AUTH_KEY_TOKEN);
+    removeSessionStorage('welcomeMessageDismissed');
     window.location.reload();
   };
 

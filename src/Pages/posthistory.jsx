@@ -3,6 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser ,faUserCheck } from "@fortawesome/free-solid-svg-icons";
+import ApplicantNum from "../components/employer/applicantNum";
+import EmployerProfile from "../components/employer/EmployerProfile";
+
 
 export default function Posthistory(){
     const { getUserData, getUserToken } = useAuth();
@@ -15,6 +20,7 @@ export default function Posthistory(){
     const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
     const [DataLen, setDataLen] = useState("")
 
+    
 
     useEffect(() => {
       const fetchData = async () => {
@@ -38,7 +44,7 @@ export default function Posthistory(){
     
    
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleclick = (postid) => {
         navigate("/employerpage/Applicantsdetails/more", { state: {postid: postid}});
@@ -63,30 +69,57 @@ export default function Posthistory(){
 
     return(
         <>
+           <EmployerProfile />
+        <div className="wholeposthist">
+          <div className="mainpostHis">
          {arrayIsEmpty  ? (
-        <div className="taskblock">You have not posted any job or task yet</div>
+        <div className="taskblock catagory">You have not posted any job or task yet</div>
       ) : (
      <div>
-      <div className="taskblock">You have {DataLen} active job </div>
+      <div className="taskblock catagory">You have {DataLen} active job </div>
         {readData.map((data) => (
           <>
-         <div className="applylist" >
+          <div className="">
+         <div className="applylist catagory" >
              <div>
-             <h3 className="textf">Job title </h3>
+             <h4 className="textf">Job title </h4>
           <p className="titlef">{data.Jobtitle}</p>
           </div>
-             <h3 className="textf">Job type </h3>
+             <h4 className="textf">Job type </h4>
           <p className="titlef">{data.Jobtype}</p>
-          <h3 className="textf">Description </h3>
+          <h4 className="textf">Description </h4>
           <p className="titlef">{data.Description}</p>
+          <div className="linepost"></div>
+          <div style={{display:"inline"}}>
+          <FontAwesomeIcon color="#47ae4b"
+          style={{height:"25px"}} icon={faUser } />
+          <FontAwesomeIcon color="#a45f5f" style={{height:"25px", marginLeft:"7rem"}}  icon={faUserCheck} />
+          </div>
+
+          <div style={{}}>
+            <sapn   style={{display:"inline-block", marginLeft:"-.5rem"}}>
+          <ApplicantNum postId={data._id } type="App"
+        />
+          </sapn>
+          <span   style={{marginLeft:"8rem",display:"inline-block"}}>
+          <ApplicantNum postId={data._id } type="Hired"
+        />
+          </span>
+
+          </div>
             </div>
             <button className="btn-job1 more" onClick={() => handlepost(data._id)}>
             Post details</button>
           <button className="btn-job1 more1" onClick={() => handleclick(data._id)}>See applicant</button>
+
+          </div>
           </>
          ))}
           </div>
             )}
+            </div>
+
+            </div>
         </>
      )
     }

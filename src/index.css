@@ -1491,6 +1491,60 @@ width: 600px;
 }
 
 
+
+
+
+
+
+.verificationContainer {
+  padding: 2rem 15rem;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+.heading1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.heading2 {
+  font-size: 1.5em;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.verificationIntro, .verificationDetails, .verificationImportance, .verificationAssistance {
+  margin-bottom: 20px;
+}
+
+.verificationStep {
+  margin-bottom: 20px;
+}
+
+.lista {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.listItem {
+  margin-bottom: 10px;
+ 
+}
+
+.strong {
+  font-weight: bold;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
       
 
       

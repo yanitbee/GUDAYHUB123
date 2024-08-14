@@ -1,23 +1,112 @@
+.wholePost{
+  width: 100vw;
+  overflow-x: hidden; 
+  display: grid;
+  height: 100vh; 
+  grid-gap: 0;
+  grid-template-columns: auto 300px;
+  grid-template-areas: 
+      "main side";
+}
+.mainpost{
+  grid-area: main;
+  overflow-y: auto; 
+  height: 100vh; 
+}
+
+.sidePost{
+  grid-area: side;
+  overflow-y: auto; 
+  height: 100vh; 
+  border: solid #8d8d8dc7;
+  padding-top: 2rem;
+  position: sticky;
+  top:0;
+  background-color: #73a1a2;
+}
+.postui {
+  display: block;
+  padding: 0;
+  margin: 0;
+  margin-top: 6rem;
+}
+
+.postsidelist {
+  display: block;
+  padding-top: 1rem;
+  margin: 2em 0 0;
+  background-color: rgba(254, 255, 255, 0.573);
+}
+.bublesPost{
+  width: 130px;
+  transform: translateX(60%);
+  margin: 1rem;
+  border-radius: 10px;
+  color: #fff;
+}
+.bublesPost p{
+  padding: 4.5px;
+  cursor: pointer;
+}
+.bublesPost a{
+  color: #fff;
+}
+
+.Offersec{
+  background-color: hsl(185, 28%, 53%);
+  padding-top: 2rem;
+  min-height: 100vh;
+}
+.offerPost{
+  margin-top: 15rem;
+}
+.offerLayer{
+  margin-bottom: -9rem;
+}
+.offerbock{
+  margin-top: 13rem;
+  margin-bottom: -9rem;
+}
 .postimg{
     background-image: url('../components/images/post.svg');
     background-repeat: no-repeat; 
     background-position:right ;
     background-size: 18em;
+background-color: #468386;
+padding-bottom: 1rem;
+padding-top: 2rem;
+}
+
+.postHistory{
+  background-color: #5f9ea0;
+  padding-top: 1rem;
+  padding-bottom: 8rem;
+  min-height: 100vh;
+}
+.post {
+  margin-right: 100px;
+  text-align: center;
+  position: relative;
+  --input-hovered-color: #63ffe59d;
+}
+
+/* Label styles */
+.post label {
+  display: block;
+  margin-bottom: 5px;
+  color: #000; 
+  z-index: 1; 
+  margin-left: -40rem;
 
 }
-.post{
-    margin-right: 100px;
-    text-align: center;
-   
-    --input-hovered-color: #6b63ff9d;
-    position: relative;
-   
-    
-}
+
+
 .postjob{
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-left: 10%;
-
+  background-color: #f1f7f7;
+  padding: 1rem;
+  width: 95%;
 }
 .p{
   margin-left: -20%;
@@ -29,12 +118,13 @@
     color: #050505;
     font-size:1rem;
     /*background-color: rgba(37, 35, 35, 0.39); */
-    width: 50%;
+    width: 35rem;
     box-sizing: border-box;
     padding-inline: 0.5em;
     padding-block: 0.7em;
     margin-bottom: 10px;
     border-radius: 20px;
+margin-left: -15%;
    }
    
    .post-input:hover {
@@ -317,3 +407,8 @@
     background-color: #ebf7fc;
   }
   
+  .ActiveClosed{
+    margin-top: 5rem;
+    margin-bottom: -4rem;
+ 
+  }

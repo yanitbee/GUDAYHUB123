@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import BackButton from "../BackButton"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faArrowRight,faMinus,faPlus } from "@fortawesome/free-solid-svg-icons";
 import debounce from 'lodash.debounce';
 
 export default function Freelancerlist() {
@@ -16,17 +16,20 @@ export default function Freelancerlist() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
+  const [title, settitle] = useState("");
+  const defaluttitle = ["Developer", "Deliver", "Cleaner","Pick Up"];
+
   const searchClicked = () => setSearchIcon("active");
   const searchClickedNot = () => setSearchIcon("");
 
   const handleSearch = (e) => setSearch(e.target.value);
 
   const debouncedSearch = useCallback(
-    debounce(async (search) => {
+    debounce(async (search,title) => {
       try {
         const response = await axios.get(
           "http://localhost:4000/employer/readfromserver",
-          { params: { serachtitle: search } }
+          { params: { serachtitle: `${search}${title}` } }
         );
         const data = response.data;
 
@@ -68,8 +71,8 @@ export default function Freelancerlist() {
   );
 
   useEffect(() => {
-    debouncedSearch(search);
-  }, [search, debouncedSearch]);
+    debouncedSearch(search,title);
+  }, [search, debouncedSearch,title]);
 
   const handleClick = (userid) => {
     navigate("Freelancerdetails", { state: { userid } });
@@ -88,8 +91,20 @@ export default function Freelancerlist() {
       );
     });
   };
-  
 
+  const isempty = (obj) => {
+    return Object.keys(obj).length === 0;
+  };
+
+  const handletitle = (title) => {
+    settitle(title);
+    console.log(title);
+  };
+
+  const handletitled = () => {
+    settitle("");
+  };
+  
   return (
     <>
       <div className="jobparent">
@@ -99,33 +114,61 @@ export default function Freelancerlist() {
         </div>
         <div className={`sidebar${searchIcon} freelancerlist${searchIcon} end-0 morecssside`}>
           <FontAwesomeIcon className={`arrow start-0`} icon={faArrowRight} onClick={searchClickedNot} />
-        </div>
-        <div className="freelist-container">
-          {Object.keys(readData)
-            .sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : 0))
-            .map((category) => (
-              <div key={category} className="category-section">
-                <div className="taskblock catagory">{category}</div>
-                {readData[category].map((data) => (
-                  <div key={data._id} onClick={() => handleClick(data._id)} className="free-list">
-                    <div>
-                      <img className="ppf" src={data.freelancerprofile.profilepic ? getProfilePicUrl(data.freelancerprofile.profilepic) : `/image/profile.jpg`} alt="Profile" />
-                      <p className="titles">{data.freelancerprofile.title}</p>
-                    </div>
-                    <div className="rating">{generateStars(data.freelancerprofile.rating)}</div>
-                    <p className="namef">{data.Fullname}</p>
-                    <p>{data.freelancerprofile.gudayhistory.jobs ? data.freelancerprofile.gudayhistory.jobs : 0} jobs in GudayHub</p>
-                    {data.freelancerprofile.skills.slice(0, 2).map((skill, key) => (
-                      <div className="skills freelist-skill" key={key}>
-                        <p>{skill}</p>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+          <br/><br/>
+          <div style={{fontWeight:"bold",fontSize:"16px"}}>
+              <div className="postsidelist">
+              {t("Specialties")}
               </div>
-            ))}
+               <br />
+              {defaluttitle.map((type) => (
+                  title === type ? (
+                <>
+                  <div className="skills" onClick={handletitled}>
+                    <FontAwesomeIcon className="delete" icon={faMinus} />
+                    {type}
+                  </div>
+                </>) : (
+                    <div className="skills" style={{color:"#b7fff2"}} onClick={() => {handletitle(type)}}>
+                    <FontAwesomeIcon className="delete" icon={faPlus} />
+                    {type}
+                  </div>
+                )
+              ))}
+            </div>
         </div>
+        
+        {isempty(readData) ? (
+          <div className="nojob">
+            <img src="/image/nofreelancer.png" alt="No Freelancer" />
+          </div>
+        ) : (
+          <div className="freelist-container">
+            {Object.keys(readData)
+              .sort((a, b) => (a === "Others" ? 1 : b === "Others" ? -1 : 0))
+              .map((category) => (
+                <div key={category} className="category-section">
+                  <div className="taskblock catagory">{category}</div>
+                  {readData[category].map((data) => (
+                    <div key={data._id} onClick={() => handleClick(data._id)} className="free-list">
+                      <div>
+                        <img className="ppf" src={data.freelancerprofile.profilepic ? getProfilePicUrl(data.freelancerprofile.profilepic) : `/image/profile.jpg`} alt="Profile" />
+                        <p className="titles">{data.freelancerprofile.title}</p>
+                      </div>
+                      <div className="rating">{generateStars(data.freelancerprofile.rating)}</div>
+                      <p className="namef">{data.Fullname}</p>
+                      <p>{data.freelancerprofile.gudayhistory.jobs ? data.freelancerprofile.gudayhistory.jobs : 0} jobs in GudayHub</p>
+                      {data.freelancerprofile.skills.slice(0, 2).map((skill, key) => (
+                        <div className="skills freelist-skill" key={key}>
+                          <p>{skill}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </>
   );
-}
+}  
