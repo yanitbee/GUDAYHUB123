@@ -114,7 +114,6 @@ input{
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-top: 15rem;
   width: 100px;
   margin-left: 10rem;
 }
