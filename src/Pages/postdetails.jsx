@@ -59,7 +59,7 @@ export default function Postdetails() {
       }
     };
     fetchData();
-  }, []);
+  }, [postid]);
 
 
   const closejob = async (postId) => {

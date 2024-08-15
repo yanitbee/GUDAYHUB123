@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import { Pie } from "react-chartjs-2";
 import Frelancerprofile from "../components/Freelancer/FrelancerProfile";
 import { Chart, registerables } from "chart.js";
+import AlertPopup from "../assets/AlertPopup";
 
 Chart.register(...registerables);
 
@@ -25,7 +26,13 @@ export default function Taskmanager() {
   const [hiredIsEmpty, setHiredIsEmpty] = useState(false);
   const [hired, setHired] = useState(false);
   const { width, height } = useWindowSize();
-  const confettiDuration = 1000;
+  const confettiDuration = 600;
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,10 +75,11 @@ export default function Taskmanager() {
         axios.put(`http://localhost:4000/applicant/changehirestatus`, null, {
           params: { status: "hired", applicantid: hiredApplicant._id }
         })
-          .then(() => window.location.reload())
+          .then(() => 
+            setIsPopupAlertVisible('Congratulations! You have been hired.') )
           .catch(error => {
             console.error("Error adding hired:", error);
-            alert("Error adding hired");
+            setIsPopupAlertVisible("Error adding hired");
           });
       }, confettiDuration);
     }
@@ -235,6 +243,13 @@ export default function Taskmanager() {
         </div>
 
       </div>
+
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
     </>
   );
 }

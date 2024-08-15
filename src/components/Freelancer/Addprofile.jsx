@@ -64,6 +64,8 @@ export default function Addprofile(prop) {
 
   const filtertype = (items, title) => {
 
+    if(items && items.length > 0){
+
     const filtered = items.filter((item) => {
       if (item.includes(".")) {
         const extension = getFileExtension(item);
@@ -92,7 +94,7 @@ export default function Addprofile(prop) {
     setfilteredlink(filteredlink)
     setfilteredfile(filtered);
     setfilteredpic(filteredpic);
-  };
+  }}
 
   const filteredLinks = inputValue.portfolio.link.filter((item) => {
     if (item.name) {

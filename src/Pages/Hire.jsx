@@ -5,10 +5,17 @@ import "../components/employer/css/freelancerdetails.css";
 import useAuth from "../Hooks/UseAuth";
 import { AuthContext } from "../Hooks/AuthContext";
 import PortfolioSlider from "../assets/portfolio";
+import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileDownload,faFileAlt  } from "@fortawesome/free-solid-svg-icons";
+import AlertPopup from "../assets/AlertPopup";
+import Popup from "../assets/popup";
+
 
 export default function Hire() {
   const { getUserData, getUserToken } = useAuth();
   const { setCurrentChat } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   const userData = getUserData();
   const token = getUserToken();
@@ -49,17 +56,59 @@ export default function Hire() {
 
   const [showWork, setshowWork] = useState(true);
   const [showPortfolio, setshowportfolio] = useState(false);
+  const [showOther, setshowOther] = useState(false);
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState("");
+
+
+  const handleConfirm =  () => {
+    changestatus("closed")
+    handleCancel()
+    
+  };
+
+  const handleCancel = () => {
+    setIsPopupVisible("");
+  };
+
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   const work = () => {
     if (!showWork) setshowWork(!showWork);
     if (showPortfolio) {
       setshowportfolio(!showPortfolio);
     }
+    if (showOther) setshowOther(!showOther);
   };
 
   const portfolio = () => {
     if (!showPortfolio) setshowportfolio(!showPortfolio);
     if (showWork) setshowWork(!showWork);
+    if (showOther) setshowOther(!showOther);
+  };
+
+  const other = () => {
+    if (!showOther) setshowOther(!showOther);
+    if (showPortfolio) {
+      setshowportfolio(!showPortfolio);
+    }
+    if (showWork) setshowWork(!showWork);
+  };
+
+  const [filteredfile, setfilteredfile] = useState([]);
+  const [filteredpic, setfilteredpic] = useState([]);
+  const [filteredlink, setfilteredlink] = useState([]);
+
+
+  const fileExtensions = ["pdf", "docx", "doc", "txt"];
+  const fileExtensionsPic = ["jpg", "jpge", "png", "svg"];
+
+  const getFileExtension = (fileName) => {
+    return fileName.split(".").pop().toLowerCase();
   };
 
   useEffect(() => {
@@ -76,6 +125,53 @@ export default function Hire() {
     fetchData();
   }, [userid]);
 
+  useEffect(() => {
+    const filtertype = (items, title) => {
+      if (items && items.length > 0) {
+        const filtered = items.reduce((acc, item, index) => {
+          if (item.includes(".")) {
+            const extension = getFileExtension(item);
+            if (fileExtensions.includes(extension)) {
+              acc.push({ item, title: title[index] }); // Add item and title
+            }
+          }
+          return acc;
+        }, []);
+        
+        const filteredpic = items.reduce((acc, item, index) => {
+          if (item.includes(".")) {
+            const extension = getFileExtension(item);
+            if (fileExtensionsPic.includes(extension)) {
+              acc.push({ item, title: title[index] });
+            }
+          }
+          return acc;
+        }, []);
+        
+        const filteredlink = items.reduce((acc, item, index) => {
+          if (!item.includes(".")) {
+            acc.push({ link: item, title: title[index] }); 
+          }
+          return acc;
+        }, []);
+        
+   
+
+        // Update state with filtered items
+        setfilteredlink(filteredlink);
+        setfilteredfile(filtered);
+        setfilteredpic(filteredpic);
+      }
+    };
+
+    filtertype(
+      readData?.freelancerprofile?.portfolio?.link,
+      readData?.freelancerprofile?.portfolio?.title
+    );
+  }, [readData]);
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -86,7 +182,7 @@ export default function Hire() {
         interviewInfo: interviewinfo,
         interviewType: interviewType,
       });
-      alert("Interview date and time set successfully");
+      setIsPopupAlertVisible("Interview date and time set successfully");
     } catch (error) {
       console.error("Error setting interview date:", error);
     }
@@ -118,25 +214,35 @@ export default function Hire() {
 
     if (application && application.status === "waiting")
       changestatus("application opened");
-  });
+  },[applicaionid]);
+
+
 
   const hiredapp = async (status) => {
     try {
-      await axios.put(`http://localhost:4000/applicant/changestatus`, null, {
+      if (!applicaionid) {
+        throw new Error('Application ID is missing');
+      }
+  
+      await axios.put('http://localhost:4000/applicant/changestatus', null, {
         params: { status: status, applicantid: applicaionid },
       });
 
-      await axios.post("http://localhost:4000/hired/addhired", {
+
+      await axios.post('http://localhost:4000/hired/addhired', {
         appId: applicaionid,
       });
 
-      alert("applicant hired");
-      confirm("do you wish to close this job opening?");
+  
+      // Show success popup
+      setIsPopupAlertVisible('Applicant hired');
+      setIsPopupVisible('Do you wish to close this job opening?');
     } catch (error) {
-      console.error("Error adding hired:", error);
-      alert("Error adding hired");
+      console.error('Error adding hired:', error);
+      setIsPopupAlertVisible('An error occurred while hiring the applicant');
     }
   };
+  
 
   // Toggle the popup visibility
   const togglePopup = () => {
@@ -170,7 +276,7 @@ export default function Hire() {
   const handleRatingChange = (e) => {
     setRating(e.target.value);
   };
-
+  
   const handleratingSubmit = async () => {
     try {
       const response = await axios.put(
@@ -200,6 +306,7 @@ export default function Hire() {
       console.error("Error starting convo", error);
     }
   };
+
 
   return (
     <>
@@ -348,7 +455,7 @@ export default function Hire() {
             </label>
 
             <label className="radio">
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" onClick={other}/>
               <span className="name v">Other Porfolio</span>
             </label>
           </div>
@@ -383,9 +490,96 @@ export default function Hire() {
 
           {showPortfolio && (
             <>
-              <PortfolioSlider />
+          <PortfolioSlider pics={filteredpic} />
             </>
           )}
+
+{showOther && (
+            <>
+              <div className="whloefile">
+                <section
+                  class="overflow-x"
+                  style={{
+                    transform:
+                      filteredfile.length <= 3
+                        ? "translateX(50%)"
+                        : filteredfile.length === 4
+                        ? "translateX(30%)"
+                        : "translateX(0%)",
+                  }}
+                >
+                  <h2>{t("Portfolio Documents")}</h2>
+                  <div class="horizontal-friends-list">
+                    {filteredfile && filteredfile.length > 0 ? filteredfile.map((file, index) => (
+                      <>
+                        <figure key={index}>
+                          <picture>
+                            <FontAwesomeIcon
+                              className="icon"
+                              icon={faFileDownload}
+                              size="6x"
+                              style={{
+                                color:
+                                  filteredfile.length === 1
+                                    ? "#ad5252"
+                                    : filteredfile.length === 2
+                                    ? "#9c8a4c"
+                                    : filteredfile.length === 3
+                                    ? "#63c99d"
+                                    : filteredfile.length === 3
+                                    ? "#509be1"
+                                    : "#9d9a58" 
+                                     ,
+                                marginTop: "15px",
+                              }}
+                              onClick={() => openDocument(file)}
+                            />
+                          </picture>
+                          <br/>
+                          <figcaption>{file.title}</figcaption>
+                        </figure>
+                      </>
+                    )):(
+                      <>
+                      <figure>
+                        <picture>
+                          <FontAwesomeIcon
+                            className="icon"
+                            icon={faFileAlt }
+                            size="6x"
+                            style={{
+                              color: "#ad5252",
+                              marginTop: "15px",
+                              marginLeft:"6.5rem"
+                            }}
+                          />
+                        </picture>
+                        <br/>
+                        <p   style={{
+                             marginLeft:"7.5rem"
+                            }}>{"No File"}</p>
+                      </figure>
+                    </>
+                    )}
+                  </div>
+                </section>
+               <section className="linklist">
+                <h2>Link</h2>
+                {filteredlink && filteredlink.length > 0 ? filteredlink.map((link, index) => (
+                  <>
+                  <ol>
+                    <li> <a style={{color:"#458ef4", textDecoration:"underline"}} href={link.link} target="_blank">{link.title}</a></li>
+                  </ol>
+                  </>
+                )):(
+                  <p>No Link</p>
+                )}
+                </section> 
+              </div>
+            </>
+          )}
+
+
         </div>
       </div>
       {isPopupOpen && (
@@ -436,6 +630,19 @@ export default function Hire() {
             </form>
           </div>
         </div>
+      )}
+                 {isPopupVisible != "" && (
+        <Popup
+          message = {isPopupVisible}
+          onConfirm={()=>{handleConfirm()}}
+          onCancel={handleCancel}
+        />
+      )}
+           {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
       )}
     </>
   );

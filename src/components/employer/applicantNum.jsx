@@ -31,7 +31,7 @@ const ApplicantNum = ({ postId, type }) => {
   return (
     <div>
       {type === "App" ? (
-        Array.isArray(numApplicants) ? numApplicants.length : "Loading..."
+        Array.isArray(numApplicants) ? numApplicants.length + numHired.length : "Loading..."
       ) : type === "Hired" ? (
         Array.isArray(numHired) ? numHired.length : "Loading..."
       ) : (
