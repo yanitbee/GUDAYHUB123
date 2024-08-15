@@ -244,6 +244,13 @@ export default function Interview() {
                     </p>
                     <p>Deadline: {postInfo[selectedConversationIndex].Deadline}</p>
                   </div>
+                  <div className="chatBoxBottom">
+              <IconButton color="primary" aria-label="call">
+                <PhoneIcon onClick={() =>{
+                  Navigate("/InterviewCalls")
+                }} style={{ fontSize: "3.5rem" }} />
+              </IconButton>
+            </div>
                 </>
               ) : (
                 <span className="noconvo">Open interview to call</span>

@@ -285,10 +285,11 @@ export default function Freelancerdetails() {
       
       <div className="wrapper">
               {popup && (
-                <div className={`form`}>
-                  <div className="form-content">
-                  Description
-                    <input
+                <div  className={`form`}>
+                  <div style={{width:"450px", height:"28rem", paddingTop:"2rem",transform:"translatex(80%)"}} className="form-content">
+                  Description <br/>
+                    <textarea
+                    style={{width:"400px", height:"8rem"}}
                       className="input"
                       type="text"
                       placeholder="write a detailed description of the job"
@@ -313,10 +314,10 @@ export default function Freelancerdetails() {
 
                     <br />
                    <br />
-                    <button className="popup-btn" onClick={saveOffer}>
+                    <button style={{color:"#fff"}} className="popup-btn" onClick={saveOffer}>
                       Submit
                     </button>
-                    <button className="popup-btn" id="x" onClick={togglePopup}>
+                    <button style={{color:"#fff"}} className="popup-btn" id="x" onClick={togglePopup}>
                       X
                     </button>
                   </div>
