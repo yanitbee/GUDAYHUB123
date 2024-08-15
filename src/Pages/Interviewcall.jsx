@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import ReactPlayer from "react-player";
 
 const socket = io.connect('ws://localhost:4100');
 
@@ -27,8 +26,6 @@ export default function InterviewCall() {
     const [idToCall, setIdToCall] = useState('');
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState('');
-    const [remoteStream, setRemoteStream] = useState(null);
-    const [userVideoSrc, setUserVideoSrc] = useState('');
 
     const myVideo = useRef();
     const userVideo = useRef();
@@ -38,7 +35,13 @@ export default function InterviewCall() {
         // Set up local video stream
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream);
-          
+            if (myVideo.current) {
+                myVideo.current.srcObject = stream;
+            }
+            // Add tracks to peerConnection
+            stream.getTracks().forEach((track) => {
+                peerConnection.current.addTrack(track, stream);
+            });
         });
 
         // Receive socket ID from server
@@ -55,22 +58,20 @@ export default function InterviewCall() {
         });
 
         // Handle incoming tracks from remote peer
-        peerConnection.current.ontrack = (event) => {
-            if (event.streams && event.streams[0]) {
-                setRemoteStream(event.streams[0]);
-                console.log(event.streams[0])
+       peerConnection.current.ontrack = (event) => {
+        console.log("Received user video:", event);
+        if (event.streams && event.streams[0]) {
+            console.log("Setting remote video stream");
+            if (userVideo.current) {
+                userVideo.current.srcObject = event.streams[0];
+            } else {
+                console.log("User video element is not ready");
             }
-        };
-
-    }, []);
-
-    // Set remote stream to userVideoSrc when it changes
-    useEffect(() => {
-        if (remoteStream) {
-            const videoSrc = URL.createObjectURL(remoteStream);
-            setUserVideoSrc(videoSrc);
+        } else {
+            console.log("No streams found in the event");
         }
-    }, [remoteStream]);
+    };
+    }, [userVideo.current]);
 
     const callUser = async (id) => {
         try {
@@ -122,23 +123,19 @@ export default function InterviewCall() {
             socket.disconnect();
         }
     };
-    console.log("my",stream)
-    console.log("other",remoteStream)
-
     return (
         <>
             <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
             <div className="container">
                 <div className="video-container">
                     <div className="video">
-                        {stream &&  <ReactPlayer url={stream} playing muted autoPlay style={{ width: '300px' }}/> }
+                        <h3>My Video</h3>
+                        <video playsInline ref={myVideo} autoPlay style={{ width: '300px' }} muted />
                     </div>
                     <div className="video">
-                        {callAccepted && !callEnded ? (
-                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
-                        ) : null}
-                        {callAccepted && !callEnded && userVideoSrc && (
-                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
+                        <h3>User Video</h3>
+                        {callAccepted && !callEnded && (
+                            <video playsInline ref={userVideo} autoPlay style={{ width: '300px' }} />
                         )}
                     </div>
                 </div>
