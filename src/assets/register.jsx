@@ -82,7 +82,7 @@ export default function Register() {
         title: "",
         profilepic: "",
         IsVerified: false,
-        nullvalue,
+        nullvalue: nullvalue,
       });
       
       if (response.status === 201 && response.data.message === "Verification code sent to email") {
