@@ -6,11 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import PhoneIcon from "@mui/icons-material/Phone";
 import IconButton from "@mui/material/IconButton";
+import {useNavigate } from "react-router-dom";
 
 export default function Interview() {
   const { getUserData, getUserToken } = useAuth();
   const userData = getUserData();
   const token = getUserToken();
+
+  const Navigate = useNavigate()
 
   const [readData, setReadData] = useState([]);
   const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
@@ -241,15 +244,17 @@ export default function Interview() {
                     </p>
                     <p>Deadline: {postInfo[selectedConversationIndex].Deadline}</p>
                   </div>
+                  <div className="chatBoxBottom">
+              <IconButton color="primary" aria-label="call">
+                <PhoneIcon onClick={() =>{
+                  Navigate("/InterviewCalls")
+                }} style={{ fontSize: "3.5rem" }} />
+              </IconButton>
+            </div>
                 </>
               ) : (
                 <span className="noconvo">Open interview to call</span>
               )}
-            </div>
-            <div className="chatBoxBottom">
-              <IconButton color="primary" aria-label="call">
-                <PhoneIcon style={{ fontSize: "3.5rem" }} />
-              </IconButton>
             </div>
           </div>
         </div>

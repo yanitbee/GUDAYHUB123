@@ -1,6 +1,6 @@
 
 .applaywhole{
-  margin-top: 9rem;
+  padding-top: 9rem;
   overflow-x: hidden;
 
 }
@@ -103,7 +103,39 @@ border-radius: 20px;
   .applied{
     background-color: rgb(128, 130, 130);
   }
-  
+  .editPost{
+    display: inline-block;
+    float: right;
+    margin-right: 4rem;
+    margin-top: -.5rem;
+    background-color: #6cd4ec94;
+    border-radius: 45px;
+    padding: 0.8rem;
+  }
+
+  .editPost:hover{
+    background-color: #6cd4ecaf;
+    scale: 1.1;
+    margin-top: -.9rem;
+   
+  }
+  .editPop{
+    margin-top: 3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    overflow: hidden;
+    height: auto;
+    width: 80rem;
+  }
+
+
+  .backdrop {
+    padding: 0 0 4rem 0;
+    background-color: rgba(0, 0, 0, 0.212); 
+  }
+
   @keyframes shine {
     0% {
       left: -100px;

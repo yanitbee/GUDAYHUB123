@@ -198,6 +198,7 @@ min-height: 100vh;
    
 }
 .mainpostHis{
+    min-height: 100vh;
     padding: 1rem; 
     background-color: #048d8d;
     padding-bottom: 5rem;

@@ -222,7 +222,8 @@ export default function Write() {
   const handlepost = (postid) => {
     navigate("/employerpage/Applicantsdetails/postdetails", { state: { postid: postid } });
   };
-
+  
+  
   return (
     <>
        <EmployerProfile />
@@ -493,6 +494,11 @@ export default function Write() {
                 <p className="titlef">{data.Description}</p>
                 <h3 className="textf">Price</h3>
                 <p className="titlef">{data.price}</p>
+                {data.status ==="rejected" && (
+                  <>
+                <h3 className="textf">Reason</h3>
+                <p className="titlef">{data.message}</p>
+                </>)}
               </div>
             </div>
           ))}      
