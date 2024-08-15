@@ -2,15 +2,14 @@ import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import "./adminpage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBriefcase,faEllipsisH ,faEye,faEdit,faPen,faComment,faCheckCircle,faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBriefcase,faEllipsisH ,faEye,faEdit,faPen,faComment,faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import PieChart from "./assets/pieChart";
 import useAuth from "../Hooks/UseAuth";
 import LineGraph from "./assets/lineGraph";
-import { use } from "i18next";
 import View from "./component/view";
 import Add from "./component/add";
+import Verify from "./component/verify";
 import { useTranslation } from "react-i18next";
-import AlertPopup from "../assets/AlertPopup";
 import Update from "./component/update";
 
 export default function AdminPage() {
@@ -28,49 +27,10 @@ export default function AdminPage() {
   const [poatloading, setPostLoading] = useState(true);
   const [posterror, setPostError] = useState("");
   const [showMain, setShowMain] = useState("analytic");
-  const [inputValue, setinputValue] = useState({
-    username: "",
-    VerifiedDoc: "",
 
-  });
 
-  const inputrefDoc = useRef(null);
+ 
 
-  const uploadDoc = async (e) => {
-    setinputValue({ ...inputValue, VerifiedDoc: e.target.files[0] });
-  };
-
-  function isFormDataEmpty(formData) {
-    for (let pair of formData.entries()) {
-      return false;
-    }
-    return true;
-  }
-
-  const verifyUser = async () => {
-    const formData = new FormData();
-    if (inputValue.VerifiedDoc) {
-      formData.append("VerifiedDoc", inputValue.VerifiedDoc);
-    }
-   
-    if (!isFormDataEmpty(formData)) {
-      try {
-        const response =  await axios.put(
-          `http://localhost:4000/admin/verifieUser/${inputValue.username}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        setIsPopupAlertVisible(response.data.message);
-      } catch (error) {
-        console.error("errorr", error);
-      }
-    }
-
-  }
 
   const showView = () =>{
 	setShowMain("view")
@@ -192,15 +152,7 @@ export default function AdminPage() {
   };
 
   
-  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
-  const handleCancel = () => {
-    setIsPopupAlertVisible("");
-  };
-
-  const handleDoc = () => {
-    inputrefDoc.current.click();
-  };
   return (
     <>
       <div className="dashboard">
@@ -244,7 +196,7 @@ export default function AdminPage() {
                       icon={faUser}
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    /> {" "}
                     User Analytics
                   </a>
                 </li>
@@ -255,7 +207,7 @@ export default function AdminPage() {
                       icon={faBriefcase}
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     Post Analytics
                   </a>
                 </li>
@@ -266,7 +218,7 @@ export default function AdminPage() {
                       icon={faEllipsisH }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     Other Analtics
                   </a>
                 </li>
@@ -280,7 +232,7 @@ export default function AdminPage() {
                       viewBox="0 0 24 24"
                     >
                       <path d="M5.707 19.707L12 13.414l4.461 4.461L14.337 20H20v-5.663l-2.125 2.124L13.414 12l4.461-4.461L20 9.663V4h-5.663l2.124 2.125L12 10.586 5.707 4.293 4.293 5.707 10.586 12l-6.293 6.293z" />
-                    </svg>
+                    </svg>{" "}
                     Shuffle
                   </a>
                 </li>
@@ -298,7 +250,7 @@ export default function AdminPage() {
                       icon={faEye }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     View
                   </a>
                 </li>
@@ -309,7 +261,7 @@ export default function AdminPage() {
                       icon={faCheckCircle }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     Verify
                   </a>
                 </li>
@@ -324,7 +276,7 @@ export default function AdminPage() {
                     >
                       <path d="M13 7L11 7 11 11 7 11 7 13 11 13 11 17 13 17 13 13 17 13 17 11 13 11z" />
                       <path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10c5.514,0,10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8 s3.589-8,8-8s8,3.589,8,8S16.411,20,12,20z" />
-                    </svg>
+                    </svg>{" "}
                    Add
                   </a>
                 </li>
@@ -335,7 +287,7 @@ export default function AdminPage() {
                       icon={faEdit }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     Update
                   </a>
                 </li>
@@ -354,7 +306,7 @@ export default function AdminPage() {
                       icon={faEye }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     View
                   </a>
                 </li>
@@ -369,7 +321,7 @@ export default function AdminPage() {
                     >
                       <path d="M13 7L11 7 11 11 7 11 7 13 11 13 11 17 13 17 13 13 17 13 17 11 13 11z" />
                       <path d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10c5.514,0,10-4.486,10-10S17.514,2,12,2z M12,20c-4.411,0-8-3.589-8-8 s3.589-8,8-8s8,3.589,8,8S16.411,20,12,20z" />
-                    </svg>
+                    </svg>{" "}
                    Add
                   </a>
                 </li>
@@ -380,7 +332,7 @@ export default function AdminPage() {
                       icon={faEdit }
                       size="1x"
                       color="rgba(0, 0, 0, 0.701)"
-                    />
+                    />{" "}
                     Update
                   </a>
                 </li>
@@ -398,7 +350,7 @@ export default function AdminPage() {
 		icon={faPen }
 		size="1x"
 		color="rgba(0, 0, 0, 0.701)"
-	  />
+	  />{" "}
 	  Compliant
 	</a>
   </li>
@@ -409,7 +361,7 @@ export default function AdminPage() {
 		icon={faComment }
 		size="1x"
 		color="rgba(0, 0, 0, 0.701)"
-	  />
+	  />{" "}
 	  Testimony
 	</a>
   </li>
@@ -420,7 +372,7 @@ export default function AdminPage() {
 		icon={faEdit }
 		size="1x"
 		color="rgba(0, 0, 0, 0.701)"
-	  />
+	  />{" "}
 	  Update
 	</a>
   </li>
@@ -442,80 +394,7 @@ export default function AdminPage() {
 
 {showMain === "Verify" && (
 		<main className="content-wrap">
-
-<div  className={`wrapper`}>
-                        <div className={`popup adminpop 
-                        verify` }
-                        style={{display:"inline-flex"}}>
-                          <div  className="overlay"></div>
-                          <div className={`popup-content adminreg`}>                        
-                      
-                           <br />
-  
-  <h3 className="h3-register">{t("Verify")}</h3>   
-    <input
-                              className="input"
-                              type="text"
-                              placeholder={t("Search UserName")}
-                              onChange={(e) =>
-                                setinputValue({
-                                  ...inputValue,
-                                  username: e.target.value,
-                                })
-                              }
-                            />
-                              <br />
-                              <br />  <br />
-                            User Information
-                            <input
-                              className="input"
-                              type="text"
-                              placeholder={t("Username")}
-                            />
-                            <input
-                              className="input"
-                              type="text"
-                              placeholder={t("Phonenumber")}
-                            />
-                            <input
-                              className="input"
-                              type="email"
-                              placeholder={t("Email")}
-                            />
-                            <input
-                              className="input"
-                              type="password"
-                              placeholder={t("Password")}
-                            />{" "}
-                          
-          
-                          </div>
-                        </div>
-
-                    </div>
-                    <div className="fileinput" onClick={handleDoc}
-                       style={{ marginTop: "-5.5rem" }}>
-                      <h4>Upload the documentation</h4>
-                      <br/>
-                    <FontAwesomeIcon
-                                icon={faFileArrowUp}
-                                size="5x"
-                                color="rgba(73, 154, 149, 0.61)"
-                             
-                              />
-                      <input type="file" onChange={uploadDoc} 
-                       ref={inputrefDoc}
-                       style={{ display: "none" }}/>
-                     
-                    </div>
-                    <button className="button-33" onClick={verifyUser}>Verify</button>
-
-                    {isPopupAlertVisible != "" && (
-    <AlertPopup
-    message={isPopupAlertVisible}
-    onClose={handleCancel}
-  />
-)}
+<Verify data={users} />
 			</main>
 			)}
 

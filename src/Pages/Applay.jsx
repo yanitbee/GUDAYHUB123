@@ -28,9 +28,20 @@ export default function Apply() {
     Coverletter: "",
     status: "",
   });
+
+  const [HaveSchedule, setHaveSchedule] = useState(false);
+  const [ScheduleInfo, setScheduleInfo] = useState([]);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [verificationDate, setverificationDate] = useState("");
+  const [verificationTime, setverificationTime] = useState("");
+  const [notes , setnotes ] = useState("");
+
+
   const [popup, setPopup] = useState(false);
 
   const [isPopupVisible, setIsPopupVisible] = useState("");
+  const [isPopupRVisible, setIsPopupRVisible] = useState("");
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
   const handleClose = () => {
@@ -39,6 +50,11 @@ export default function Apply() {
   const handleCancel = () => {
     setIsPopupVisible("");
   };
+
+  const handleRCancel = () => {
+    setIsPopupRVisible("");
+  };
+
 
   useEffect(() => {
     const fetchFreelancerData = async () => {
@@ -172,6 +188,11 @@ export default function Apply() {
     fetchPostData();
   }, [postid]);
 
+  const convertDate = (data) => {
+    const date = new Date(data);
+    return date.toISOString().split("T")[0];
+  };
+
   const togglePopup = () => {
     if (!userData) {
       const redirectData = {
@@ -181,26 +202,95 @@ export default function Apply() {
       sessionStorage.setItem("redirectDataFreelancer", JSON.stringify(redirectData));
       navigate("/login");
     }else if(!freelancerData.IsVerified || freelancerData.IsVerified === false){
-      setIsPopupVisible("Your account havenot been verified yet Click yes if you want to send request for verification");
+      if(HaveSchedule === true){
+        setIsPopupRVisible(`Your account have not been verified yet. you have a scheduled verification on ${convertDate(ScheduleInfo.verificationDate)} at ${ScheduleInfo.verificationTime}. Do you wish to reschedule?`);
+      }else{
+      setIsPopupVisible("Your account have not been verified yet Click yes if you want to Schedule Your verification");
+
+    }
     }
      else {
       setPopup(!popup);
     }
   };
 
+  const handleDateChange = (e) => {
+    setverificationDate(e.target.value);
+  };
 
-  const handleConfirm =() =>{
-    console.log("a")
-    handleCancel()
-  }
+  const handleTimeChange = (e) => {
+    setverificationTime(e.target.value);
+  };
+
+
+
+
+    const handleConfirm =  () => {
+      setIsPopupOpen(!isPopupOpen);
+      handleCancel()
+      
+    };
+    const handleRConfirm =  () => {
+      setIsPopupOpen(!isPopupOpen);
+      setnotes("Reschedule")
+      handleRCancel()
+      
+
+    };
+
+    const handleClosePop = () => {
+      setIsPopupOpen(false)
+      setnotes("")
+    }
+    
+    const scheduleVerification = async (e) => {
+      e.preventDefault();
+      const formData = {
+        freelancerId: userData.userID,
+        freelanerName: freelancerData.Fullname,
+        freelancerEmail: freelancerData.Email,
+        verificationDate: verificationDate, 
+        verificationTime: verificationTime, 
+        notes: notes ? notes : "New schedule",
+      };
+    setnotes("")
+      try {
+        const response = await axios.post('http://localhost:4000/user/schedule-verification', formData)
+        setIsPopupOpen(false)
+        setIsPopupAlertVisible(response.data.message)
+        console.log('Verification scheduled:', response.data);
+      } catch (error) {
+        console.error('Error scheduling verification:', error);
+      }
+    };
+    
+  
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
   };
 
+  useEffect(() => {
+    const fetchScheduleById = async () => {
+      try {
+          const response = await axios.get(`http://localhost:4000/user/schedule/${userData.userID}`);
+          if(!response.data.message === "Schedule not found")
+            {setHaveSchedule(true)
+              setScheduleInfo(response.data)
+            }
+      } catch (error) {
+          console.error('Error fetching schedule:', error);
+          return null;
+      }
+  };
+  fetchScheduleById()
+  },[])
+ 
+
   return (
     <>
-      <Frelancerprofile />
+    {userData &&    <Frelancerprofile />}
+   
       <div className="applaywhole ">
         {readData && (
           <div>
@@ -277,12 +367,50 @@ export default function Apply() {
           onCancel={handleCancel}
         />
       )}
+           {isPopupRVisible != "" && (
+        <Popup
+          message = {isPopupRVisible}
+          onConfirm={()=>{handleRConfirm()}}
+          onCancel={handleRCancel}
+        />
+      )}
 
       {isPopupAlertVisible != "" && (
         <AlertPopup
           message = {isPopupAlertVisible}
           onClose={handleClose}
         />
+      )}
+
+{isPopupOpen && (
+        <div className="popupi">
+          <div className="popup-contenti">
+            <h2>schedule Your Verification</h2>
+            <form onSubmit={scheduleVerification}>
+              
+          
+          
+              <label htmlFor="interviewDate">Verification Date:</label>
+              <input
+                type="date"
+                id="interviewDate"
+                value={verificationDate}
+                onChange={handleDateChange}
+              />
+              <label htmlFor="interviewTime">Verification Time:</label>
+              <input
+                type="time"
+                id="interviewTime"
+                value={verificationTime}
+                onChange={handleTimeChange}
+              />
+              <button type="submit">Schedule</button>
+              <button type="button" onClick={handleClosePop}>
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
       )}
 
               {popup && (

@@ -25,6 +25,11 @@ input{
   outline: none;
   border: none;
 }
+input:disabled {
+  background-color: #d2d2d2; /* Example of a different background */
+  cursor: not-allowed;
+}
+
 .logo img{
   width: 200px;
   margin-left: -10rem;
@@ -170,8 +175,8 @@ input{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
   }
 
   
@@ -240,6 +245,42 @@ input{
     z-index: -1;
     animation: slideInVidLogIn 2s ease-out;
   }
+
+  @media screen and (max-width: 1100px) {
+    .loginvid video {
+      scale: 0.8;
+      transform: translate(-30%,-5%);
+      animation: slideInVid 2s ease-in-out;
+    }
+    .loginvid{
+      height: 10rem;
+      width: 20rem ;
+    }
+
+    .registervid video {
+      scale: 0.8;
+      transform: translate(-20%,15%);
+      animation: slideInVid 2s ease-in-out;
+    }
+    .registervid{
+      height: 10rem;
+      width: 30rem ;
+    }
+  
+  
+  }
+
+  @media screen and (max-width: 970px) {
+    .loginvid {
+display: none;
+    }
+    .registervid {
+      display: none;
+          }
+    
+  }
+
+
 
   @keyframes slideInVidLogIn {
     from {
@@ -326,7 +367,7 @@ input{
   .verify{
     transform: translate(-50%, 5%);
     background-color: rgba(38, 102, 96, 0.374);
-    height: 165px;
+    height: 465px;
   }
 .false{
     height: 400px;
@@ -389,6 +430,71 @@ input{
       opacity: 1;
     }
   }
+  .input {
+    margin: 10px;
+    border: 2px solid transparent;
+    width: 25em;
+    height: 2.5em;
+    padding-left: 0.8em;
+    outline: none;
+    overflow: hidden;
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    transition: all 0.5s;
+  }
+
+  @media screen and (max-width: 800px) {
+    
+    .registerpop {
+      transform: translate(0%, 5%);
+ 
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .popup {
+      width: 400px;
+    }
+    .registerpop {
+      transform: translate(0%, -15%);
+ 
+    }
+    .loginpop {
+      transform: translate(0%, -15%);
+  
+    }
+    .backlogo {
+      top: 18%;
+      width: 600px;
+      height: 300px;
+    }
+    .input {
+      margin: 10px 0 10px 0;
+      width: 23em;
+
+    }
+    
+  }
+  
+  @media screen and (max-width: 380px) {
+    .popup {
+      width: 340px;
+    }
+    .registerpop {
+      transform: translate(5%, 15%);
+ 
+    }
+    .loginpop {
+      transform: translate(5%, 15%);
+  
+    }
+    .input {
+      margin: 10px 0 10px 0;
+      width: 20em;
+
+    }
+    
+  }
+
   .slide-exitLogIn{
     animation: slideOutLogIn 1s ease-in-out;
   }
@@ -593,24 +699,18 @@ font-weight: 500;
   color: #fff;
 }
 
-.input {
-  margin: 10px;
-  border: 2px solid transparent;
-  width: 25em;
-  height: 2.5em;
-  padding-left: 0.8em;
-  outline: none;
-  overflow: hidden;
-  background-color: #F3F3F3;
-  border-radius: 10px;
-  transition: all 0.5s;
-}
+
 
 .input:hover,
 .input:focus {
   border: 2px solid #5f9ea0;
   box-shadow: 0px 0px 0px 7px rgb(43, 69, 70);
   background-color: white;
+}
+input:disabled:hover{
+  border:none;
+  box-shadow: none;
+  background-color: rgb(229, 211, 211);
 }
 /*
 #main{
@@ -791,7 +891,7 @@ background-color:#2a3131 ;
 
 #service{
   width:100%;
-  height:120vh;
+  height:130vh;
   box-sizing: border-box;
   font-family:'Lato';
   display: flex;
@@ -1010,7 +1110,7 @@ width: 600px;
 
 #testimony{
   width:100%;
-  height:110vh;
+  height:120vh;
   box-sizing: border-box;
   font-family:'Lato';
   display: flex;
@@ -1032,6 +1132,16 @@ width: 600px;
   padding: 20px;
   border-radius: 30px;
   position: relative;
+}
+@media screen and (max-width: 550px) {
+  .t-container {
+    flex-direction: row;
+    padding: 0px;
+
+  }
+  #testimony{
+    height:150vh;
+  }
 }
 #testimony h1{
   font-size: 3rem;
