@@ -16,6 +16,8 @@ export default function Applicantsdetails() {
   const [hiredLen, sethiredLen] = useState("");
   const [pieData, setPieData] = useState(null);
 
+  const predefinedLabels = ["waiting","application opened","Interview Set" ,"hired"];
+
   const location = useLocation();
   const { postid } = location.state || {};
 
@@ -63,36 +65,7 @@ export default function Applicantsdetails() {
         setreadhired(hiredResponse.data);
         sethiredapplicant(hiredNames);
 
-        // Generate pie data based on application status
-        const statusCounts = applicantResponse.data.reduce((acc, curr) => {
-          acc[curr.status] = (acc[curr.status] || 0) + 1;
-          return acc;
-        }, {});
-
-        setPieData({
-          labels: Object.keys(statusCounts),
-          datasets: [
-            {
-              data: Object.values(statusCounts),
-              backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56",
-                "#4BC0C0",
-                "#9966FF",
-                "#FF9F40"
-              ],
-              hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56",
-                "#4BC0C0",
-                "#9966FF",
-                "#FF9F40"
-              ]
-            }
-          ]
-        });
+ 
       } catch (error) {
         console.error("error", error);
       }
@@ -100,6 +73,53 @@ export default function Applicantsdetails() {
 
     fetchData();
   }, [postid]);
+
+  useEffect(() => {
+    const statusCounts = predefinedLabels.reduce((acc, label) => {
+      acc[label] = 0;
+      return acc;
+    }, {});
+   
+
+    
+    readData.forEach((applicant) => {
+      if (statusCounts.hasOwnProperty(applicant.status)) {
+        statusCounts[applicant.status] += 1;
+      }
+    });
+    
+
+  readhired.forEach((hired) => {
+if (statusCounts.hasOwnProperty(hired.status)) {
+  statusCounts[hired.status] += 1;
+}
+});
+
+    setPieData({
+      labels: predefinedLabels,
+      datasets: [
+        {
+          data: predefinedLabels.map(label => statusCounts[label]),
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#4BC0C0",
+            "#9966FF",
+            "#FF9F40"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#4BC0C0",
+            "#9966FF",
+            "#FF9F40"
+          ]
+        }
+      ]
+    });
+  }, [readapplicant,readhired]);
 
   const changestatus = async (id, status) => {
     try {
@@ -150,6 +170,7 @@ export default function Applicantsdetails() {
       <EmployerProfile />
 
       <div className="wholeTask">
+      <div className="main">
         <section id="applications">
           {arrayIsEmpty ? (
             <div className="taskblock catagory">There is no applicant yet</div>
@@ -215,12 +236,15 @@ export default function Applicantsdetails() {
             </>
           )}
         </section>
+        </div>
 
         <div className="sidetask">
           <section>
             <br/><br/><br/><br/>
-          <div className="bubles app"><a href="#applications"><p>Applications: {}</p></a></div>
-          <div className="bubles hire"><a href="#hired"><p>Hired: {}</p></a></div>
+          <div className="bubles app"><a href="#"><p>Applications: {readData.length+readhired.length}</p></a></div>
+          <div className="bubles "
+          style={{backgroundColor:"#38903c"}}><a href="#"><p>Interview Set: {readData.filter(item => item.status === "Interview Set").length}</p></a></div>
+          <div className="bubles hire"><a href="#"><p>Hired: {readhired.length}</p></a></div>
 
             <h4>Application Status </h4>
             <div className="report-section">

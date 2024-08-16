@@ -5,6 +5,8 @@ import useAuth from "../../Hooks/UseAuth";
 import Editprofile from "./profilEdit";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye,faQuestionCircle, faCommentDots,faWandSparkles,faQuoteLeft,faPenAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function EmployerProfile() {
   const { getUserData, getUserToken } = useAuth();
@@ -142,6 +144,7 @@ export default function EmployerProfile() {
       </div>
 
       <div className="holder start-0">
+        
         <img
           onClick={togglePopup}
           className="profilepic"
@@ -157,6 +160,7 @@ export default function EmployerProfile() {
         {popup && (
           <div className={`profilebox morepro `}>
             <div className="profile-content">
+            <div className="upperpro">
               <div className="pholder " onClick={handleImage}>
                 <img
                   className="ppic"
@@ -169,6 +173,7 @@ export default function EmployerProfile() {
                   }
                   alt="Profile"
                 />
+
                 <input
                   onChange={uploadImg}
                   type="file"
@@ -177,11 +182,48 @@ export default function EmployerProfile() {
                 />
               </div>
               <br />
+              <div className="infopro">
               {employerData.Fullname} <br />
               {employerData.Email}
-              <br />
-              <p onClick={addpro} className="eedit"
-              style={{marginTop:"1rem"}}>Edit</p>
+              </div>
+              </div>
+ 
+              <div
+                  className=" complaint"
+                  onClick={addpro} >
+                   <FontAwesomeIcon
+                      icon={faPenAlt }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+              <p  style={{display:"inline"}}>Edit Your profile</p>
+
+</div>
+              <div
+                  className=" complaint"
+                  onClick={handleComplaintClick}
+                >
+                     <FontAwesomeIcon
+                      icon={faCommentDots }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  
+                  <h6 style={{display:"inline"}}>{t("Complaint")} </h6>
+                </div>
+                <div
+                  className=" complaint"
+                  onClick={handleTestimonyClick}
+                >
+                    <FontAwesomeIcon
+                      icon={faQuoteLeft }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}>{t("Testimony")} </h6>
+                </div>
+            
+            
               <br /> <br />
               <button className="popup-btn" id="x" onClick={togglePopup}>
                 X

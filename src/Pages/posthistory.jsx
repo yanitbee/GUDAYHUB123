@@ -25,22 +25,25 @@ export default function Posthistory(){
     useEffect(() => {
       const fetchData = async () => {
         try {
-       const response = await axios.get("http://localhost:4000/post/reademployerpost" ,{
-          params: { employerid: userData.userID }
-        })
-            
-            const sortedData = response.data.sort(
-              (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
-            );
-            setreadData(sortedData);
-            
+          const response = await axios.get("http://localhost:4000/post/reademployerpost", {
+            params: { employerid: userData.userID },
+          });
+  
+          const filteredData = response.data.filter(post => post.status !== "Closed");
+    console.log(response.data)
+          const sortedData = filteredData.sort(
+            (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
+          );
+
+          setreadData(sortedData);
         } catch (error) {
           console.error("error", error);
         }
       };
+    
       fetchData();
     }, [userData.userID]);
-
+    
     
    
 

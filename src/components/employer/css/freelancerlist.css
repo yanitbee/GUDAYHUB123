@@ -1,6 +1,7 @@
 .jobparent{
   background-color: #468386;
   padding: 2rem;
+  min-height: 100vh;
 }
 /*
 .freelist-container {

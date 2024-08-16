@@ -34,6 +34,11 @@ const Navbar = () => {
       case "/admin":
       case "/ReadMore":
       case "/freelancerpage/Freelancerdetails":
+        case "/verification":
+          case "/admin/VerifyUser":
+            case "/Complaint":
+              case "/Testimony":
+                case "/employerpage/Applicantsdetails/more/Hire":
         setshowNav(false);
         break;
       default:

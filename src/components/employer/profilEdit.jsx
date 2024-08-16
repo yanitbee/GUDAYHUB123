@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-
 import { useTranslation } from "react-i18next";
+import useAuth from "../../Hooks/UseAuth";
+import AlertPopup from "../../assets/AlertPopup";
 
 export default function Editprofile(prop) {
+
+  const { getUserData } = useAuth();
+
+  const userData = getUserData();
   const { t } = useTranslation();
 
   const [inputValue, setInputValue] = useState({
@@ -14,7 +19,15 @@ export default function Editprofile(prop) {
     title: "",
   });
 
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
+
   const editData = async () => {
+
+
     try {
       await axios.put(
         `http://localhost:4000/employer/edit/${userData.userID}`,
@@ -26,6 +39,7 @@ export default function Editprofile(prop) {
           title: inputValue.title,
         }
       );
+      setIsPopupAlertVisible("Profile updated successful")
     } catch (error) {
       console.error("Error updating profile", error);
     }
@@ -94,6 +108,12 @@ export default function Editprofile(prop) {
           </div>
         </div>
       </div>
+      {isPopupAlertVisible != "" && (
+            <AlertPopup
+              message = {isPopupAlertVisible}
+              onClose={handleClose}
+            />
+      )}
     </>
   );
 }

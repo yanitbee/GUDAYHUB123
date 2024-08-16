@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import { Pie } from "react-chartjs-2";
 import Frelancerprofile from "../components/Freelancer/FrelancerProfile";
 import { Chart, registerables } from "chart.js";
+import AlertPopup from "../assets/AlertPopup";
 
 Chart.register(...registerables);
 
@@ -25,7 +26,13 @@ export default function Taskmanager() {
   const [hiredIsEmpty, setHiredIsEmpty] = useState(false);
   const [hired, setHired] = useState(false);
   const { width, height } = useWindowSize();
-  const confettiDuration = 1000;
+  const confettiDuration = 300;
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,29 +43,41 @@ export default function Taskmanager() {
         const hiredResponse = await axios.get("http://localhost:4000/hired/searchhiredposts", {
           params: { freelancerid: userData.userID },
         });
-
+  
         setReadData(appliedResponse.data);
         setReadHired(hiredResponse.data);
-
-        const appliedPostTitles = await Promise.all(appliedResponse.data.map(data =>
-          axios.get(`http://localhost:4000/post/searchpost/${data.postid}`)
-            .then(response => response.data.Jobtitle)
-            .catch(() => null)
-        ));
+  
+        const appliedPostTitles = await Promise.all(
+          appliedResponse.data.map(async (data) => {
+            try {
+              const response = await axios.get(`http://localhost:4000/post/searchpost/${data.postid}`);
+              return response.data.status === "Closed" ? "Closed Job" : response.data.Jobtitle;
+            } catch {
+              return null;
+            }
+          })
+        );
         setReadDataPostTitles(appliedPostTitles);
-
-        const hiredPostTitles = await Promise.all(hiredResponse.data.map(data =>
-          axios.get(`http://localhost:4000/post/searchpost/${data.postid}`)
-            .then(response => response.data.Jobtitle)
-            .catch(() => null)
-        ));
+  
+        const hiredPostTitles = await Promise.all(
+          hiredResponse.data.map(async (data) => {
+            try {
+              const response = await axios.get(`http://localhost:4000/post/searchpost/${data.postid}`);
+              return response.data.status === "Closed" ? "Closed Job" : response.data.Jobtitle;
+            } catch {
+              return null;
+            }
+          })
+        );
         setReadHiredPostTitles(hiredPostTitles);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+  
     fetchData();
   }, [userData.userID]);
+  
 
   useEffect(() => {
     const hiredApplicant = readHired.find(data => data.status === "hire");
@@ -68,10 +87,11 @@ export default function Taskmanager() {
         axios.put(`http://localhost:4000/applicant/changehirestatus`, null, {
           params: { status: "hired", applicantid: hiredApplicant._id }
         })
-          .then(() => window.location.reload())
+          .then(() => 
+            setIsPopupAlertVisible('Congratulations! You have been hired.') )
           .catch(error => {
             console.error("Error adding hired:", error);
-            alert("Error adding hired");
+            setIsPopupAlertVisible("Error adding hired");
           });
       }, confettiDuration);
     }
@@ -140,8 +160,18 @@ export default function Taskmanager() {
                 <div className="applylist catagory" key={data.postid}>
                   {readDataPostTitles[index] && (
                     <>
-                      <h3 className="textf">Job title</h3>
-                      <p className="titlef">{readDataPostTitles[index]}</p>
+                    {readDataPostTitles[index] === "Closed Job" ? (
+                     <>
+                     <h3 style={{color:"red"}}> {readDataPostTitles[index]}</h3>
+                     <br/>
+                     </> 
+                    ):(
+                      <>
+                                            <h3 className="textf">Job title</h3>
+                                            <p className="titlef">{readDataPostTitles[index]}</p>
+                      </>
+                    )}
+
                     </>
                   )}
                   <h3 className="textf">Cover Letter</h3>
@@ -165,8 +195,17 @@ export default function Taskmanager() {
                 <div className="applylist catagory" key={data.postid}>
                   {readHiredPostTitles[index] && (
                     <>
-                      <h3 className="textf">Job title</h3>
-                      <p className="titlef">{readHiredPostTitles[index]}</p>
+                          {readHiredPostTitles[index] === "Closed Job" ? (
+                     <>
+                     <h3 style={{color:"red"}}>  Closed Job</h3>
+                     <br/>
+                     </> 
+                    ):(
+                      <>
+                                            <h3 className="textf">Job title</h3>
+                                            <p className="titlef">{readHiredPostTitles[index]}</p>
+                      </>
+                    )}
                     </>
                   )}
                   <h3 className="textf">Cover Letter</h3>
@@ -235,6 +274,13 @@ export default function Taskmanager() {
         </div>
 
       </div>
+
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
     </>
   );
 }

@@ -6,8 +6,9 @@ import Addprofile from "./Addprofile";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye,faQuestionCircle, faCommentDots,faWandSparkles,faQuoteLeft,faWarning } from "@fortawesome/free-solid-svg-icons";
 import AlertPopup from "../../assets/AlertPopup";
+import { Link } from 'react-router-dom';
 
 export default function Frelancerprofile() {
   const { getUserData, getUserToken } = useAuth();
@@ -52,9 +53,17 @@ export default function Frelancerprofile() {
   const [message,setmessage] = useState("")
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
+  const [HaveSchedule, setHaveSchedule] = useState(false);
+  const [ScheduleInfo, setScheduleInfo] = useState([]);
+  const [CheckVerification, setCheckVerification] = useState(false);
+
   const handleClose = () => {
     setIsPopupAlertVisible("");
   };
+
+  const handleDismiss = () =>{
+    setCheckVerification(false)
+  }
 
 
 
@@ -258,7 +267,28 @@ export default function Frelancerprofile() {
       setIsPopupAlertVisible("Error downloading CV. Please try again later.");
     }
   }
+  const handleVerification = async () =>{
+setCheckVerification(true)
+      try {
+          const response = await axios.get(`http://localhost:4000/user/schedule/${userData.userID}`);
+          if(!response.data.message === "Schedule not found")
+            {setHaveSchedule(true)
+              setScheduleInfo(response.data)
+            }
+
+      } catch (error) {
+          console.error('Error fetching schedule:', error);
+          return null;
+      }
+
+  }
+
   
+  const convertDate = (data) => {
+    const date = new Date(data);
+    return date.toISOString().split("T")[0];
+  };
+
 
   return (
     <>
@@ -332,13 +362,13 @@ export default function Frelancerprofile() {
                     {freelancerData.Email}
                   </div>
                 </div>
-                <br />
-                <div className="ViewPro"
+               
+                <div className="complaint "
                 onClick={handleViewClick}>
                 <FontAwesomeIcon
                       icon={faEye }
                       size="1x"
-                      color="rgba(220, 220, 220, 0.701)"
+                      color="rgb(100, 100, 100)"
                     />
                     <p style={{display:"inline"}}> View portfolio</p>
                 </div>
@@ -349,7 +379,12 @@ export default function Frelancerprofile() {
                   freelancerData.freelancerprofile?.description === null ||
                   freelancerData.freelancerprofile.portfolio?.link === null ? (
                     <div className="finprofile" onClick={addpro}>
-                      <p>{t("Finish creating your profile!!")} </p>
+                       <FontAwesomeIcon
+                      icon={faWarning }
+                      size="1x"
+                      color="rgb(186, 0, 0)"
+                    />{" "}
+                      <p style={{display:"inline"}}>{t("Finish creating your profile!!")} </p>
                       <h6>
                         {t(
                           "Not having a finished profile  might affect your cradiability!"
@@ -358,11 +393,27 @@ export default function Frelancerprofile() {
                     </div>
                   ) : null)}
 
+                     <div className="complaint"
+                  onClick={handleVerification}
+              >
+                    <FontAwesomeIcon
+                      icon={faQuestionCircle }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                    <p style={{display:"inline"}}> Verification Status</p>
+                </div>
+
 <div
-                  className="finprofile complaint"
+                  className=" complaint"
                   onClick={handleGenerateCV}
                 >
-                  <h6>{t("Generate CV")} </h6>
+                   <FontAwesomeIcon
+                      icon={faWandSparkles }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Generate CV")} </h6>
                 </div>
                { isVisible && (
       <div className="CVpopup">
@@ -406,16 +457,26 @@ export default function Frelancerprofile() {
 
 
                 <div
-                  className="finprofile complaint"
+                  className="Viewpro complaint"
                   onClick={handleComplaintClick}
                 >
-                  <h6>{t("Complaint")} </h6>
+                   <FontAwesomeIcon
+                      icon={faCommentDots }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Complaint")} </h6>
                 </div>
                 <div
-                  className="finprofile complaint"
+                  className=" complaint"
                   onClick={handleTestimonyClick}
                 >
-                  <h6>{t("Testimony")} </h6>
+                   <FontAwesomeIcon
+                      icon={faQuoteLeft }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Testimony")} </h6>
                 </div>
                 <br /> <br />
               </div>
@@ -430,7 +491,59 @@ export default function Frelancerprofile() {
         />
       )}
 
+{CheckVerification &&(
+
+<div className="alert-popup-container show">            
+<div className="bullet-section" 
+style={{transform: "translate(-5%,30%)", backgroundColor:"white",width:"25rem",overflow:"hidden",height:"auto"}}>
+  {!freelancerData.IsVerified || freelancerData.IsVerified === false ? (
+    <>
+    <div className="bubles app"
+    style={{backgroundColor:"#d41e1e",marginLeft:"10px"}}><a href="#"><p>Not Verified</p></a></div>
+            <p>Read more  <Link to="/verification">HERE</Link>.
+         to verify your account.
+        or contact us by this number: 123-456-789
+      </p>
+
+              <h2>Verification Progress</h2>
       
+              <br/>
+              {HaveSchedule &&(
+                  <div className="list">
+                  <div className="itemList">
+                
+                <img
+                        src={`/image/wait.jpg`}
+                        alt="waiting"
+                      />
+                      </div>
+                      <div className="itemList">
+                    {convertDate(ScheduleInfo.verificationDate)} at {" "}
+                    {ScheduleInfo.verificationTime}
+                    
+                      </div>
+                     
+                     
+                      
+                </div>
+              )}
+              <button className="popup-btn" onClick={handleDismiss}>Okay</button>
+
+    </>
+  ):(
+    <>
+    <div className="bubles hire"
+    style={{display:"inline-block",backgroundColor:"#1e8ed4"}}><a href="#"><p>Verified</p></a></div>
+     <button className="popup-btn" onClick={handleDismiss}>Okay</button>
+    </>
+  )} 
+            
+          
+        </div>
+        </div> 
+
+)}
+
 {CVpopup && (
             <div className="popupc-container confirm CVdown">
             <div className="popupc ">

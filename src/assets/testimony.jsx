@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useAuth from '../Hooks/UseAuth';
 import './complaint.css';
+import AlertPopup from './AlertPopup';
 
 export default function Testimony() {
   const { getUserData, getUserToken } = useAuth();
@@ -10,6 +11,12 @@ export default function Testimony() {
   const token = getUserToken();
 
   const [currentDateTime, setCurrentDateTime] = useState('');
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   useEffect(() => {
     const now = new Date();
@@ -44,7 +51,7 @@ export default function Testimony() {
           },
         }
       );
-      console.log(response.data);
+     setIsPopupAlertVisible("Testimony submitted successfully");
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +60,7 @@ export default function Testimony() {
 
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <fieldset className="fs-frm-inputs">
         
@@ -120,6 +128,13 @@ export default function Testimony() {
       </fieldset>
       <input type="submit" value="Send Testimony" />
     </form>
+    {isPopupAlertVisible != "" && (
+            <AlertPopup
+              message = {isPopupAlertVisible}
+              onClose={handleClose}
+            />
+          )}
+    </>
   );
 }
 

@@ -1,46 +1,63 @@
+import axios from "axios";
 import "./view.css"
+import { useEffect,useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
-export default function View ({data}){
+export default function Verify ({data}){
+
+
+  const [schduledUsers, setschduledUsers] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/admin/Allschedules");
+        setschduledUsers(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+const filteredUsers = data
+.map(user => {
+  const matchedSchedule = schduledUsers.find(schedule => schedule.freelancerId === user._id);
+  
+  if (matchedSchedule) {
+    return {
+      ...user,
+      verificationDate: matchedSchedule.verificationDate,
+      verificationTime: matchedSchedule.verificationTime,
+      notes: matchedSchedule.notes
+    };
+  }
+
+  return null;
+})
+.filter(user => user !== null);
 
 
 
     const getProfilePicUrl = (fileName) => {
         return `http://localhost:4000/${fileName}`;
       };
-    
 
-      const isFreelancerProfileComplete = (freelancerProfile) => {
-        if (!freelancerProfile) return false;
-     
-        const { profilepic, title, skills, cv, additionaldoc, gudayhistory, workhistory, rating, description, portfolio } = freelancerProfile;
-      
-        if (
-          !profilepic ||
-          !title ||
-          skills.length === 0 ||
-          !cv ||
-          additionaldoc.educations.length === 0 ||
-          additionaldoc.certifications.length === 0 ||
-          gudayhistory.jobs === 0 ||
-          gudayhistory.hired === 0 ||
-          workhistory.length === 0 ||
-          rating === 0 ||
-          !description ||
-          (portfolio && (!portfolio.link || !portfolio.title))
-        ) {
-          return false;
-        }
-      
-        return true;
-      };
-
+ 
       const convertDate = (data) => {
         const date = new Date(data);
         return date.toISOString().split("T")[0];
-      };      
-
-
+      };   
+      
+      const handleNavigation = (user) => {
+      
+        navigate("/admin/VerifyUser", { state: user });
+      };
 
     return(
         <>
@@ -79,14 +96,14 @@ export default function View ({data}){
           Full name
           
         </div>
-        <div class="product-cell category">User type</div>
-        <div class="product-cell status-cell">Profile status</div>
+        <div class="product-cell category">schedule Date</div>
+        <div class="product-cell status-cell">schedules Time</div>
         <div class="product-cell sales">Phone Number</div>
         <div class="product-cell stock">Email</div>
-        <div class="product-cell price">Created Date</div>
+        <div class="product-cell price">Type</div>
       </div>
-      {data.map((user) => (  
-      <div class="products-row">
+      {filteredUsers.map((user) => (  
+      <div class="products-row" onClick={() => handleNavigation(user)}>
         <button class="cell-more-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
         </button>
@@ -102,17 +119,13 @@ export default function View ({data}){
                     />
             <span>{user.Fullname}</span>
           </div>
-        <div class="product-cell category"><span class="cell-label"></span>{user.Usertype}</div>
+        <div class="product-cell category"><span class="cell-label"></span>{convertDate(user.verificationDate)}</div>
         <div class="product-cell status-cell">
-            {isFreelancerProfileComplete( user.freelancerprofile) ?(
-          <span class="cell-label">Completed</span>)
-          :(
-          <span class="status disabled">Not Completed</span>)
-            }
+          {user.verificationTime}
         </div>
         <div class="product-cell sales"><span class="cell-label"></span>{user.Phonenumber}</div>
         <div class="product-cell stock"><span class="cell-label"></span>{user.Email}</div>
-        <div class="product-cell price"><span class="cell-label"></span>{convertDate(user.CreatedDate)}</div>
+        <div class="product-cell price"><span class="cell-label"></span>{user.notes}</div>
       </div>
    
 ))}

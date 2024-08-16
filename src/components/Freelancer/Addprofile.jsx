@@ -7,9 +7,11 @@ import {
   faFileCircleCheck,
   faFileArrowUp,
   faFileImage,
+  faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 import "./css/addprofile.css";
 import { useTranslation } from "react-i18next";
+import AlertPopup from "../../assets/AlertPopup";
 
 export default function Addprofile(prop) {
   const [inputValue, setinputValue] = useState({
@@ -20,10 +22,22 @@ export default function Addprofile(prop) {
     cv: "",
     educations: [],
     certifications: [],
-    portfolio: [],
+    portfolio: {
+      link: [],
+      title: [],
+    },
+    portfolioLink: {
+      link: [],
+      title: [],
+    },
   });
-  console.log(inputValue.portfolio);
+
   const { t } = useTranslation();
+
+  const [linkInput, setLinkInput] = useState("");
+  const [titleInput, setTitleInput] = useState("");
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
   const inputref = useRef(null);
   const inputrefedu = useRef(null);
@@ -32,6 +46,77 @@ export default function Addprofile(prop) {
   const inputrefporfile = useRef(null);
   const [newSkill, setNewSkill] = useState("");
   const [newWork, setNewWork] = useState("");
+
+  const fileExtensions = ["pdf", "docx", "doc", "txt"];
+  const fileExtensionsPic = ["jpg", "jpge", "png", "svg"];
+
+  const [filteredfile, setfilteredfile] = useState([]);
+  const [filteredpic, setfilteredpic] = useState([]);
+  const [filteredlink, setfilteredlink] = useState([]);
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
+
+  const getFileExtension = (fileName) => {
+    return fileName.split(".").pop().toLowerCase();
+  };
+
+  const filtertype = (items, title) => {
+
+    if(items && items.length > 0){
+
+    const filtered = items.filter((item) => {
+      if (item.includes(".")) {
+        const extension = getFileExtension(item);
+        return fileExtensions.includes(extension);
+      }
+      return false;
+    });
+    const filteredpic = items.filter((item) => {
+      if (item.includes(".")) {
+        const extension = getFileExtension(item);
+        return fileExtensionsPic.includes(extension);
+      }
+      return false;
+    });
+    const filteredlink = items.reduce((acc, item, index) => {
+      if (!item.includes(".")) {
+
+        acc.push({ link: item, title: title[index] }); // Ensure 'titles' is the correct array
+      }
+      return acc;
+    }, []);
+    
+    
+
+    // Update state with filtered items
+    setfilteredlink(filteredlink)
+    setfilteredfile(filtered);
+    setfilteredpic(filteredpic);
+  }}
+
+  const filteredLinks = inputValue.portfolio.link.filter((item) => {
+    if (item.name) {
+      const extension = getFileExtension(item.name);
+      return fileExtensions.includes(extension);
+    }
+  });
+
+  const filteredPic = inputValue.portfolio.link.filter((item) => {
+    if (item.name) {
+      const extension = getFileExtension(item.name);
+      return fileExtensionsPic.includes(extension);
+    }
+  });
+
+
+  useEffect(() => {
+    if (prop.prop.freelancerprofile.portfolio.link && prop.prop.freelancerprofile.portfolio.title) {
+      filtertype(prop.prop.freelancerprofile.portfolio.link, prop.prop.freelancerprofile.portfolio.title);
+    }
+  }, [prop.prop.freelancerprofile.portfolio.link, prop.prop.freelancerprofile.portfolio.title]);
+  
 
   const handleImage = () => {
     inputrefpor.current.click();
@@ -54,7 +139,7 @@ export default function Addprofile(prop) {
         ...inputValue,
         skills: [...inputValue.skills, newSkill.trim()],
       });
-      setNewSkill(""); // Clear the input field after adding the skill
+      setNewSkill("");
       console.log(inputValue.skills);
     }
 
@@ -63,7 +148,7 @@ export default function Addprofile(prop) {
         ...inputValue,
         workhistory: [...inputValue.workhistory, newWork.trim()],
       });
-      setNewWork(""); // Clear the input field after adding the skill
+      setNewWork("");
       console.log(inputValue.workhistory);
     }
   };
@@ -223,6 +308,32 @@ export default function Addprofile(prop) {
       });
     }
 
+    if (
+      inputValue.portfolio &&
+      inputValue.portfolio.link &&
+      inputValue.portfolio.link.length > 0
+    ) {
+      inputValue.portfolio.link.forEach((link, index) => {
+        formData.append(`portfoliolink`, link);
+      });
+      inputValue.portfolio.title.forEach((title, index) => {
+        formData.append(`portfoliotitle`, title);
+      });
+    }
+
+    if (
+      inputValue.portfolioLink &&
+      inputValue.portfolioLink.link &&
+      inputValue.portfolioLink.link.length > 0
+    ) {
+      inputValue.portfolioLink.link.forEach((link, index) => {
+        formData.append(`porlink`, link);
+      });
+      inputValue.portfolioLink.title.forEach((title, index) => {
+        formData.append(`portitle`, title);
+      });
+    }
+
     console.log(inputValue);
 
     for (let [key, value] of formData.entries()) {
@@ -240,6 +351,7 @@ export default function Addprofile(prop) {
             },
           }
         );
+        setIsPopupAlertVisible("Profil updated successfully");
       } catch (error) {
         console.error("errorr", error);
       }
@@ -273,10 +385,11 @@ export default function Addprofile(prop) {
     if (file) {
       setinputValue({
         ...inputValue,
-        portfolio: [
+        portfolio: {
           ...inputValue.portfolio,
-          { type: "file", value: file, title: "" },
-        ],
+          link: [...inputValue.portfolio.link, file],
+          title: [...inputValue.portfolio.title, file.name],
+        },
       });
     }
   };
@@ -299,10 +412,40 @@ export default function Addprofile(prop) {
     newPortfolio[index][field] = value;
     setinputValue({ ...inputValue, portfolio: newPortfolio });
   };
+  const removePortfolioItem = (name) => {
+    const newPortfolio = {
+      link: inputValue.portfolio.link.filter((item) => item.name !== name),
+      title: inputValue.portfolio.title.filter(
+        (_, i) => inputValue.portfolio.link[i].name !== name
+      ),
+    };
 
-  const removePortfolioItem = (index) => {
-    const newPortfolio = inputValue.portfolio.filter((_, i) => i !== index);
     setinputValue({ ...inputValue, portfolio: newPortfolio });
+  };
+
+  const handleLinkChange = (e) => {
+    setLinkInput(e.target.value);
+  };
+
+  const handleTitleChange = (e) => {
+    setTitleInput(e.target.value);
+  };
+
+  const addLinkToPortfolio = () => {
+    if (linkInput && titleInput) {
+      setinputValue({
+        ...inputValue,
+        portfolioLink: {
+          ...inputValue.portfolio,
+          link: [...inputValue.portfolioLink.link, linkInput],
+          title: [...inputValue.portfolioLink.title, titleInput],
+        },
+      });
+      setLinkInput("");
+      setTitleInput("");
+    } else {
+      alert("Please fill in both the link and title fields.");
+    }
   };
 
   return (
@@ -311,7 +454,7 @@ export default function Addprofile(prop) {
         <div className="addp-content">
           <div className={`firstpage${showpages}`}>
             <div>
-              {t("title")}
+              {t("Title")}
               <input
                 className="input"
                 type="text"
@@ -408,14 +551,14 @@ export default function Addprofile(prop) {
           <div className={`secondpage${showpages}`}>
             <div>
               <div className="overview">
-                {t("overview")}
+                {t("Overview")}
                 <textarea
                   className="input"
                   type="text"
                   placeholder={
                     prop.prop.freelancerprofile.description
                       ? prop.prop.freelancerprofile.description
-                      : "insert your overview"
+                      : "Insert your overview"
                   }
                   value={inputValue.description}
                   onChange={(e) => {
@@ -482,7 +625,7 @@ export default function Addprofile(prop) {
                     <textarea
                       className="textarea"
                       type="text"
-                      placeholder={"insert your work Experience"}
+                      placeholder={"Insert your work Experience"}
                       value={newWork}
                       onChange={handleNewWorkChange}
                     />
@@ -537,7 +680,7 @@ export default function Addprofile(prop) {
               </div>
             </div>{" "}
             <br /> <br />
-            {t("additional document")}
+            {t("Additional Document")}
             <br />
             <br />
             <div className="fileparent">
@@ -644,17 +787,22 @@ export default function Addprofile(prop) {
           </div>
 
           <div className={`forthpage${showpages}`}>
+            <h5>
+              Please ensure your files and images are named according to their
+              content or purpose.{" "}
+            </h5>
             Portfolio
             <div className="fileparents">
-              <div className="dropdowns">
-                <label>
-                  <span>{t("Your Files")}</span>
-                </label>
+              <div className="dropdownsfile">
                 <div
                   className="plusedu"
                   onClick={handlePro}
                   title="Add document"
                 >
+                  <label>
+                    <span>{t("Your Files")}</span>
+                  </label>
+
                   <FontAwesomeIcon icon={faFileArrowUp} size="2x" />
                   <input
                     type="file"
@@ -663,85 +811,94 @@ export default function Addprofile(prop) {
                     style={{ display: "none" }}
                   />
                 </div>
-                <ul className="slide">
-                  {inputValue.portfolio
-                    .filter((item) => item.type === "file")
-                    .map((item, index) => (
-                      <li key={index}>
-                        <FontAwesomeIcon
-                          icon={faFileCircleCheck}
-                          size="2x"
-                          color="rgba(73, 154, 149, 0.61)"
-                          onClick={() => openDocument(item.value)}
-                          style={{ marginRight: "10px" }}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Add Title"
-                          value={item.title}
-                          onChange={(e) =>
-                            handlePortfolioChange(
-                              index,
-                              "title",
-                              e.target.value
-                            )
-                          }
-                        />
-                        <button onClick={() => removePortfolioItem(index)}>
-                          Remove
-                        </button>
-                      </li>
-                    ))}
+                <ul className="slidefile">
+                  {filteredLinks.map((item, index) => (
+                    <li key={index}>
+                      <FontAwesomeIcon
+                        icon={faFileCircleCheck}
+                        size="2x"
+                        color="rgba(73, 154, 149, 0.61)"
+                        onClick={() => openDocument(item.value)}
+                        style={{ marginRight: "15px" }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        size="1.5x"
+                        color="rgba(162, 61, 61, 0.61)"
+                        style={{ margintop: "15px" }}
+                        onClick={() => removePortfolioItem(item.name)}
+                      />
+                    </li>
+                  ))}
+
+                  {prop.prop.freelancerprofile.portfolio.link &&
+                  prop.prop.freelancerprofile.portfolio.link.length > 0
+                    ? filteredfile.map((education, index) => (
+                        <li key={index}>
+                          <FontAwesomeIcon
+                            icon={faFileCircleCheck}
+                            size="2x"
+                            color="rgba(73, 154, 149, 0.61)"
+                            onClick={() => openDocument(education)}
+                            style={{ marginRight: "10px" }}
+                          />
+                        </li>
+                      ))
+                    : null}
                 </ul>
               </div>
 
-              <div className="dropdowns">
-                <label>
-                  <span>{t("Your Image")}</span>
-                </label>
+              <div className="dropdownspic">
                 <div
                   className="plusedu"
-                  onClick={handleEdu}
+                  onClick={handlePro}
                   title="Add document"
                 >
+                  <label>
+                    <span>{t("Your Image")}</span>
+                  </label>
+
                   <FontAwesomeIcon icon={faFileImage} size="2x" />
                   <input
                     type="file"
-                    onChange={uploadproimg}
+                    onChange={uploadpor}
                     ref={inputrefedu}
                     style={{ display: "none" }}
                   />
                 </div>
-                <ul className="slide">
-                  {inputValue.portfolio
-                    .filter((item) => item.type === "image")
-                    .map((item, index) => (
-                      <li key={index}>
-                        <FontAwesomeIcon
-                          icon={faFileCircleCheck}
-                          size="1x"
-                          color="rgba(73, 154, 149, 0.61)"
-                          onClick={() => openDocument(item.value)}
-                          style={{ marginRight: "10px" }}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Add Title"
-                          value={item.title}
-                          onChange={(e) =>
-                            handlePortfolioChange(
-                              index,
-                              "title",
-                              e.target.value
-                            )
-                          }
-                        />
-
-                        <button onClick={() => removePortfolioItem(index)}>
-                          Remove
-                        </button>
-                      </li>
-                    ))}
+                <ul className="slidepic">
+                  {filteredPic.map((item, index) => (
+                    <li key={index}>
+                      <FontAwesomeIcon
+                        icon={faFileCircleCheck}
+                        size="2x"
+                        color="rgba(73, 154, 149, 0.61)"
+                        onClick={() => openDocument(item.value)}
+                        style={{ marginRight: "15px" }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        size="1.5x"
+                        color="rgba(162, 61, 61, 0.61)"
+                        style={{ margintop: "15px" }}
+                        onClick={() => removePortfolioItem(item.name)}
+                      />
+                    </li>
+                  ))}
+                  {prop.prop.freelancerprofile.portfolio.link &&
+                  prop.prop.freelancerprofile.portfolio.link.length > 0
+                    ? filteredpic.map((education, index) => (
+                        <li key={index}>
+                          <FontAwesomeIcon
+                            icon={faFileCircleCheck}
+                            size="2x"
+                            color="rgba(73, 154, 149, 0.61)"
+                            onClick={() => openDocument(education)}
+                            style={{ marginRight: "10px" }}
+                          />
+                        </li>
+                      ))
+                    : null}
                 </ul>
               </div>
             </div>
@@ -754,21 +911,43 @@ export default function Addprofile(prop) {
               name="text"
               className="inputurl"
               placeholder="Add Links"
-              onChange={(e) =>
-                setinputValue({
-                  ...inputValue,
-                  portfolio: [
-                    ...inputValue.portfolio,
-                    { type: "url", value: e.target.value, title: "" },
-                  ],
-                })
-              }
+              value={linkInput}
+              onChange={handleLinkChange}
             />
             <div className="inputbox">
-              <input required="required" type="text" />
+              <input
+                required="required"
+                type="text"
+                value={titleInput}
+                onChange={handleTitleChange}
+              />
               <span>Add Title</span>
               <i></i>
             </div>
+            <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        size="2x"
+                        color="rgba(73, 154, 149, 0.61)"
+                        onClick={addLinkToPortfolio}
+                        style={{ float:"right"}}
+                      />
+
+                        <br/>
+            Your Links
+           
+            <ol>
+              {inputValue.portfolioLink.link.map((link, index) => (
+                <li key={index}>
+                  <a style={{color:"#004ebc"}} href={link}>{inputValue.portfolioLink.title[index]}</a>
+                </li>
+              ))}
+                {filteredlink &&filteredlink.map((link, index) => (
+                <li key={index}>
+                  <a style={{color:"#004ebc", textDecoration:"underline"}} href={link.link}>{link.title}</a>
+                </li>
+              ))}
+            </ol>
+
             <button
               className="popup-btn shift-btn firstbtn"
               onClick={showprethirdpage}
@@ -793,6 +972,9 @@ export default function Addprofile(prop) {
           </div>
         </div>
       </div>
+      {isPopupAlertVisible != "" && (
+        <AlertPopup message={isPopupAlertVisible} onClose={handleClose} />
+      )}
     </>
   );
 }

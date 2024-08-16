@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useAuth from '../Hooks/UseAuth';
 import './complaint.css';
+import AlertPopup from './AlertPopup';
 
 export default function Complaint() {
   const { getUserData, getUserToken } = useAuth();
@@ -9,8 +10,14 @@ export default function Complaint() {
   const userData = getUserData();
   const token = getUserToken();
 
-  const [currentDateTime, setCurrentDateTime] = useState('');
 
+  const [currentDateTime, setCurrentDateTime] = useState('');
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
+  
   useEffect(() => {
     const now = new Date();
     const formattedDate = now.toISOString().split('T')[0];
@@ -36,6 +43,7 @@ export default function Complaint() {
           },
         }
       );
+      setIsPopupAlertVisible("Complaint submitted successfully");
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -43,6 +51,7 @@ export default function Complaint() {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <fieldset className="fs-frm-inputs">
         <label htmlFor="full-name">Full Name</label>
@@ -89,6 +98,13 @@ export default function Complaint() {
       </fieldset>
       <input type="submit" value="File Complaint" />
     </form>
+          {isPopupAlertVisible != "" && (
+            <AlertPopup
+              message = {isPopupAlertVisible}
+              onClose={handleClose}
+            />
+          )}
+    </>
   );
 }
 

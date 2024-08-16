@@ -82,7 +82,7 @@ export default function Register() {
         title: "",
         profilepic: "",
         IsVerified: false,
-        nullvalue,
+        nullvalue: nullvalue,
       });
       
       if (response.status === 201 && response.data.message === "Verification code sent to email") {
@@ -273,7 +273,7 @@ export default function Register() {
                   {t("LogIn")}
                 </button>
               </p>
-              <br /> 
+              <br />  <br /> 
               <FontAwesomeIcon icon={faArrowUp} size="2x" onClick={clicked} />
               <h3 className="h3-register">{t("Register")}</h3>
               <input

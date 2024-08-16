@@ -5,6 +5,7 @@
     background-color: transparent;
     object-fit: cover;
     border-radius: 50%;
+    margin-top: .5rem;
     }
     .holder{
       position: fixed;
@@ -21,7 +22,6 @@
       margin-top: 5rem;
       position: fixed;
         display: flex;
-        left: 1rem;
         z-index: 4;
         
       }
@@ -32,10 +32,10 @@
       }
       .profile-content{
         width: 400px;
-        height: 600px;
+        height: 100vh;
         border-radius: 10px;
-        color: #ffffff;
-        background-color: rgba(13, 32, 34, 0.815);
+        color: #000000;
+        background-color: rgb(223, 223, 223);
         box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
         text-align: center;
       }
@@ -63,14 +63,36 @@
       .finprofile{
         border: solid  #97fbfb14 ;
         margin: 1rem;
-        height: 85px;
-        box-shadow: #97fbfb14  0px 30px 60px -12px inset, #2feeee14 0px 18px 36px -18px inset;
+        height: 45px;
         cursor: pointer;
-        background-color: #000000c5;
+        background-color: #acacacc5;
+        overflow: hidden;
+        padding-top: .5rem;
+        text-align: left;
+        padding-left: 3rem;
       }
+
+      .finprofile:hover{
+        height: 85px;
+      }
+
       .complaint{
-        background-color:#000000c5;
-        height: 40px;
+        background-color:#bfbfbfc5;
+        height: 47px;
+        margin: 1.5rem 1rem 0 1rem;
+        padding-top: .5rem;
+        cursor: pointer;
+        text-align: left;
+        padding-left: 3rem;
+      }
+      .complaint h6{
+        padding-left: 1rem; 
+      }
+      .complaint p{
+        padding-left: 1rem; 
+      }
+      .complaint:hover{
+        background-color:#b1b1b1c5;
       }
       .finprofile:hover{
         box-shadow: #97fbfb14  30px 0px 20px -30px inset, #2feeee14 0px -18px 36px 0px inset;
@@ -78,12 +100,15 @@
       .finprofile p{
         text-align: center;
         color:#b82222  ;
+        padding-left: 1rem; 
       }
       .finprofile h6{
         text-align: center;
-        color:#c2ffffbd  ;
+        color:#3d7272  ;
+        margin-top: .35rem;
+        padding-left: -3rem; 
       }
-    
+       
       @media (max-width:1100px){ 
         .holder{
     
@@ -95,6 +120,11 @@
         top:10rem;
         width: 3rem;
         height: 3rem;
+
+      }
+      .interviewlogo img{
+       margin-top: -.01rem; 
+
 
       }
       .interviewlogo{
@@ -129,8 +159,8 @@
 
       .upperpro{
         width: 400px;
-        height: 200px;
-        background-color: #0a7e73;
+        height: 180px;
+        background-color: #37a38eba;
       }
 
       .ViewPro{

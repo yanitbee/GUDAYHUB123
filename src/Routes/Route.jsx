@@ -32,6 +32,7 @@ import ProjectAbstract from "../Pages/ReadMore";
 import Help from "../components/Help";
 import HelpPage from "../Pages/HelpPage";
 import VerificationPage from "../assets/VerificationPage";
+import VerifyUsers from "../admin/component/verifyUsers";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -48,14 +49,18 @@ const AppRoutes = () => {
     location.pathname !== "/freelancerlist/Freelancerdetails",
     location.pathname !== "/joblist",
     location.pathname !== "/joblist/apply",
+    location.pathname !== "/joblist/Apply",
     location.pathname !== "/login",
     location.pathname !== "/verification",
+    location.pathname !== "/admin/VerifyUser",
   ];
   const { isLoggedIn } = useAuth();
   const isAuthenticated = isLoggedIn();
   const { getUserData } = useAuth();
   const userData = getUserData(); 
+  /* (location.pathname === "/employerpage/Applicantsdetails/more/Hire" || location.pathname === "/freelancerpage/Taskmanager")*/
   return (
+
     <>
       <SocketProvider>
         <PeerProvider>
@@ -108,6 +113,10 @@ const AppRoutes = () => {
               <Route
                 path="/admin"
                 element={<PrivateRoute element={<AdminPage />} />}
+              />
+               <Route
+                path="/admin/VerifyUser"
+                element={<PrivateRoute element={<VerifyUsers />} />}
               />
                  <Route path="/verification"
                    element={<PrivateRoute element={<VerificationPage />} />} />
@@ -199,7 +208,7 @@ const AppRoutes = () => {
               />
             </Route>
           </Routes>
-          {showFooter.every(Boolean) && <Footer />}
+          { showFooter.every(Boolean) && <Footer />}
         </PeerProvider>
       </SocketProvider>
     </>
