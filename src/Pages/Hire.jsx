@@ -59,6 +59,7 @@ export default function Hire() {
   const [showOther, setshowOther] = useState(false);
 
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+  const [isPopupRAlertVisible, setIsPopupRAlertVisible] = useState("");
   const [isPopupVisible, setIsPopupVisible] = useState("");
   const [isPopupHVisible, setisPopupHVisible] = useState("")
 
@@ -73,7 +74,7 @@ export default function Hire() {
   };
 
   const handleHConfirm =  () => {
-    hiredapp("hired")
+    hiredapp("hire")
     handleHCancel()
     
   };
@@ -86,6 +87,10 @@ export default function Hire() {
 
   const handleClose = () => {
     setIsPopupAlertVisible("");
+  };
+
+  const handleRClose = () => {
+    setIsPopupRAlertVisible("");
   };
 
   const work = () => {
@@ -294,6 +299,7 @@ export default function Hire() {
         `http://localhost:4000/user/addrating/${userid}`,
         { rating }
       );
+      setIsPopupRAlertVisible("Rating submitted successfully");
       response.data;
     } catch (error) {
       console.error("Error submitting rating", error);
@@ -664,6 +670,13 @@ export default function Hire() {
         <AlertPopup
           message = {isPopupAlertVisible}
           onClose={handleClose}
+        />
+      )}
+
+{isPopupRAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupRAlertVisible}
+          onClose={handleRClose}
         />
       )}
     </>

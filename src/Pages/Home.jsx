@@ -535,8 +535,8 @@ navigate("ReadMore")
                       <img src="/image/post.svg" alt="" />
                     </div>
                     <div className="a-b-text">
-                      <h2>{t("Post")}</h2>
-                      <p>{t("Employers can post jobs/tasks")}</p>
+                      <h2>{t("Freelancer")}</h2>
+                      <p>{t("Employers can view freelancers")}</p>
                     </div>
                   </div>
                   <div
@@ -549,9 +549,9 @@ navigate("ReadMore")
                       <img src="/image/details.svg" alt="" />
                     </div>
                     <div className="a-b-text">
-                      <h2>{t("Apply")}</h2>
+                      <h2>{t("Job/Task")}</h2>
                       <p>
-                        {t("Freelancers can apply on jobs of their desier")}
+                        {t("Freelancers can apply on jobs or tasks of their desier")}
                       </p>
                     </div>
                   </div>

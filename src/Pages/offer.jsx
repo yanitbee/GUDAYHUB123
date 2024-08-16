@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuth from "../Hooks/UseAuth";
 import "./css/offer.css";
 import Frelancerprofile from "../components/Freelancer/FrelancerProfile";
+import AlertPopup from "../assets/AlertPopup"; 
 
 export default function Offer() {
   const { getUserData } = useAuth();
@@ -15,6 +16,12 @@ export default function Offer() {
   const [inputValue, setInputValue] = useState("");
   const [selectedOfferId, setSelectedOfferId] = useState(null);
   const [deletedEmployers, setDeletedEmployers] = useState([]);
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
 
   useEffect(() => {
@@ -72,9 +79,9 @@ useEffect(() => {
       });
 
       if (status === "accepted") {
-        alert("Offer accepted");
+        setIsPopupAlertVisible("Offer accepted");
       } else if (status === "rejected") {
-        alert("Offer rejected");
+        setIsPopupAlertVisible("Offer rejected");
       }
 
       setInputValue("");
@@ -85,7 +92,7 @@ useEffect(() => {
       setReadData(updatedData);
     } catch (error) {
       console.error("Error accepting offer:", error);
-      alert("Error accepting offer");
+      setIsPopupAlertVisible("Error accepting offer");
     }
   };
 
@@ -148,7 +155,7 @@ useEffect(() => {
       )}
 
       {isPopupOpen && (
-        <div className="popupi">
+        <div className="popupi" style={{zIndex:"1000"}}>
           <div className="popup-contenti">
             <h2>State why you want to reject the offer</h2>
             <form onSubmit={handleSubmit}>
@@ -167,6 +174,13 @@ useEffect(() => {
         </div>
       )}
       </div>
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
+
     </>
   );
 }

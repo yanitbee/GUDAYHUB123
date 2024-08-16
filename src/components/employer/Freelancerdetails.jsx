@@ -7,7 +7,7 @@ import useAuth from "../../Hooks/UseAuth";
 import PortfolioSlider from "../../assets/portfolio";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileDownload,faFileAlt  } from "@fortawesome/free-solid-svg-icons";
-import BackButton from "../BackButton"
+import AlertPopup from "../../assets/AlertPopup";
 
 export default function Freelancerdetails() {
   const { getUserData, getUserToken } = useAuth();
@@ -60,6 +60,12 @@ export default function Freelancerdetails() {
 
   const fileExtensions = ["pdf", "docx", "doc", "txt"];
   const fileExtensionsPic = ["jpg", "jpge", "png", "svg"];
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   const getFileExtension = (fileName) => {
     return fileName.split(".").pop().toLowerCase();
@@ -235,7 +241,7 @@ export default function Freelancerdetails() {
         status: "waiting",
       });
       console.log("data: ", inputValue);
-      alert("offer posted");
+      setIsPopupAlertVisible("offer posted");
     } catch (error) {
       console.log("error", error);
     }
@@ -505,120 +511,13 @@ export default function Freelancerdetails() {
           </div>
         )}
       </div>
-      {!userData &&(
-       <button className="chat-btn" onClick={togglePopup}>
-       offer
-    </button> 
+      {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
       )}
-      {userData && userData.UserType === "employer" ? 
-       <button className="chat-btn" onClick={togglePopup}>
-       offer
-    </button>: null}
-     
-      <div className="full-info">
-      <div className="radio-inputs">
-  <label className="radio" >
-    <input type="radio" name="radio" />
-    <span className="name h" onClick={work}>Work History</span>
-  </label>
-  <label className="radio">
-    <input type="radio" name="radio" />
-    <span className="name r"  onClick={portfolio}>Porfolio Images</span>
-  </label>
 
-  <label className="radio">
-    <input type="radio" name="radio" />
-    <span className="name v">Other Porfolio</span>
-  </label>
-</div>
-
-{showWork && 
-(readData.freelancerprofile.workhistory?.length > 0 ? (
-  <>
-   
-	<ol className="olcards ">
-  {readData.freelancerprofile.workhistory.map((data, index) => (
-    <>
-		
-		<li className="workcard">
-			<div className="content">
-				<div className="title num ">{index+1}</div>
-				<div className="text work">{data}</div>
-			</div>
-		</li>
- 
-    </>
-    ))}
-	</ol>
-
-  </>
-):(
-  <>
-
-  <ol className="olcards ">
- 
-		<li className="workcard">
-			<div className="content">
-				
-				<div className="text work">No work History</div>
-			</div>
-		</li>
-	</ol>
-  </>
-))}
-
-{showPortfolio && (
- <>
-
-<PortfolioSlider />
-
- </>)}
-      </div>
-      
-
-      
-      <div className="wrapper">
-              {popup && (
-                <div  className={`form`}>
-                  <div style={{width:"450px", height:"28rem", paddingTop:"2rem",transform:"translatex(80%)"}} className="form-content">
-                  Description <br/>
-                    <textarea
-                    style={{width:"400px", height:"8rem"}}
-                      className="input"
-                      type="text"
-                      placeholder="write a detailed description of the job"
-                      onChange={(e) =>
-                        setinputValue({
-                          ...inputValue,
-                          Description: e.target.value,
-                        })}
-                    />
-                    <br />
-                    Price
-                    <input
-                      className="input"
-                      type="text"
-                      placeholder="set your price"
-                      onChange={(e) =>
-                        setinputValue({
-                          ...inputValue,
-                          price: e.target.value,
-                        })}
-                    />
-
-                    <br />
-                   <br />
-                    <button style={{color:"#fff"}} className="popup-btn" onClick={saveOffer}>
-                      Submit
-                    </button>
-                    <button style={{color:"#fff"}} className="popup-btn" id="x" onClick={togglePopup}>
-                      X
-                    </button>
-                  </div>
-                </div>
-                
-              )}
-            </div>
     </>
   );
 }

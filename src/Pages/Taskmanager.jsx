@@ -26,7 +26,7 @@ export default function Taskmanager() {
   const [hiredIsEmpty, setHiredIsEmpty] = useState(false);
   const [hired, setHired] = useState(false);
   const { width, height } = useWindowSize();
-  const confettiDuration = 600;
+  const confettiDuration = 300;
 
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
 
@@ -197,7 +197,7 @@ export default function Taskmanager() {
                     <>
                           {readHiredPostTitles[index] === "Closed Job" ? (
                      <>
-                     <h3 style={{color:"red"}}> {readDataPostTitles[index]}</h3>
+                     <h3 style={{color:"red"}}>  Closed Job</h3>
                      <br/>
                      </> 
                     ):(

@@ -16,6 +16,7 @@ export default function Verify ({data}){
       try {
         const response = await axios.get("http://localhost:4000/admin/Allschedules");
         setschduledUsers(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching data:", error);
       }

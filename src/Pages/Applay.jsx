@@ -203,10 +203,9 @@ export default function Apply() {
       navigate("/login");
     }else if(!freelancerData.IsVerified || freelancerData.IsVerified === false){
       if(HaveSchedule === true){
-        setIsPopupRVisible(`Your account have not been verified yet. you have a scheduled verification on ${convertDate(ScheduleInfo.verificationDate)} at ${ScheduleInfo.verificationTime}. Do you wish to reschedule?`);
+        setIsPopupRVisible(`Your account have not been verified yet. you have a scheduled verification on ${convertDate(ScheduleInfo.schedule.verificationDate)} at ${ScheduleInfo.schedule.verificationTime}. Do you wish to reschedule?`);
       }else{
       setIsPopupVisible("Your account have not been verified yet Click yes if you want to Schedule Your verification");
-
     }
     }
      else {
@@ -264,7 +263,7 @@ export default function Apply() {
       }
     };
     
-  
+
 
   const getProfilePicUrl = (fileName) => {
     return `http://localhost:4000/${fileName}`;
@@ -274,8 +273,9 @@ export default function Apply() {
     const fetchScheduleById = async () => {
       try {
           const response = await axios.get(`http://localhost:4000/user/schedule/${userData.userID}`);
-          if(!response.data.message === "Schedule not found")
-            {setHaveSchedule(true)
+          if(response.data.message === "Schedule found")
+            {
+              setHaveSchedule(true)
               setScheduleInfo(response.data)
             }
       } catch (error) {
@@ -284,8 +284,8 @@ export default function Apply() {
       }
   };
   fetchScheduleById()
-  },[])
- 
+  },[userData])
+
 
   return (
     <>

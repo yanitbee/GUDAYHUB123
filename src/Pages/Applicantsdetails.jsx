@@ -170,6 +170,7 @@ if (statusCounts.hasOwnProperty(hired.status)) {
       <EmployerProfile />
 
       <div className="wholeTask">
+      <div className="main">
         <section id="applications">
           {arrayIsEmpty ? (
             <div className="taskblock catagory">There is no applicant yet</div>
@@ -235,6 +236,7 @@ if (statusCounts.hasOwnProperty(hired.status)) {
             </>
           )}
         </section>
+        </div>
 
         <div className="sidetask">
           <section>

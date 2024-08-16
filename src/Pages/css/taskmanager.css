@@ -29,6 +29,7 @@
 #applications{
     padding: 4rem;
     background-color: #569293;
+    min-height: 100;
 }
 
 #hired{

@@ -10,6 +10,7 @@ import { faSearch, faArrowRight,faMinus,faPlus } from "@fortawesome/free-solid-s
 import debounce from 'lodash.debounce';
 
 export default function Freelancerlist() {
+  
   const [readData, setReadData] = useState({});
   const { t } = useTranslation();
   const [searchIcon, setSearchIcon] = useState("");
