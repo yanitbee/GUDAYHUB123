@@ -40,7 +40,7 @@ export default function Editprofile(prop) {
       <div className="addpform">
         <div className="addp-content">
           <div className={``}>
-            <h3>Edit Your Information Here</h3>
+            <h3>{t("Edit Your Information Here")}</h3>
             <input
             className="ee"
               type="text"
@@ -82,14 +82,14 @@ export default function Editprofile(prop) {
             />
             <br /> <br />
             <button className="popup-btne" onClick={editData}>
-              Submit
+            {t( "Submit")}
             </button>
             <button
               className="xe"
               id="x"
               onClick={remove}
             >
-              X
+              {t( "X")}
             </button>
           </div>
         </div>

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/freelancerlist.css";
 import { useTranslation } from "react-i18next";
+import BackButton from "../BackButton"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRight,faMinus,faPlus } from "@fortawesome/free-solid-svg-icons";
 import debounce from 'lodash.debounce';

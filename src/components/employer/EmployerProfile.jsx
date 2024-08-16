@@ -223,6 +223,10 @@ export default function EmployerProfile() {
                   <h6 style={{display:"inline"}}>{t("Testimony")} </h6>
                 </div>
             
+              <br />
+              <p onClick={addpro} className="eedit"
+              style={{marginTop:"1rem"}}>Edit</p>
+              <br /> <br />
               <button className="popup-btn" id="x" onClick={togglePopup}>
                 X
               </button>

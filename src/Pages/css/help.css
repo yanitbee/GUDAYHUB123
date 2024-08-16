@@ -1,0 +1,12 @@
+  .footer-help-icon {
+    margin-right: 5px;
+    margin-top: 22rem;
+    cursor: pointer;
+    color:rgb(9, 184, 190);
+  }
+  
+  .footer-help-icon:hover {
+    color: rgb(16, 234, 241);
+  }
+  
+  

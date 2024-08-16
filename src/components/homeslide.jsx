@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './slider.css'; // Create a corresponding CSS file for styles
+import { useTranslation } from "react-i18next";
 
 const videos = [
   "/image/passport-checking-at-airport-5010098-4171905.mp4",
@@ -28,7 +29,7 @@ const HomeSlide = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef(null);
   const videoRefs = useRef([]);
-
+  const { t } = useTranslation();
   const nextSlide = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % videos.length);
   }, []);
@@ -57,6 +58,7 @@ const HomeSlide = () => {
       };
     }
   }, [activeIndex]);
+
 
   return (
     <div id="slider" ref={sliderRef}>

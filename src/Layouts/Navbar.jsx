@@ -4,6 +4,7 @@ import { Link } from "react-scroll";
 import useAuth from "../Hooks/UseAuth";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import LogoutPopup from "../components/LogoutPopup";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { logOut } = useAuth();
   const { t } = useTranslation();
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
   const changeBackground = () => {
     if (window.scrollY >= 50) {
@@ -23,18 +25,15 @@ const Navbar = () => {
   useEffect(() => {
     switch (location.pathname) {
       case "/freelancerpage/Messenger":
-        case "/Messenger":
-          case "/Interview":
-          case "/room/:roomId":
+      case "/Messenger":
+      case "/Interview":
+      case "/room/:roomId":
       case "/employerpage/Freelancerdetails":
-        case "/freelancerlist/Freelancerdetails":
-          case "/joblist/apply":
-            case "/admin":
-              case "/ReadMore":
-                case "/freelancerpage/Freelancerdetails":
-                  case "/verification":
-                    case "/employerpage/Applicantsdetails/more/Hire":
-                      case"/admin/VerifyUser":
+      case "/freelancerlist/Freelancerdetails":
+      case "/joblist/apply":
+      case "/admin":
+      case "/ReadMore":
+      case "/freelancerpage/Freelancerdetails":
         setshowNav(false);
         break;
       default:
@@ -50,20 +49,19 @@ const Navbar = () => {
     };
   }, []);
 
-  const ConfirmLink = ({ to, children, message }) => {
-    const handleClick = (e) => {
-      e.preventDefault();
-      if (window.confirm(message)) {
-        logOut();
-        navigate(to);
-      }
-    };
+  const handleLogoutClick = (e) => {
+    e.preventDefault();
+    setShowLogoutPopup(true); 
+  };
 
-    return (
-      <RouterLink to={to} onClick={handleClick}>
-        {children}
-      </RouterLink>
-    );
+  const handleConfirmLogout = () => {
+    setShowLogoutPopup(false);
+    logOut();
+    navigate("/");
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutPopup(false);
   };
 
   const renderNavLinks = () => {
@@ -71,7 +69,7 @@ const Navbar = () => {
       case "/freelancerpage":
       case "/freelancerpage/Taskmanager":
       case "/freelancerpage/Apply":
-        case "/freelancerpage/Offer":
+      case "/freelancerpage/Offer":
         return (
           <>
             <li>
@@ -88,9 +86,9 @@ const Navbar = () => {
               </RouterLink>
             </li>
             <li>
-              <ConfirmLink to="/" message="Are you sure you want to log out?">
+              <a href="/" onClick={handleLogoutClick}>
                 {t("LogOut")}
-              </ConfirmLink>
+              </a>
             </li>
           </>
         );
@@ -114,9 +112,9 @@ const Navbar = () => {
               </RouterLink>
             </li>
             <li>
-              <ConfirmLink to="/" message="Are you sure you want to log out?">
+              <a href="/" onClick={handleLogoutClick}>
                 {t("LogOut")}
-              </ConfirmLink>
+              </a>
             </li>
           </>
         );
@@ -228,6 +226,12 @@ const Navbar = () => {
           </label>
           <ul className="menu">{renderNavLinks()}</ul>
         </nav>
+      )}
+            {showLogoutPopup && (
+        <LogoutPopup
+          onConfirm={handleConfirmLogout}
+          onCancel={handleCancelLogout}
+        />
       )}
     </>
   );

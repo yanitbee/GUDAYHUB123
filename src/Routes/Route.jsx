@@ -29,6 +29,8 @@ import Login from "../assets/login";
 import useAuth from "../Hooks/UseAuth";
 import AdminPage from "../admin/adminpage";
 import ProjectAbstract from "../Pages/ReadMore";
+import Help from "../components/Help";
+import HelpPage from "../Pages/HelpPage";
 import VerificationPage from "../assets/VerificationPage";
 import VerifyUsers from "../admin/component/verifyUsers";
 
@@ -62,6 +64,7 @@ const AppRoutes = () => {
     <>
       <SocketProvider>
         <PeerProvider>
+          <Help/>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
@@ -145,6 +148,10 @@ const AppRoutes = () => {
               <Route
                 path="/Interview"
                 element={<PrivateRoute element={<Interview />} />}
+              />
+                <Route
+                path="/HelpPage"
+                element={<PrivateRoute element={<HelpPage />} />}
               />
 
               <Route
