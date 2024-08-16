@@ -13,23 +13,12 @@ const videos = [
   "/image/grocery-delivery-7141047-5804622.mp4",
 ];
 
-const text = {
-  WaitInLine: '“And into the forest I go, to lose my mind and find my soul”',
-  Driver: '“Mist to mist, drops to drops. For water thou art, and unto water shalt thou return”',
-  Cleaner: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
-  Delivery: '“What are men to rocks and mountains?”',
-  Programmer: '“On all the peaks lies peace”',
-  Gardener: '“And into the forest I go, to lose my mind and find my soul”',
-  MakeUpArtist: '“Mist to mist, drops to drops. For water thou art, and unto water shalt thou return”',
-  Shopper: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
-  Movers: '“Go to the edge of the cliff and jump off. Build your wings on the way down”',
-};
-
 const HomeSlide = () => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef(null);
   const videoRefs = useRef([]);
-  const { t } = useTranslation();
+  
   const nextSlide = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % videos.length);
   }, []);
@@ -59,6 +48,17 @@ const HomeSlide = () => {
     }
   }, [activeIndex]);
 
+  const text = {
+    WaitInLine: t("A person that will wait in line for your appointments"),
+    Driver: t("A driver that you can call anywhere"),
+    Cleaner: t("A person that cleans your home"),
+    Delivery: t("A delivery service"),
+    Programmer: t("A programmer to help you with your problems"),
+    Gardener: t("The best gardeners"),
+    MakeUpArtist: t("Makeup professionals who will make you look fabulous"),
+    Shopper: t("A person to help you with your grocery shopping"),
+    Movers: t("Helps with moving"),
+  };
 
   return (
     <div id="slider" ref={sliderRef}>
