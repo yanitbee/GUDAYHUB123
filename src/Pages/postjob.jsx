@@ -88,15 +88,13 @@ export default function Write() {
         employerid: userData.userID,
       });
   
-      // Display the success message
+    
       setIsPopupAlertVisible(response.data.message);
     } catch (error) {
-      // Handle validation errors
       if (error.response && error.response.data.errors) {
-        // Map through the array of errors and join them into a string
         const errorMessages = error.response.data.errors
-          .map(err => err.msg) // Assuming `msg` contains the error message
-          .join("\n"); // Join messages with a newline for readability
+          .map(err => err.msg) 
+          .join("\n"); 
           setIsPopupAlertVisible(errorMessages);
       } else {
         // Fallback for other errors
@@ -122,19 +120,26 @@ export default function Write() {
 
     const fetchActiveData = async () => {
       try {
-     const response = await axios.get("http://localhost:4000/post/reademployerpost" ,{
-        params: { employerid: userData.userID }
-      })
-          
-          const sortedData = response.data.sort(
-            (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
-          );
-          setreadActiveData(sortedData);
-          
+        const response = await axios.get("http://localhost:4000/post/reademployerpost", {
+          params: { employerid: userData.userID },
+        });
+
+        const activeData = response.data
+          .filter(post => !post.status || post.status === "Active")
+          .sort((a, b) => new Date(b.PostedDate) - new Date(a.PostedDate));
+    
+        const closedData = response.data
+          .filter(post => post.status === "Closed")
+          .sort((a, b) => new Date(b.PostedDate) - new Date(a.PostedDate));
+ 
+        setreadActiveData(activeData);
+        setreadData(closedData);
+        
       } catch (error) {
         console.error("error", error);
       }
     };
+    
 
     const fetchOfferData = async () => {
       try {
@@ -210,6 +215,16 @@ export default function Write() {
 
   const handleDelete = async () => {
     try {
+      await axios.put(`http://localhost:4000/post/changestatus`, null, {
+        params: { status: "Deleted", postid: postIdToDelete },
+      });
+ setIsPopupAlertVisible("Job deleted successfully");
+    } catch (error) {
+      console.error("error", error);
+      setIsPopupAlertVisible("An error occurred. Please try again later.");
+    }
+
+    /*try {
       const response = await axios.delete(`http://localhost:4000/PostHistory/deletepost/${postIdToDelete}`);
 
       console.log(response.data);
@@ -217,7 +232,7 @@ export default function Write() {
       setreadData(readData.filter((post) => post._id !== postIdToDelete));
     } catch (error) {
       console.error('Error deleting post:', error.message);
-    }
+    }*/
   };
   const handlepost = (postid) => {
     navigate("/employerpage/Applicantsdetails/postdetails", { state: { postid: postid } });

@@ -60,7 +60,7 @@ export default function Hire() {
 
   const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
   const [isPopupVisible, setIsPopupVisible] = useState("");
-
+  const [isPopupHVisible, setisPopupHVisible] = useState("")
 
   const handleConfirm =  () => {
     changestatus("closed")
@@ -71,6 +71,17 @@ export default function Hire() {
   const handleCancel = () => {
     setIsPopupVisible("");
   };
+
+  const handleHConfirm =  () => {
+    hiredapp("hired")
+    handleHCancel()
+    
+  };
+
+  const handleHCancel = () => {
+    setisPopupHVisible("");
+  };
+
 
 
   const handleClose = () => {
@@ -307,6 +318,10 @@ export default function Hire() {
     }
   };
 
+  const handleHide = () => {
+    setisPopupHVisible("Do you wish to Hire this applicant?");
+  }
+
 
   return (
     <>
@@ -429,7 +444,7 @@ export default function Hire() {
                   </button>
                   <button
                     className="chat-btn hire"
-                    onClick={() => hiredapp("hire")}
+                    onClick={handleHide}
                   >
                     Hire
                   </button>
@@ -636,6 +651,13 @@ export default function Hire() {
           message = {isPopupVisible}
           onConfirm={()=>{handleConfirm()}}
           onCancel={handleCancel}
+        />
+      )}
+                       {isPopupHVisible != "" && (
+        <Popup
+          message = {isPopupHVisible}
+          onConfirm={()=>{handleHConfirm()}}
+          onCancel={handleHCancel}
         />
       )}
            {isPopupAlertVisible != "" && (

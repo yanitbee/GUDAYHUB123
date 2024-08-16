@@ -6,7 +6,7 @@ import Addprofile from "./Addprofile";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye,faQuestionCircle, faCommentDots,faWandSparkles,faQuoteLeft,faWarning } from "@fortawesome/free-solid-svg-icons";
 import AlertPopup from "../../assets/AlertPopup";
 import { Link } from 'react-router-dom';
 
@@ -362,13 +362,13 @@ setCheckVerification(true)
                     {freelancerData.Email}
                   </div>
                 </div>
-                <br />
-                <div className="ViewPro"
+               
+                <div className="complaint "
                 onClick={handleViewClick}>
                 <FontAwesomeIcon
                       icon={faEye }
                       size="1x"
-                      color="rgba(220, 220, 220, 0.701)"
+                      color="rgb(100, 100, 100)"
                     />
                     <p style={{display:"inline"}}> View portfolio</p>
                 </div>
@@ -379,7 +379,12 @@ setCheckVerification(true)
                   freelancerData.freelancerprofile?.description === null ||
                   freelancerData.freelancerprofile.portfolio?.link === null ? (
                     <div className="finprofile" onClick={addpro}>
-                      <p>{t("Finish creating your profile!!")} </p>
+                       <FontAwesomeIcon
+                      icon={faWarning }
+                      size="1x"
+                      color="rgb(186, 0, 0)"
+                    />{" "}
+                      <p style={{display:"inline"}}>{t("Finish creating your profile!!")} </p>
                       <h6>
                         {t(
                           "Not having a finished profile  might affect your cradiability!"
@@ -387,17 +392,28 @@ setCheckVerification(true)
                       </h6>
                     </div>
                   ) : null)}
-                     <div className=""
+
+                     <div className="complaint"
                   onClick={handleVerification}
               >
+                    <FontAwesomeIcon
+                      icon={faQuestionCircle }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
                     <p style={{display:"inline"}}> Verification Status</p>
                 </div>
 
 <div
-                  className="finprofile complaint"
+                  className=" complaint"
                   onClick={handleGenerateCV}
                 >
-                  <h6>{t("Generate CV")} </h6>
+                   <FontAwesomeIcon
+                      icon={faWandSparkles }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Generate CV")} </h6>
                 </div>
                { isVisible && (
       <div className="CVpopup">
@@ -441,16 +457,26 @@ setCheckVerification(true)
 
 
                 <div
-                  className="finprofile complaint"
+                  className="Viewpro complaint"
                   onClick={handleComplaintClick}
                 >
-                  <h6>{t("Complaint")} </h6>
+                   <FontAwesomeIcon
+                      icon={faCommentDots }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Complaint")} </h6>
                 </div>
                 <div
-                  className="finprofile complaint"
+                  className=" complaint"
                   onClick={handleTestimonyClick}
                 >
-                  <h6>{t("Testimony")} </h6>
+                   <FontAwesomeIcon
+                      icon={faQuoteLeft }
+                      size="1x"
+                      color="rgb(100, 100, 100)"
+                    />
+                  <h6 style={{display:"inline"}}> {" "}{t("Testimony")} </h6>
                 </div>
                 <br /> <br />
               </div>

@@ -7,6 +7,7 @@ import EmployerProfile from "../components/employer/EmployerProfile";
 import { format } from "timeago.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import AlertPopup from "../assets/AlertPopup";
 
 export default function Postdetails() {
  
@@ -32,6 +33,12 @@ export default function Postdetails() {
     cv: "",
     coverletter: "",
   });
+
+  const [isPopupAlertVisible, setIsPopupAlertVisible] = useState("");
+
+  const handleClose = () => {
+    setIsPopupAlertVisible("");
+  };
 
   const handleAnonymousToggle = () => {
     setinputValue({ ...inputValue, anonymous: !inputValue.anonymous });
@@ -62,18 +69,20 @@ export default function Postdetails() {
   }, [postid]);
 
 
-  const closejob = async (postId) => {
+
+
+  const closejob = async (postId ) => {
     try {
-      await axios.post("http://localhost:4000/postHistory/closepost", { postId });
-      alert("Job post closed successfully");
-      // Optionally, refresh the list of posts or remove the closed post from the state
+      await axios.put(`http://localhost:4000/post/changestatus`, null, {
+        params: { status: "Closed", postid: postId },
+      });
+ setIsPopupAlertVisible("Job closed successfully");
     } catch (error) {
-      console.error("Error closing post:", error);
-      alert("Error closing post");
+      console.error("error", error);
+      setIsPopupAlertVisible("An error occurred. Please try again later.");
     }
   };
   
-
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleShowPopup = () => {
@@ -358,6 +367,12 @@ const handleInputChange = (e) => {
         />
       )}
    
+   {isPopupAlertVisible != "" && (
+        <AlertPopup
+          message = {isPopupAlertVisible}
+          onClose={handleClose}
+        />
+      )}
           </div>
 
         )}

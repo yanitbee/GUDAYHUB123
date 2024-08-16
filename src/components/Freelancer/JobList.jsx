@@ -95,8 +95,12 @@ export default function Joblist() {
             params: { search: jobtype, serachtitle: `${serach}${jobtitle}`, filter: jobtask },
           }
         );
+        const filteredData = response.data.filter(
+          post => post.status && post.status !== "Closed"
+        );
+        
 
-        const sortedData = response.data.sort(
+        const sortedData = filteredData.sort(
           (a, b) => new Date(b.PostedDate) - new Date(a.PostedDate)
         );
         setreadData(sortedData);
@@ -150,6 +154,7 @@ export default function Joblist() {
 
   return (
     <>
+    
       <div className="alljoblist">
         {jobtask === "" ? (
           <>

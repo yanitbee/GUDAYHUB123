@@ -56,7 +56,9 @@ const AppRoutes = () => {
   const isAuthenticated = isLoggedIn();
   const { getUserData } = useAuth();
   const userData = getUserData(); 
+  /* (location.pathname === "/employerpage/Applicantsdetails/more/Hire" || location.pathname === "/freelancerpage/Taskmanager")*/
   return (
+
     <>
       <SocketProvider>
         <PeerProvider>
@@ -199,7 +201,7 @@ const AppRoutes = () => {
               />
             </Route>
           </Routes>
-          {showFooter.every(Boolean) && <Footer />}
+          { showFooter.every(Boolean) && <Footer />}
         </PeerProvider>
       </SocketProvider>
     </>
