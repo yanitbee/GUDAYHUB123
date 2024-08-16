@@ -58,14 +58,20 @@ export default function InterviewCall() {
         });
 
         // Handle incoming tracks from remote peer
-        peerConnection.current.ontrack = (event) => {
-            if (event.streams && event.streams[0]) {
-                if (userVideo.current) {
-                    userVideo.current.srcObject = event.streams[0];
-                }
+       peerConnection.current.ontrack = (event) => {
+        console.log("Received user video:", event);
+        if (event.streams && event.streams[0]) {
+            console.log("Setting remote video stream");
+            if (userVideo.current) {
+                userVideo.current.srcObject = event.streams[0];
+            } else {
+                console.log("User video element is not ready");
             }
-        };
-    }, []);
+        } else {
+            console.log("No streams found in the event");
+        }
+    };
+    }, [userVideo.current]);
 
     const callUser = async (id) => {
         try {
@@ -117,7 +123,6 @@ export default function InterviewCall() {
             socket.disconnect();
         }
     };
-
     return (
         <>
             <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
